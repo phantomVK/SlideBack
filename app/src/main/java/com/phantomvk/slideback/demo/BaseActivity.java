@@ -46,9 +46,9 @@ public class BaseActivity extends SlideActivity {
                         .putExtra(EXTRA_INDEX, index + 1)
                         .putExtra(EXTRA_ACTION_BAR, true)));
 
-        SlideLayout layout = mManager.getSlideLayout();
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            SlideLayout layout = mManager.getSlideLayout();
             if (layout == null) return;
             switch (checkedId) {
                 case R.id.radioLeft:
