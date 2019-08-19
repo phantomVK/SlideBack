@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.customview.widget.ViewDragHelper;
 
 import com.phantomvk.slideback.SlideActivity;
 import com.phantomvk.slideback.SlideLayout;
@@ -24,27 +24,34 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 @SuppressLint("Registered")
 public class BaseActivity extends SlideActivity {
 
-    public static final String EXTRA_ACTION_BAR = "ACTION_BAR";
-    public static final String EXTRA_INDEX = "ACTION_INDEX";
+    public static final String EXTRA_ACTION_BAR = "B";
+    public static final String EXTRA_INDEX = "I";
 
+    /**
+     * {@link ViewDragHelper#EDGE_TOP} Required using 'Theme.AppCompat.Light.NoActionBar'
+     * as the theme of activity, rather then 'Theme.AppCompat.Light.DarkActionBar' or any
+     * other themes contain ActionBar, to avoid ActionBar consuming touch events when user
+     * is sliding view.
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        int index = getIntent().getIntExtra(EXTRA_INDEX, 0);
+        findViewById(android.R.id.content).setBackgroundColor(getColors(index));
+
         TextView textView = findViewById(R.id.text);
         textView.setText(getSimpleName());
 
-        // Set background color to Activity.
-        int index = getIntent().getIntExtra(EXTRA_INDEX, 0);
-        ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
-        ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
-        decorChild.getChildAt(0).setBackgroundColor(getColors(index));
-
         Button button = findViewById(R.id.start);
-        button.setOnClickListener(v ->
-                startActivity(new Intent(getBaseContext(), MainActivity.class)
-                        .putExtra(EXTRA_INDEX, index + 1)
-                        .putExtra(EXTRA_ACTION_BAR, true)));
+        button.setOnClickListener(v -> {
+            Intent i = new Intent(BaseActivity.this, MainActivity.class)
+                    .putExtra(EXTRA_INDEX, index + 1)
+                    .putExtra(EXTRA_ACTION_BAR, true);
+            startActivity(i);
+        });
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -60,6 +67,7 @@ public class BaseActivity extends SlideActivity {
                     break;
 
                 case R.id.radioTop:
+                    // Required themes of no ActionBar.
                     layout.setTrackingEdge(EDGE_TOP);
                     break;
 
@@ -69,6 +77,7 @@ public class BaseActivity extends SlideActivity {
             }
         });
 
+        // For activity except the first one.
         if (getIntent().getBooleanExtra(EXTRA_ACTION_BAR, false)) {
             ActionBar bar = getSupportActionBar();
             if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
@@ -90,9 +99,9 @@ public class BaseActivity extends SlideActivity {
     }
 
     private static int getColors(int index) {
-        final String color;
-        final int indexMod = index % 5;
-        switch (indexMod) {
+        String color;
+        int mod = index % 5;
+        switch (mod) {
             case 0:
                 color = "#33B5E5";
                 break;
@@ -102,11 +111,8 @@ public class BaseActivity extends SlideActivity {
             case 2:
                 color = "#99CC00";
                 break;
-            case 3:
-                color = "#FFBB33";
-                break;
             default:
-                color = "#FF4444";
+                color = "#FFBB33";
                 break;
         }
 

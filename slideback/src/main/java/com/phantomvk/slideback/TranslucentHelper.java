@@ -1,6 +1,5 @@
 package com.phantomvk.slideback;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
 
@@ -12,8 +11,6 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
-@SuppressWarnings("JavaReflectionMemberAccess")
-@SuppressLint("PrivateApi")
 public class TranslucentHelper {
 
     private static Method sOptionsMethod;

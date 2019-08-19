@@ -40,23 +40,23 @@
             android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioLeft"
                 style="@style/style_radio_button"
                 android:checked="true"
                 android:text="Left" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioRight"
                 style="@style/style_radio_button"
                 android:text="Right" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioTop"
                 style="@style/style_radio_button"
                 android:text="Top" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioBottom"
                 style="@style/style_radio_button"
                 android:text="Bottom" />
