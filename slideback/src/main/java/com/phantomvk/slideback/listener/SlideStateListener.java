@@ -1,4 +1,4 @@
-package com.phantomvk.slideback;
+package com.phantomvk.slideback.listener;
 
 import androidx.customview.widget.ViewDragHelper;
 

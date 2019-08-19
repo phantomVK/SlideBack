@@ -1,14 +1,17 @@
-package com.phantomvk.slideback.demo;
+package com.phantomvk.slideback.callback;
 
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.phantomvk.slideback.TranslucentHelper;
+import com.phantomvk.slideback.utility.TranslucentHelper;
 
 import java.util.HashMap;
 
-public class ActivityCallBack implements Application.ActivityLifecycleCallbacks {
+/**
+ * For Standard Activity Stack only.
+ */
+public class ActivityCallbacks implements Application.ActivityLifecycleCallbacks {
 
     private HashMap<Activity, Integer> running = new HashMap<>();
 
@@ -24,15 +27,21 @@ public class ActivityCallBack implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityResumed(Activity activity) {
-        if (!activity.isFinishing() && running.size() - running.get(activity) == 2) {
-            TranslucentHelper.setTranslucent(activity);
+        if (!activity.isFinishing()) {
+            Integer i = running.get(activity);
+            if (i != null && running.size() - i == 2) {
+                TranslucentHelper.setTranslucent(activity);
+            }
         }
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        if (!activity.isFinishing() && running.size() - running.get(activity) == 1) {
-            TranslucentHelper.removeTranslucent(activity);
+        if (!activity.isFinishing()) {
+            Integer i = running.get(activity);
+            if (i != null && running.size() - i == 1) {
+                TranslucentHelper.removeTranslucent(activity);
+            }
         }
     }
 

@@ -17,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 
+import com.phantomvk.slideback.listener.SlideStateListener;
+import com.phantomvk.slideback.utility.ViewDragHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 

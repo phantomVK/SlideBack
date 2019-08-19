@@ -7,6 +7,10 @@ import android.graphics.drawable.ColorDrawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.phantomvk.slideback.listener.SlideStateAdapter;
+import com.phantomvk.slideback.listener.SlideStateListener;
+import com.phantomvk.slideback.utility.ViewDragHelper;
+
 public class SlideManager {
     /**
      * The target activity to control.

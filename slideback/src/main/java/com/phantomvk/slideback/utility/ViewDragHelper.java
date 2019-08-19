@@ -15,7 +15,7 @@
  */
 
 
-package com.phantomvk.slideback;
+package com.phantomvk.slideback.utility;
 
 import android.content.Context;
 import android.util.Log;

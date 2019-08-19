@@ -1,4 +1,4 @@
-package com.phantomvk.slideback;
+package com.phantomvk.slideback.listener;
 
 public abstract class BaseSlideStateAdapter implements SlideStateListener {
     /**
