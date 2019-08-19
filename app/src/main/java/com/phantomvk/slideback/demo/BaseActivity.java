@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.customview.widget.ViewDragHelper;
 
 import com.phantomvk.slideback.SlideActivity;
@@ -42,12 +42,12 @@ public class BaseActivity extends SlideActivity {
         int index = getIntent().getIntExtra(EXTRA_INDEX, 0);
         findViewById(android.R.id.content).setBackgroundColor(getColors(index));
 
-        TextView textView = findViewById(R.id.text);
+        AppCompatTextView textView = findViewById(R.id.text);
         textView.setText(getSimpleName());
 
-        Button button = findViewById(R.id.start);
+        AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> {
-            Intent i = new Intent(BaseActivity.this, MainActivity.class)
+            Intent i = new Intent(getBaseContext(), MainActivity.class)
                     .putExtra(EXTRA_INDEX, index + 1)
                     .putExtra(EXTRA_ACTION_BAR, true);
             startActivity(i);

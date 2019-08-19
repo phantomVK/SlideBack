@@ -51,7 +51,7 @@ public class SlideManager {
     public void onPostCreate() {
         if (conductor != null && conductor.slideBackDisable()) return;
         slideLayout.attach(activity);
-        TranslucentHelper.setTranslucent(activity);
+//        TranslucentHelper.setTranslucent(activity);
     }
 
     /**
