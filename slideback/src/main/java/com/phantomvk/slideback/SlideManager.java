@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -31,7 +32,7 @@ public class SlideManager {
         this(activity, null);
     }
 
-    private Conductor conductor;
+    protected static boolean sInitialized = false;
 
     /**
      * Constructor, default SlideStateListener will be used if listener is null.
@@ -39,23 +40,18 @@ public class SlideManager {
      * @param activity Activity
      * @param listener SlideStateListener
      */
-    public SlideManager(@NonNull Activity activity, @Nullable SlideStateListener listener) {
+    public SlideManager(@Nullable Activity activity, @Nullable SlideStateListener listener) {
         Conductor c = (activity instanceof Conductor) ? (Conductor) activity : null;
-        if (c != null && c.slideBackDisable()) return;
+        if (activity == null || c != null && c.slideBackDisable()) return;
 
         this.activity = activity;
-        this.conductor = c;
         listener = (listener == null) ? new SlideStateAdapter(activity) : listener;
 
         slideLayout = new SlideLayout(activity);
         slideLayout.setTrackingEdge(ViewDragHelper.EDGE_LEFT);
         slideLayout.addListener(listener);
-    }
-
-    public void onPostCreate() {
-        if (conductor != null && conductor.slideBackDisable()) return;
         slideLayout.attach(activity);
-//        TranslucentHelper.setTranslucent(activity);
+        setActivityCallbacks(activity);
     }
 
     /**
@@ -69,6 +65,14 @@ public class SlideManager {
         return slideLayout;
     }
 
+    @MainThread
+    protected void setActivityCallbacks(@Nullable Activity activity) {
+        if (!sInitialized && activity != null) {
+            activity.getApplication().registerActivityLifecycleCallbacks(new ActivityCallbacks());
+            sInitialized = true;
+        }
+    }
+
     /**
      * Used to totally disable SlideLayout.
      * <p>
@@ -79,7 +83,7 @@ public class SlideManager {
      * is null or just caused NullPointerException.
      * <p>
      * Re-initializing is illegal even changing the value returned from {@link #slideBackDisable()}
-     * from true to false after invoking {@link SlideManager#onPostCreate()}.
+     * from true to false.
      * <p>
      * If just temporarily disable sliding, use {@link SlideLayout#setEnable(boolean)} of the
      * instance which returned from {@link SlideManager#getSlideLayout()}, and do not need to

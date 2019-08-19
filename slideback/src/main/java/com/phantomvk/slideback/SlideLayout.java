@@ -185,8 +185,6 @@ public class SlideLayout extends FrameLayout {
 
     @SuppressWarnings("ConstantConditions")
     public void attach(@NonNull Activity activity) {
-        if (activity == null) throw new NullPointerException("Activity must not be null.");
-
         int[] attrs = new int[]{android.R.attr.windowBackground};
         TypedArray a = activity.getTheme().obtainStyledAttributes(attrs);
         int background = a.getResourceId(0, 0);

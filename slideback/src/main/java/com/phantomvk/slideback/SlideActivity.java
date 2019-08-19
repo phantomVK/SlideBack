@@ -20,7 +20,6 @@ public class SlideActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mManager = new SlideManager(this);
-        mManager.onPostCreate();
     }
 
     @Override
