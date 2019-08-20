@@ -42,7 +42,12 @@ public class SlideManager {
      */
     public SlideManager(@Nullable Activity activity, @Nullable SlideStateListener listener) {
         Conductor c = (activity instanceof Conductor) ? (Conductor) activity : null;
-        if (activity == null || c != null && c.slideBackDisable()) return;
+        if (c == null) {
+            throw new IllegalArgumentException(
+                    "Activity must implement interface SlideManager::Conductor.");
+        } else if (c.slideBackDisable()) {
+            return;
+        }
 
         this.activity = activity;
         listener = (listener == null) ? new SlideStateAdapter(activity) : listener;

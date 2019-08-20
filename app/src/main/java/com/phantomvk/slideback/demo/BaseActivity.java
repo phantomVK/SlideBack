@@ -2,7 +2,6 @@ package com.phantomvk.slideback.demo;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.RadioGroup;
@@ -24,8 +23,8 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 @SuppressLint("Registered")
 public class BaseActivity extends SlideActivity {
 
-    public static final String EXTRA_ACTION_BAR = "B";
-    public static final String EXTRA_INDEX = "I";
+    private static int sIndex = 0;
+    private static boolean sInit = false;
 
     /**
      * {@link ViewDragHelper#EDGE_TOP} Required using 'Theme.AppCompat.Light.NoActionBar'
@@ -39,18 +38,15 @@ public class BaseActivity extends SlideActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        int index = getIntent().getIntExtra(EXTRA_INDEX, 0);
-        findViewById(android.R.id.content).setBackgroundColor(getColors(index));
+        findViewById(android.R.id.content).setBackgroundColor(getColors(sIndex));
 
         AppCompatTextView textView = findViewById(R.id.text);
         textView.setText(getSimpleName());
 
         AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> {
-            Intent i = new Intent(getBaseContext(), MainActivity.class)
-                    .putExtra(EXTRA_INDEX, index + 1)
-                    .putExtra(EXTRA_ACTION_BAR, true);
-            startActivity(i);
+            ++sIndex;
+            startActivity(new Intent(getBaseContext(), MainActivity.class));
         });
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
@@ -78,9 +74,11 @@ public class BaseActivity extends SlideActivity {
         });
 
         // For activity except the first one.
-        if (getIntent().getBooleanExtra(EXTRA_ACTION_BAR, false)) {
+        if (sInit) {
             ActionBar bar = getSupportActionBar();
             if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
+        } else {
+            sInit = true;
         }
     }
 
@@ -99,24 +97,21 @@ public class BaseActivity extends SlideActivity {
     }
 
     private static int getColors(int index) {
-        String color;
         int mod = index % 5;
         switch (mod) {
             case 0:
-                color = "#33B5E5";
-                break;
+                return 0xFF33B5E5;
             case 1:
-                color = "#AA66CC";
-                break;
+                return 0xFFAA66CC;
             case 2:
-                color = "#99CC00";
-                break;
+                return 0xFF99CC00;
+            case 3:
+                return 0xFFFFBB33;
+            case 4:
+                return 0xFFFF4444;
             default:
-                color = "#FFBB33";
-                break;
+                return 0xFFFFFFFF;
         }
-
-        return Color.parseColor(color);
     }
 }
 

@@ -6,9 +6,6 @@ import android.os.Bundle;
 
 import com.phantomvk.slideback.utility.TranslucentHelper;
 
-/**
- * For Standard Activity Stack only.
- */
 public class ActivityCallbacks implements Application.ActivityLifecycleCallbacks {
 
     @Override
@@ -21,16 +18,13 @@ public class ActivityCallbacks implements Application.ActivityLifecycleCallbacks
 
     @Override
     public void onActivityResumed(Activity activity) {
-        if (!activity.isFinishing()) {
-            TranslucentHelper.setTranslucent(activity);
-        }
+        if (activity.isFinishing() || !((activity instanceof SlideManager.Conductor))) return;
+        SlideManager.Conductor c = (SlideManager.Conductor) activity;
+        if (!c.slideBackDisable()) TranslucentHelper.setTranslucent(activity);
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        if (!activity.isFinishing()) {
-            TranslucentHelper.removeTranslucent(activity);
-        }
     }
 
     @Override
