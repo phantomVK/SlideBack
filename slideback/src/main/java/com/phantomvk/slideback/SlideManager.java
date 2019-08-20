@@ -96,6 +96,10 @@ public class SlideManager {
      */
     public interface Conductor {
         boolean slideBackDisable();
+
+        boolean isTranslucent();
+
+        void markTranslucent(boolean translucent);
     }
 
     public static void setWindowBackground(@Nullable Activity activity) {

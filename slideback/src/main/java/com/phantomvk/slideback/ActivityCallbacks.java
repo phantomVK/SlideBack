@@ -20,7 +20,10 @@ public class ActivityCallbacks implements Application.ActivityLifecycleCallbacks
     public void onActivityResumed(Activity activity) {
         if (activity.isFinishing() || !((activity instanceof SlideManager.Conductor))) return;
         SlideManager.Conductor c = (SlideManager.Conductor) activity;
-        if (!c.slideBackDisable()) TranslucentHelper.setTranslucent(activity);
+        if (!c.slideBackDisable() && !c.isTranslucent()) {
+            TranslucentHelper.setTranslucent(activity);
+            c.markTranslucent(true);
+        }
     }
 
     @Override

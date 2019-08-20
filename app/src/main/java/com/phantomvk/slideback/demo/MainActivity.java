@@ -9,4 +9,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+    @Override
+    public void onBackPressed() {
+        mManager.getSlideLayout().slideExit();
+    }
 }
