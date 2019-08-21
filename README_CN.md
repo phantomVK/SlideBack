@@ -5,7 +5,7 @@ SlideBack
 
 用于Android上协助完成滑动关闭界面的开源库
 
-![MP4](static/record.mp4)
+<iframe src="//gifs.com/embed/lxDMW6" frameborder="0" scrolling="no" width="240px" height="416px" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
 
 下载试用
 ----------

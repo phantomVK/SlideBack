@@ -5,7 +5,7 @@ SlideBack
 
 An android library that helps you to finish activity with slide gesture.
 
-![MP4](static/record.mp4)
+<iframe src="//gifs.com/embed/lxDMW6" frameborder="0" scrolling="no" width="240px" height="416px" style="-webkit-backface-visibility: hidden;-webkit-transform: scale(1);"></iframe>
 
 Preview
 ----------
