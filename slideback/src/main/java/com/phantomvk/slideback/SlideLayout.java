@@ -21,7 +21,6 @@ import com.phantomvk.slideback.listener.SlideStateListener;
 import com.phantomvk.slideback.utility.ViewDragHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static androidx.customview.widget.ViewDragHelper.DIRECTION_HORIZONTAL;
 import static androidx.customview.widget.ViewDragHelper.DIRECTION_VERTICAL;
@@ -127,9 +126,9 @@ public class SlideLayout extends FrameLayout {
     private final Rect mRect = new Rect();
 
     /**
-     * The set of {@link SlideStateListener} to send events.
+     * The list of {@link SlideStateListener} to send events.
      */
-    private List<SlideStateListener> mListeners = new ArrayList<>();
+    private ArrayList<SlideStateListener> mListeners = new ArrayList<>();
 
     /**
      * Shadow drawables of different directions.
@@ -403,12 +402,19 @@ public class SlideLayout extends FrameLayout {
     }
 
     /**
-     * Remove listener which has been added to subscribe events.
+     * Remove the listener which has been added to subscribe events.
      *
      * @param l SlideStateListener
      */
     public void removeListener(@Nullable SlideStateListener l) {
         if (l != null) mListeners.remove(l);
+    }
+
+    /**
+     * Clear listeners which have been added to subscribe events.
+     */
+    public void clearListener() {
+        mListeners.clear();
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {

@@ -30,8 +30,7 @@ public class SlideStateAdapter extends BaseSlideStateAdapter {
     }
 
     /**
-     * Finish an activity with full slide back animation, mainly used by
-     * {@link SlideStateListener#onSlideOverRange()}.
+     * Finish an activity with full slide back animation.
      *
      * @param activity the target activity to finish
      */

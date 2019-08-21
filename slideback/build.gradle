@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def libVersionCode = 3
-def libVersionName = "0.1.2"
+def libVersionCode = 4
+def libVersionName = "0.1.4"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode libVersionCode
         versionName libVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -25,6 +25,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.annotation:annotation:1.1.0'
 
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'

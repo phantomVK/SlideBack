@@ -65,18 +65,21 @@ public class SlideManager {
     }
 
     public void onResume() {
-        if (activity == null || activity.isFinishing() || conductor == null) return;
-        if (!conductor.slideBackDisable() && !conductor.isTranslucent()) {
-            TranslucentHelper.setTranslucent(activity);
-            conductor.markTranslucent(true);
-        }
+        if (sanityCheck()) return;
+        TranslucentHelper.setTranslucent(activity);
+        conductor.markTranslucent(true);
     }
 
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if (conductor != null && !conductor.slideBackDisable() && conductor.isTranslucent()) {
-            TranslucentHelper.removeTranslucent(activity);
-            conductor.markTranslucent(false);
-        }
+        if (sanityCheck()) return;
+        TranslucentHelper.removeTranslucent(activity);
+        conductor.markTranslucent(false);
+    }
+
+    private boolean sanityCheck() {
+        return activity == null || conductor == null
+                || conductor.slideBackDisable()
+                || !conductor.isTranslucent();
     }
 
     /**
@@ -107,11 +110,23 @@ public class SlideManager {
      * implement {@link Conductor#slideBackDisable()}, or implement but return false permanently.
      */
     public interface Conductor {
-
+        /**
+         * Indicate if SlideBack is totally disabled.
+         *
+         * @return is disable
+         */
         boolean slideBackDisable();
 
+        /**
+         * Indicate current activity is translucent.
+         *
+         * @return is translucent
+         */
         boolean isTranslucent();
 
+        /**
+         * Mark the translucent state of activity.
+         */
         void markTranslucent(boolean translucent);
     }
 
