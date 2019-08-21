@@ -65,21 +65,21 @@ public class SlideManager {
     }
 
     public void onResume() {
-        if (sanityCheck()) return;
+        if (activity == null || conductor == null
+                || conductor.slideBackDisable()
+                || conductor.isTranslucent()) return;
+
         TranslucentHelper.setTranslucent(activity);
         conductor.markTranslucent(true);
     }
 
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if (sanityCheck()) return;
+        if (activity == null || conductor == null
+                || conductor.slideBackDisable()
+                || !conductor.isTranslucent()) return;
+
         TranslucentHelper.removeTranslucent(activity);
         conductor.markTranslucent(false);
-    }
-
-    private boolean sanityCheck() {
-        return activity == null || conductor == null
-                || conductor.slideBackDisable()
-                || !conductor.isTranslucent();
     }
 
     /**
