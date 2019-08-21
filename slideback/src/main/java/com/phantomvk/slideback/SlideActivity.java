@@ -7,8 +7,6 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.phantomvk.slideback.utility.TranslucentHelper;
-
 public class SlideActivity extends AppCompatActivity implements SlideManager.Conductor {
 
     protected SlideManager mManager;
@@ -27,6 +25,12 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mManager.onResume();
+    }
+
+    @Override
     public <T extends View> T findViewById(int id) {
         SlideLayout l = mManager.getSlideLayout();
         return (T) (l != null ? l.findViewById(id) : super.findViewById(id));
@@ -35,10 +39,7 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
-        if (!slideBackDisable() && isTranslucent()) {
-            TranslucentHelper.removeTranslucent(this);
-            markTranslucent(false);
-        }
+        mManager.startActivityForResult(intent, requestCode, options);
     }
 
     @Override

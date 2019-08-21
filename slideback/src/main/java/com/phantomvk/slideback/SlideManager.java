@@ -1,15 +1,17 @@
 package com.phantomvk.slideback;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.phantomvk.slideback.listener.SlideStateAdapter;
 import com.phantomvk.slideback.listener.SlideStateListener;
+import com.phantomvk.slideback.utility.TranslucentHelper;
 import com.phantomvk.slideback.utility.ViewDragHelper;
 
 public class SlideManager {
@@ -24,6 +26,11 @@ public class SlideManager {
     protected SlideLayout slideLayout;
 
     /**
+     * Conductor.
+     */
+    protected Conductor conductor;
+
+    /**
      * Default constructor, use default SlideStateListener to finish activity.
      *
      * @param activity Activity
@@ -31,8 +38,6 @@ public class SlideManager {
     public SlideManager(@NonNull Activity activity) {
         this(activity, null);
     }
-
-    protected static boolean sInitialized = false;
 
     /**
      * Constructor, default SlideStateListener will be used if listener is null.
@@ -49,6 +54,7 @@ public class SlideManager {
             return;
         }
 
+        this.conductor = c;
         this.activity = activity;
         listener = (listener == null) ? new SlideStateAdapter(activity) : listener;
 
@@ -56,7 +62,21 @@ public class SlideManager {
         slideLayout.setTrackingEdge(ViewDragHelper.EDGE_LEFT);
         slideLayout.addListener(listener);
         slideLayout.attach(activity);
-        setActivityCallbacks(activity);
+    }
+
+    public void onResume() {
+        if (activity == null || activity.isFinishing() || conductor == null) return;
+        if (!conductor.slideBackDisable() && !conductor.isTranslucent()) {
+            TranslucentHelper.setTranslucent(activity);
+            conductor.markTranslucent(true);
+        }
+    }
+
+    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        if (conductor != null && !conductor.slideBackDisable() && conductor.isTranslucent()) {
+            TranslucentHelper.removeTranslucent(activity);
+            conductor.markTranslucent(false);
+        }
     }
 
     /**
@@ -68,14 +88,6 @@ public class SlideManager {
     @Nullable
     public SlideLayout getSlideLayout() {
         return slideLayout;
-    }
-
-    @MainThread
-    protected void setActivityCallbacks(@Nullable Activity activity) {
-        if (!sInitialized && activity != null) {
-            activity.getApplication().registerActivityLifecycleCallbacks(new ActivityCallbacks());
-            sInitialized = true;
-        }
     }
 
     /**
@@ -95,6 +107,7 @@ public class SlideManager {
      * implement {@link Conductor#slideBackDisable()}, or implement but return false permanently.
      */
     public interface Conductor {
+
         boolean slideBackDisable();
 
         boolean isTranslucent();

@@ -244,7 +244,7 @@ public class SlideLayout extends FrameLayout {
         if ((mEdge & EDGE_LEFT) != 0) {
             left = width + mOverRangePixel + mShadowLeft.getIntrinsicWidth();
         } else if ((mEdge & EDGE_RIGHT) != 0) {
-            left = -width - mOverRangePixel + mShadowRight.getIntrinsicWidth();
+            left = -width - mOverRangePixel - mShadowRight.getIntrinsicWidth();
         } else if ((mEdge & EDGE_TOP) != 0) {
             top = height + mOverRangePixel + mShadowTop.getIntrinsicHeight();
         } else if ((mEdge & EDGE_BOTTOM) != 0) {

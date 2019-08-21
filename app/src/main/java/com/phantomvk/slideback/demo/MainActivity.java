@@ -2,6 +2,8 @@ package com.phantomvk.slideback.demo;
 
 import android.os.Bundle;
 
+import com.phantomvk.slideback.SlideLayout;
+
 public class MainActivity extends BaseActivity {
 
     @Override
@@ -12,6 +14,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        mManager.getSlideLayout().slideExit();
+        SlideLayout m = mManager.getSlideLayout();
+        if (m != null) {
+            m.slideExit();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

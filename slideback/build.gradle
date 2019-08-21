@@ -2,13 +2,16 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
+def libVersionCode = 2
+def libVersionName = "0.1.1"
+
 android {
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName version
+        versionCode libVersionCode
+        versionName libVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -35,7 +38,7 @@ def projectName = 'SlideBack'
 def projectDesc = 'SlideBack for Android.'
 
 group = "com.phantomvk.slideback"
-version = "0.1"
+version = libVersionName
 
 install {
     repositories.mavenInstaller {
@@ -93,6 +96,9 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options.encoding "UTF-8"
+    options.charSet 'UTF-8'
+    failOnError false
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
