@@ -183,7 +183,6 @@ public class SlideLayout extends FrameLayout {
         a.recycle();
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void attach(@NonNull Activity activity) {
         int[] attrs = new int[]{android.R.attr.windowBackground};
         TypedArray a = activity.getTheme().obtainStyledAttributes(attrs);
@@ -248,7 +247,7 @@ public class SlideLayout extends FrameLayout {
         } else if ((mEdge & EDGE_TOP) != 0) {
             top = height + mOverRangePixel + mShadowTop.getIntrinsicHeight();
         } else if ((mEdge & EDGE_BOTTOM) != 0) {
-            top = -height - mOverRangePixel + mShadowBottom.getIntrinsicHeight();
+            top = -height - mOverRangePixel - mShadowBottom.getIntrinsicHeight();
         }
 
         mHelper.smoothSlideViewTo(mChildView, left, top);
