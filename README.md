@@ -5,16 +5,36 @@ SlideBack
 
 An android library that helps you to finish activity with slide gesture.
 
-APK to try
+![MP4](static/record.mp4)
+
+Preview
 ----------
 Please download latest release apk via: [Release history](https://github.com/phantomVK/SlideBack/releases)
 
+Notice: The provided apk does not support slide from the top of the activity, bacause the ActionBar comsumes all touch events. So please clone or download the source code, change the theme from __ActionBar__ to __NoActionBar__.
+
 Download
 -----------
-Available download from __JCenter__ using __Gradle__.
+You can download from __JCenter__ using __Gradle__.
 
+```gradle
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.phantomvk.slideback:slideback:0.1.5'
+}
 ```
-implementation 'com.phantomvk.slideback:slideback:0.1.5'
+Or Maven:
+```xml
+<dependency>
+  <groupId>com.phantomvk.slideback</groupId>
+  <artifactId>slideback</artifactId>
+  <version>0.1.5</version>
+  <type>pom</type>
+</dependency>
 ```
 
 Usage
@@ -72,6 +92,12 @@ __mManager__ comes from __SlideActivity__ the super class. What __mManager.getSl
 ```java
 mManager.getSlideLayout().setEnable(false);
 ```
+
+Compatibility
+-------------
+
+ * **Minimum Android SDK**: SlideBack requires a minimum API level of 15.
+ * **Compile Android SDK**: SlideBack requires you to compile against API 28 or later.
 
 License
 --------

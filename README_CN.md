@@ -5,16 +5,36 @@ SlideBack
 
 用于Android上协助完成滑动关闭界面的开源库
 
+![MP4](static/record.mp4)
+
 下载试用
 ----------
-请到这里下载最新试用安装包：[更新历史](https://github.com/phantomVK/SlideBack/releases)
+请到这里下载最新试用安装包：[更新历史](https://github.com/phantomVK/SlideBack/releases)。
+
+注意：试用包因包含ActionBar，而暂不支持从顶部下拉关闭页面。请自行下载源码更换为 __NoActionBar__ 主题并编译安装。
 
 依赖
 -----------
 可通过 __Gradle__ 从 __JCenter__ 下载依赖
 
+```gradle
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.phantomvk.slideback:slideback:0.1.5'
+}
 ```
-implementation 'com.phantomvk.slideback:slideback:0.1.5'
+或 Maven:
+```xml
+<dependency>
+  <groupId>com.phantomvk.slideback</groupId>
+  <artifactId>slideback</artifactId>
+  <version>0.1.5</version>
+  <type>pom</type>
+</dependency>
 ```
 
 使用方法
@@ -70,8 +90,13 @@ public class MainActivity extends SlideActivity {
 ```java
 mManager.getSlideLayout().setEnable(false);
 ```
+兼容
+-------------
 
-License
+ * **最低 Android SDK**: SlideBack 最低支持到 API15
+ * **编译 Android SDK**: SlideBack 要求使用 API 28 或更新版本进行编译
+
+许可证
 --------
 
 ```
