@@ -49,7 +49,7 @@ public class SlideManager {
         Conductor c = (activity instanceof Conductor) ? (Conductor) activity : null;
         if (c == null) {
             throw new IllegalArgumentException(
-                    "Activity must implement interface SlideManager::Conductor.");
+                    "Activity must implement interface SlideManager$Conductor.");
         } else if (c.slideBackDisable()) {
             return;
         }
@@ -61,9 +61,28 @@ public class SlideManager {
         slideLayout = new SlideLayout(activity);
         slideLayout.setTrackingEdge(ViewDragHelper.EDGE_LEFT);
         slideLayout.addListener(listener);
+    }
+
+    /**
+     * Called on Activity.onCreate(Bundle)
+     */
+    public void onCreate() {
+        if (activity == null) return;
+        activity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        activity.getWindow().getDecorView().setBackgroundDrawable(null);
+    }
+
+    /**
+     * Called on Activity.onContentChanged()
+     */
+    public void onContentChanged() {
+        if (activity == null) return;
         slideLayout.attach(activity);
     }
 
+    /**
+     * Called on Activity.onResume()
+     */
     public void onResume() {
         if (activity == null || conductor == null
                 || conductor.slideBackDisable()
@@ -73,6 +92,9 @@ public class SlideManager {
         conductor.markTranslucent(true);
     }
 
+    /**
+     * Called on Activity.startActivityForResult(Intent, int, Bundle)
+     */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         if (activity == null || conductor == null
                 || conductor.slideBackDisable()
@@ -128,11 +150,5 @@ public class SlideManager {
          * Mark the translucent state of activity.
          */
         void markTranslucent(boolean translucent);
-    }
-
-    public static void setWindowBackground(@Nullable Activity activity) {
-        if (activity == null) return;
-        activity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        activity.getWindow().getDecorView().setBackgroundDrawable(null);
     }
 }

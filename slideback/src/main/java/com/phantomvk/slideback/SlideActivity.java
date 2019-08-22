@@ -14,14 +14,15 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SlideManager.setWindowBackground(this);
         super.onCreate(savedInstanceState);
+        mManager = new SlideManager(this);
+        mManager.onCreate();
     }
 
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        mManager = new SlideManager(this);
+        mManager.onContentChanged();
     }
 
     @Override

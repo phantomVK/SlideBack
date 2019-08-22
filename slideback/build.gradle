@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def libVersionCode = 5
-def libVersionName = "0.1.5"
 
 android {
     compileSdkVersion 28
@@ -39,7 +37,7 @@ def projectName = 'SlideBack'
 def projectDesc = 'SlideBack for Android.'
 
 group = "com.phantomvk.slideback"
-version = libVersionName
+version = "0.1.6"
 
 install {
     repositories.mavenInstaller {

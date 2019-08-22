@@ -1,7 +1,7 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/SlideBack/images/download.svg?version=0.1.5)](https://bintray.com/phantomtvk/SlideBack/SlideBack/0.1.5/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/SlideBack/images/download.svg?version=0.1.6)](https://bintray.com/phantomtvk/SlideBack/SlideBack/0.1.6/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 An android library that helps you to finish activity with slide gesture.
 
@@ -10,8 +10,6 @@ An android library that helps you to finish activity with slide gesture.
 Preview
 ----------
 Please download latest release apk via: [Release history](https://github.com/phantomVK/SlideBack/releases)
-
-Notice: The provided apk does not support slide from the top of the activity, bacause the ActionBar comsumes all touch events. So please clone or download the source code, change the theme from __ActionBar__ to __NoActionBar__.
 
 Download
 -----------
@@ -63,16 +61,16 @@ public class MainActivity extends SlideActivity {
     public void onBackPressed() {
         // Optional.
         SlideLayout m = mManager.getSlideLayout();
-        if (m != null)
+        if (m != null) {
             m.slideExit();
-        else {
+        } else {
             super.onBackPressed();
         }
     }
 }
 ```
 
-Totally disable the slide action, nothing inside __SlideManager__ will be initialized, also re-initialize is illegal.
+Totally disable the slide action, nothing inside __SlideManager__ will be initialized, re-initialize is illegal either.
 
 ```java
 public class MainActivity extends SlideActivity {
@@ -87,7 +85,7 @@ public class MainActivity extends SlideActivity {
 
 Temporarily disable slide action, enable again whenever you want.
 
-__mManager__ comes from __SlideActivity__ the super class. What __mManager.getSlideLayout()__ returns is null if slide action has been totally disabled, see method mentioned above called __slideBackDisable()__.
+__mManager__ comes from __SlideActivity__ the super class you extended. What __mManager.getSlideLayout()__ returns is null if slide action has been totally disabled, see method mentioned above called __slideBackDisable()__ for more details.
 
 ```java
 mManager.getSlideLayout().setEnable(false);

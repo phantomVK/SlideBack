@@ -1,9 +1,13 @@
 package com.phantomvk.slideback.demo;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
@@ -15,6 +19,8 @@ import androidx.customview.widget.ViewDragHelper;
 import com.phantomvk.slideback.SlideActivity;
 import com.phantomvk.slideback.SlideLayout;
 
+import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 import static androidx.customview.widget.ViewDragHelper.EDGE_BOTTOM;
 import static androidx.customview.widget.ViewDragHelper.EDGE_LEFT;
 import static androidx.customview.widget.ViewDragHelper.EDGE_RIGHT;
@@ -25,6 +31,7 @@ public class BaseActivity extends SlideActivity {
 
     private static int sIndex = 0;
     private static boolean sInit = false;
+    private static final int[] mColors = {0xFF33B5E5, 0xFFAA66CC, 0xFF99CC00, 0xFFFFBB33, 0xFFFF4444};
 
     /**
      * {@link ViewDragHelper#EDGE_TOP} Required using 'Theme.AppCompat.Light.NoActionBar'
@@ -37,11 +44,13 @@ public class BaseActivity extends SlideActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        setWindow(getWindow());
 
-        findViewById(android.R.id.content).setBackgroundColor(getColors(sIndex));
+        View contentView = findViewById(android.R.id.content);
+        contentView.setBackgroundColor(mColors[sIndex % 5]);
 
         AppCompatTextView textView = findViewById(R.id.text);
-        textView.setText(getSimpleName());
+        textView.setText(getSimpleName(this));
 
         AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> {
@@ -91,27 +100,15 @@ public class BaseActivity extends SlideActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private String getSimpleName() {
-        String[] pkg = toString().split("\\.");
+    private static String getSimpleName(Activity activity) {
+        String[] pkg = activity.toString().split("\\.");
         return pkg[pkg.length - 1];
     }
 
-    private static int getColors(int index) {
-        int mod = index % 5;
-        switch (mod) {
-            case 0:
-                return 0xFF33B5E5;
-            case 1:
-                return 0xFFAA66CC;
-            case 2:
-                return 0xFF99CC00;
-            case 3:
-                return 0xFFFFBB33;
-            case 4:
-                return 0xFFFF4444;
-            default:
-                return 0xFFFFFFFF;
-        }
+    public static void setWindow(Window w) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return;
+        w.setFlags(FLAG_TRANSLUCENT_NAVIGATION, FLAG_TRANSLUCENT_NAVIGATION);
+        w.setFlags(FLAG_TRANSLUCENT_STATUS, FLAG_TRANSLUCENT_STATUS);
     }
 }
 

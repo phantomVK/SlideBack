@@ -1,7 +1,7 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/SlideBack/images/download.svg?version=0.1.5)](https://bintray.com/phantomtvk/SlideBack/SlideBack/0.1.5/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/SlideBack/images/download.svg?version=0.1.6)](https://bintray.com/phantomtvk/SlideBack/SlideBack/0.1.6/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 用于Android上协助完成滑动关闭界面的开源库
 
@@ -10,8 +10,6 @@ SlideBack
 下载试用
 ----------
 请到这里下载最新试用安装包：[更新历史](https://github.com/phantomVK/SlideBack/releases)。
-
-注意：试用包因包含ActionBar，而暂不支持从顶部下拉关闭页面。请自行下载源码更换为 __NoActionBar__ 主题并编译安装。
 
 依赖
 -----------
@@ -61,9 +59,9 @@ public class MainActivity extends SlideActivity {
     @Override
     public void onBackPressed() {
         SlideLayout m = mManager.getSlideLayout();
-        if (m != null)
+        if (m != null) {
             m.slideExit();
-        else {
+        } else {
             super.onBackPressed();
         }
     }
