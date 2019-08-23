@@ -11,7 +11,6 @@ import android.view.Window;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.customview.widget.ViewDragHelper;
@@ -30,8 +29,8 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 public class BaseActivity extends SlideActivity {
 
     private static int sIndex = 0;
-    private static boolean sInit = false;
-    private static final int[] mColors = {0xFF33B5E5, 0xFFAA66CC, 0xFF99CC00, 0xFFFFBB33, 0xFFFF4444};
+    private static final int[] mColors = {0xFF33B5E5, 0xFF00574B, 0xFFAA66CC, 0xFF99CC00,
+            0xFFFFBB33, 0xFFFF4444, 0xFF008577, 0xFFD81B60};
 
     /**
      * {@link ViewDragHelper#EDGE_TOP} Required using 'Theme.AppCompat.Light.NoActionBar'
@@ -47,16 +46,13 @@ public class BaseActivity extends SlideActivity {
         setWindow(getWindow());
 
         View contentView = findViewById(android.R.id.content);
-        contentView.setBackgroundColor(mColors[sIndex % 5]);
+        contentView.setBackgroundColor(mColors[sIndex++ & (8 - 1)]);
 
         AppCompatTextView textView = findViewById(R.id.text);
         textView.setText(getSimpleName(this));
 
         AppCompatButton button = findViewById(R.id.start);
-        button.setOnClickListener(v -> {
-            ++sIndex;
-            startActivity(new Intent(getBaseContext(), MainActivity.class));
-        });
+        button.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), MainActivity.class)));
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -81,14 +77,6 @@ public class BaseActivity extends SlideActivity {
                     break;
             }
         });
-
-        // For activity except the first one.
-        if (sInit) {
-            ActionBar bar = getSupportActionBar();
-            if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
-        } else {
-            sInit = true;
-        }
     }
 
     @Override

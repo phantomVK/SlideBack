@@ -40,7 +40,7 @@ public class SlideManager {
     }
 
     /**
-     * Constructor, default SlideStateListener will be used if listener is null.
+     * Constructor, default SlideStateListener implementation will be used if listener is null.
      *
      * @param activity Activity
      * @param listener SlideStateListener
@@ -48,8 +48,7 @@ public class SlideManager {
     public SlideManager(@Nullable Activity activity, @Nullable SlideStateListener listener) {
         Conductor c = (activity instanceof Conductor) ? (Conductor) activity : null;
         if (c == null) {
-            throw new IllegalArgumentException(
-                    "Activity must implement interface SlideManager$Conductor.");
+            throw new IllegalAccessError("Activity must implement SlideManager$Conductor.");
         } else if (c.slideBackDisable()) {
             return;
         }
@@ -76,7 +75,7 @@ public class SlideManager {
      * Called on Activity.onContentChanged()
      */
     public void onContentChanged() {
-        if (activity == null) return;
+        if (slideLayout == null) return;
         slideLayout.attach(activity);
     }
 
@@ -84,10 +83,7 @@ public class SlideManager {
      * Called on Activity.onResume()
      */
     public void onResume() {
-        if (activity == null || conductor == null
-                || conductor.slideBackDisable()
-                || conductor.isTranslucent()) return;
-
+        if (conductor == null || conductor.slideBackDisable() || conductor.isTranslucent()) return;
         TranslucentHelper.setTranslucent(activity);
         conductor.markTranslucent(true);
     }
@@ -96,10 +92,7 @@ public class SlideManager {
      * Called on Activity.startActivityForResult(Intent, int, Bundle)
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if (activity == null || conductor == null
-                || conductor.slideBackDisable()
-                || !conductor.isTranslucent()) return;
-
+        if (conductor == null || conductor.slideBackDisable() || !conductor.isTranslucent()) return;
         TranslucentHelper.removeTranslucent(activity);
         conductor.markTranslucent(false);
     }

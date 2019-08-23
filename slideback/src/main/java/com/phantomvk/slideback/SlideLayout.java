@@ -185,6 +185,8 @@ public class SlideLayout extends FrameLayout {
     public void attach(@NonNull Activity activity) {
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
+        if (decorChild == this) return;
+
         decorView.removeView(decorChild);
         decorView.addView(this);
         addView(decorChild);

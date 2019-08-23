@@ -37,7 +37,7 @@ def projectName = 'SlideBack'
 def projectDesc = 'SlideBack for Android.'
 
 group = "com.phantomvk.slideback"
-version = "0.1.6"
+version = rootProject.ext.versionName
 
 install {
     repositories.mavenInstaller {
