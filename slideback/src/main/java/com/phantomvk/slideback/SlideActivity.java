@@ -7,6 +7,12 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * The class for subclass to extend.
+ * If {@link AppCompatActivity} ths class extended is not satisfied with the actual requirements,
+ * please create a new class to extend what you are willing to use, then implement the same as
+ * what this class do.
+ */
 public class SlideActivity extends AppCompatActivity implements SlideManager.Conductor {
 
     protected SlideManager mManager;
