@@ -154,28 +154,28 @@ public class SlideLayout extends FrameLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout,
                 defStyleAttr, R.style.SlideBackLayout);
 
-        int edgeSize = a.getDimensionPixelSize(R.styleable.SlideLayout_edge_size, -1);
+        int edgeSize = a.getDimensionPixelSize(R.styleable.SlideLayout_slide_back_edge_size, -1);
         if (edgeSize > 0) setEdgeSize(edgeSize);
 
-        setTrackingEdge(a.getInt(R.styleable.SlideLayout_edge_flag, 0));
+        setTrackingEdge(a.getInt(R.styleable.SlideLayout_slide_back_edge_flag, 0));
 
         int shadowLeft = a.getResourceId(
-                R.styleable.SlideLayout_slide_shadow_left,
+                R.styleable.SlideLayout_slide_back_shadow_left,
                 R.drawable.drawable_slide_left);
         setShadow(shadowLeft, EDGE_LEFT);
 
         int shadowRight = a.getResourceId(
-                R.styleable.SlideLayout_slide_shadow_right,
+                R.styleable.SlideLayout_slide_back_shadow_right,
                 R.drawable.drawable_slide_right);
         setShadow(shadowRight, EDGE_RIGHT);
 
         int shadowTop = a.getResourceId(
-                R.styleable.SlideLayout_slide_shadow_top,
+                R.styleable.SlideLayout_slide_back_shadow_top,
                 R.drawable.drawable_slide_top);
         setShadow(shadowTop, EDGE_TOP);
 
         int shadowBottom = a.getResourceId(
-                R.styleable.SlideLayout_slide_shadow_bottom,
+                R.styleable.SlideLayout_slide_back_shadow_bottom,
                 R.drawable.drawable_slide_bottom);
         setShadow(shadowBottom, EDGE_BOTTOM);
 
