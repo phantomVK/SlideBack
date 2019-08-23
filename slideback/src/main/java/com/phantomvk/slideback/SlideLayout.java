@@ -227,6 +227,17 @@ public class SlideLayout extends FrameLayout {
     }
 
     /**
+     * Set the sensitivity.
+     *
+     * @param context     Context to get ViewConfiguration
+     * @param sensitivity value between 0 to 1, the final value for touchSlop =
+     *                    ViewConfiguration.getScaledTouchSlop * (1 / s);
+     */
+    public void setSensitivity(Context context, float sensitivity) {
+        mHelper.setSensitivity(context, sensitivity);
+    }
+
+    /**
      * Slide ContentView out of parent view.
      */
     public void slideExit() {
@@ -438,12 +449,12 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public int getViewVerticalDragRange(@NonNull View child) {
-            return mEdge & (EDGE_LEFT | EDGE_RIGHT);
+            return mEdge & (EDGE_TOP | EDGE_BOTTOM);
         }
 
         @Override
         public int getViewHorizontalDragRange(@NonNull View child) {
-            return mEdge & (EDGE_TOP | EDGE_BOTTOM);
+            return mEdge & (EDGE_LEFT | EDGE_RIGHT);
         }
 
         @Override
