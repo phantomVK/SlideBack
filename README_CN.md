@@ -5,7 +5,7 @@ SlideBack
 
 用于Android上协助完成滑动关闭界面的开源库
 
-![GIF](https://j.gifs.com/lxDMW6.gif)
+![GIF](https://j.gifs.com/71OyLj.gif)
 
 下载试用
 ----------
