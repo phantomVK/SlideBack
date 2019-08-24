@@ -45,8 +45,8 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        super.startActivityForResult(intent, requestCode, options);
         mManager.startActivityForResult(intent, requestCode, options);
+        super.startActivityForResult(intent, requestCode, options);
     }
 
     @Override
