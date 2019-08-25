@@ -90,8 +90,9 @@ mManager.getSlideLayout().setEnable(false);
 兼容
 -------------
 
- * **最低 Android SDK**: SlideBack 最低支持到 API15
- * **编译 Android SDK**: SlideBack 要求使用 API 28 或更新版本进行编译
+ * **最低 Android SDK**: SlideBack 最低支持到 API15；
+ * **编译 Android SDK**: SlideBack 要求使用 API 28 或更新版本进行编译；
+ * 要求迁移并兼容 **AndroidX** ;
 
 许可证
 --------
