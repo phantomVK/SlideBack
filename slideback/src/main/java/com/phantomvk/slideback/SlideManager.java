@@ -26,29 +26,31 @@ public class SlideManager {
     protected SlideLayout slideLayout;
 
     /**
-     * Conductor.
+     * To indicate the states of the current activity.
      */
     protected Conductor conductor;
 
     /**
-     * Default constructor, use default SlideStateListener to finish activity.
+     * Constructor which using a default {@link SlideStateListener} implementation
+     * named {@link SlideStateAdapter} to finish the current activity.
      *
-     * @param activity Activity
+     * @param activity must not be null and implements {@link SlideManager.Conductor}
      */
     public SlideManager(@NonNull Activity activity) {
         this(activity, null);
     }
 
     /**
-     * Constructor, default SlideStateListener implementation will be used if listener is null.
+     * Constructor for using a custom {@link SlideStateListener}.
      *
-     * @param activity Activity
-     * @param listener SlideStateListener
+     * @param activity must not be null and implements {@link SlideManager.Conductor}
+     * @param listener default implementation will be used if this is null
      */
-    public SlideManager(@Nullable Activity activity, @Nullable SlideStateListener listener) {
+    public SlideManager(@NonNull Activity activity, @Nullable SlideStateListener listener) {
         Conductor c = (activity instanceof Conductor) ? (Conductor) activity : null;
         if (c == null) {
-            throw new IllegalAccessError("Activity must implement SlideManager$Conductor.");
+            throw new IllegalAccessError("Activity must not be null, " +
+                    "and implements SlideManager$Conductor.");
         } else if (c.slideBackDisable()) {
             return;
         }
@@ -101,7 +103,7 @@ public class SlideManager {
      * Return the instance of {@link SlideLayout}, maybe null or caused NullPointerException
      * when the value returned from {@link Conductor#slideBackDisable()} is true.
      *
-     * @return the instance of SlideLayout, null pointer or caused NullPointerException
+     * @return the instance of SlideLayout, returned null pointer or caused NullPointerException
      */
     @Nullable
     public SlideLayout getSlideLayout() {
@@ -126,21 +128,21 @@ public class SlideManager {
      */
     public interface Conductor {
         /**
-         * Indicate if SlideBack is totally disabled.
+         * Indicate whether SlideBack is totally disabled.
          *
          * @return is disable
          */
         boolean slideBackDisable();
 
         /**
-         * Indicate current activity is translucent.
+         * Indicate whether the current activity is translucent.
          *
          * @return is translucent
          */
         boolean isTranslucent();
 
         /**
-         * Mark the translucent state of activity.
+         * Mark the latest translucent state of the current activity.
          */
         void markTranslucent(boolean translucent);
     }

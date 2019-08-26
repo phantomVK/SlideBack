@@ -30,6 +30,9 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_RIGHT;
 import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 import static androidx.customview.widget.ViewDragHelper.STATE_DRAGGING;
 
+/**
+ * To compute scroll, draw background, and do slide with animations.
+ */
 public class SlideLayout extends FrameLayout {
 
     private static final int FULL_ALPHA = 255;

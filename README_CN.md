@@ -3,6 +3,8 @@ SlideBack
 
 [![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/SlideBack/images/download.svg?version=0.2.1)](https://bintray.com/phantomtvk/SlideBack/SlideBack/0.2.1/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
+[README in English](./README.md)
+
 用于Android上协助完成滑动关闭界面的开源库
 
 ![GIF](https://j.gifs.com/71OyLj.gif)
@@ -13,9 +15,9 @@ SlideBack
 
 依赖
 -----------
-可通过 __Gradle__ 从 __JCenter__ 下载依赖
+可通过 __Gradle__ 从 __JCenter__ 下载依赖：
 
-```gradle
+```groovy
 repositories {
     google()
     jcenter()
@@ -25,7 +27,7 @@ dependencies {
     implementation 'com.phantomvk.slideback:slideback:0.2.1'
 }
 ```
-或 Maven:
+或 Maven：
 ```xml
 <dependency>
   <groupId>com.phantomvk.slideback</groupId>
@@ -38,7 +40,7 @@ dependencies {
 使用方法
 -------
 
-继承名为 __SlideActivity__ 的父类，调用 __setContentView(View)__ 完成后指定触摸边缘，即方法 __onContentChanged()__
+用 __Activity__ 继承名为 __SlideActivity__ 的父类，在调用 __setContentView(View)__ 完成后设置目标滑动边缘，建议在 __onContentChanged()__ 内完成
 
 ```java
 public class MainActivity extends SlideActivity {
@@ -68,7 +70,7 @@ public class MainActivity extends SlideActivity {
 }
 ```
 
-彻底关闭滑动操作，关闭后 __SlideManager__ 不会进行任何初始化，也不能在后续重新初始化
+彻底关闭滑动操作，关闭后 __SlideManager__ 内部不会初始化，也不能在后续运行重新初始化
 
 ```java
 public class MainActivity extends SlideActivity {
@@ -92,7 +94,7 @@ mManager.getSlideLayout().setEnable(false);
 
  * **最低 Android SDK**: SlideBack 最低支持到 API15；
  * **编译 Android SDK**: SlideBack 要求使用 API 28 或更新版本进行编译；
- * 要求迁移并兼容 **AndroidX** ;
+ * 要求迁移并兼容 **AndroidX**；
 
 许可证
 --------
