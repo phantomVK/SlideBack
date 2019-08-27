@@ -3,9 +3,11 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            def propFile = rootProject.file("../config/keystore.properties")
+            def rootProject = rootProject.file("../config/keystore.properties")
+            if (!rootProject.exists()) return
+
             def prop = new Properties()
-            def fis = new FileInputStream(propFile)
+            def fis = new FileInputStream(rootProject)
             prop.load(fis)
             fis.close()
 
