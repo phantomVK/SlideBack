@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
@@ -103,6 +104,11 @@ public class SlideLayout extends FrameLayout {
     private float mScrimOpacity;
 
     /**
+     * The opacity of shadow.
+     */
+    private float mShadowOpacity;
+
+    /**
      * The color of scrim.
      */
     @ColorInt
@@ -140,6 +146,9 @@ public class SlideLayout extends FrameLayout {
     private Drawable mShadowRight;
     private Drawable mShadowTop;
     private Drawable mShadowBottom;
+
+    private Interpolation mScrimInterpolation;
+    private Interpolation mShadowInterpolation;
 
     public SlideLayout(@NonNull Context context) {
         this(context, null);
@@ -297,10 +306,9 @@ public class SlideLayout extends FrameLayout {
         boolean needDrawn = (child == mChildView);
         boolean drawChild = super.drawChild(canvas, child, drawingTime);
 
-        if (needDrawn && mScrimOpacity > 0
-                && mHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
-            drawShadow(canvas, child);
-            drawScrim(canvas, child);
+        if (needDrawn && mHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
+            if (mShadowOpacity > 0) drawShadow(canvas, child);
+            if (mScrimOpacity > 0) drawScrim(canvas, child);
         }
 
         return drawChild;
@@ -330,35 +338,37 @@ public class SlideLayout extends FrameLayout {
         if ((mEdge & EDGE_LEFT) != 0) {
             mShadowLeft.setBounds(mRect.left - mShadowLeft.getIntrinsicWidth(), mRect.top,
                     mRect.left, mRect.bottom);
-            mShadowLeft.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
+            mShadowLeft.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
             mShadowLeft.draw(canvas);
         }
 
         if ((mEdge & EDGE_RIGHT) != 0) {
             mShadowRight.setBounds(mRect.right, mRect.top,
                     mRect.right + mShadowRight.getIntrinsicWidth(), mRect.bottom);
-            mShadowRight.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
+            mShadowRight.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
             mShadowRight.draw(canvas);
         }
 
         if ((mEdge & EDGE_TOP) != 0) {
             mShadowTop.setBounds(mRect.left, mRect.top - mShadowTop.getIntrinsicHeight(),
                     mRect.right, mRect.top);
-            mShadowTop.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
+            mShadowTop.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
             mShadowTop.draw(canvas);
         }
 
         if ((mEdge & EDGE_BOTTOM) != 0) {
             mShadowBottom.setBounds(mRect.left, mRect.bottom, mRect.right,
                     mRect.bottom + mShadowBottom.getIntrinsicHeight());
-            mShadowBottom.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
+            mShadowBottom.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
             mShadowBottom.draw(canvas);
         }
     }
 
     @Override
     public void computeScroll() {
-        mScrimOpacity = calScrimOpacity(getContext(), mSlidePercent);
+        mScrimOpacity = calScrimOpacity(mSlidePercent);
+        mShadowOpacity = calShadowOpacity(mSlidePercent);
+
         if (mHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
@@ -382,12 +392,41 @@ public class SlideLayout extends FrameLayout {
     }
 
     /**
-     * @param context      context for getting resources to calculate opacity
-     * @param slidePercent the percent of sliding, from 0F to 1F
-     * @return opacity value
+     * Set Interpolation to scrim.
+     *
+     * @param interpolation Interpolation
      */
-    public float calScrimOpacity(@NonNull Context context, float slidePercent) {
-        return 1 - slidePercent;
+    public void setScrimInterpolation(@Nullable Interpolation interpolation) {
+        mScrimInterpolation = interpolation;
+    }
+
+    /**
+     * @param slidePercent the percent of sliding, from 0.0F to 1.0F
+     * @return float opacity value from 0.0F to 1.0F
+     */
+    private float calScrimOpacity(@FloatRange(from = 0.0F, to = 1.0F) float slidePercent) {
+        return mScrimInterpolation != null
+                ? mScrimInterpolation.getInterpolation(getContext(), slidePercent)
+                : 1 - slidePercent;
+    }
+
+    /**
+     * Set Interpolation to shadow.
+     *
+     * @param interpolation Interpolation
+     */
+    public void setShadowInterpolation(@Nullable Interpolation interpolation) {
+        mShadowInterpolation = interpolation;
+    }
+
+    /**
+     * @param slidePercent the percent of sliding, from 0.0F to 1.0F
+     * @return float opacity value from 0.0F to 1.0F
+     */
+    private float calShadowOpacity(@FloatRange(from = 0.0F, to = 1.0F) float slidePercent) {
+        return mShadowInterpolation != null
+                ? mShadowInterpolation.getInterpolation(getContext(), slidePercent)
+                : 1 - slidePercent;
     }
 
     public void setEnable(boolean enable) {
@@ -550,5 +589,12 @@ public class SlideLayout extends FrameLayout {
             }
             return position;
         }
+    }
+
+    /**
+     * The Interpolation for shadow and scrim.
+     */
+    public interface Interpolation {
+        float getInterpolation(@NonNull Context context, float slidePercent);
     }
 }
