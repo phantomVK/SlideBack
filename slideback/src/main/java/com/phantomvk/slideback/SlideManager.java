@@ -79,24 +79,21 @@ public class SlideManager {
      * Called on Activity.onContentChanged() with background from theme.
      */
     public void onContentChanged() {
-        if (slideLayout == null) return;
-        slideLayout.attach(activity);
+        if (slideLayout != null) slideLayout.attach(activity);
     }
 
     /**
      * Called on Activity.onContentChanged() with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
-        if (slideLayout == null) return;
-        slideLayout.attachColor(activity, color);
+        if (slideLayout != null) slideLayout.attachColor(activity, color);
     }
 
     /**
      * Called on Activity.onContentChanged() with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
-        if (slideLayout == null) return;
-        slideLayout.attachColorRes(activity, colorRes);
+        if (slideLayout != null) slideLayout.attachColorRes(activity, colorRes);
     }
 
     /**

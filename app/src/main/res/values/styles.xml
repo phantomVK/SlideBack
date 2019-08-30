@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/window_style_no_anim</item>
+        <item name="android:windowAnimationStyle">@style/window_no_anim_style</item>
     </style>
 
     <style name="style_radio_button" parent="Widget.AppCompat.CompoundButton.RadioButton">
@@ -17,7 +17,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="window_style_no_anim" parent="@android:style/Animation.Translucent">
+    <style name="window_no_anim_style" parent="@android:style/Animation.Translucent">
         <item name="android:windowEnterAnimation">@null</item>
         <item name="android:windowExitAnimation">@null</item>
     </style>

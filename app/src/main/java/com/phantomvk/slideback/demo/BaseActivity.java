@@ -22,7 +22,7 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 
 /**
  * This class contains nothing about {@link SlideActivity}.
- * Code moved here to make the subclass more easier to read which the code belongs to.
+ * Code moved here to make the subclass more easier to read.
  */
 public class BaseActivity extends SlideActivity {
 

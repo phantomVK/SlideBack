@@ -14,12 +14,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        SlideLayout m = mManager.getSlideLayout();
-        if (m != null) {
-            m.slideExit();
+    public void finishAfterTransition() {
+        SlideLayout l = mManager.getSlideLayout();
+        if (l != null) {
+            l.slideExit();
         } else {
-            super.onBackPressed();
+            super.finishAfterTransition();
         }
     }
 }
