@@ -199,10 +199,15 @@ public class SlideLayout extends FrameLayout {
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild == this) return;
 
+        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+        int background = a.getResourceId(0, 0);
+        a.recycle();
+
+        decorChild.setBackgroundResource(background);
         decorView.removeView(decorChild);
-        decorView.addView(this);
         addView(decorChild);
         setContentView(decorChild);
+        decorView.addView(this);
     }
 
     public void setEdgeSize(int size) {
