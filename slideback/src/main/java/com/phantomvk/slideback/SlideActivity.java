@@ -39,7 +39,7 @@ public class SlideActivity extends AppCompatActivity {
     @Override
     public <T extends View> T findViewById(int id) {
         SlideLayout l = mManager.getSlideLayout();
-        return (T) (l != null ? l.findViewById(id) : super.findViewById(id));
+        return l != null ? l.<T>findViewById(id) : super.<T>findViewById(id);
     }
 
     @Override
