@@ -13,16 +13,15 @@ import androidx.appcompat.app.AppCompatActivity;
  * please create a new class to extend what you are willing to use, then do implement the same as
  * what this class do.
  */
-public class SlideActivity extends AppCompatActivity implements SlideManager.Conductor {
+public class SlideActivity extends AppCompatActivity {
 
     protected SlideManager mManager;
-    protected boolean isTranslucent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mManager = new SlideManager(this);
-        mManager.onCreate();
+        mManager.onCreate(savedInstanceState);
     }
 
     @Override
@@ -47,20 +46,5 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         mManager.startActivityForResult(intent, requestCode, options);
         super.startActivityForResult(intent, requestCode, options);
-    }
-
-    @Override
-    public boolean slideBackDisable() {
-        return false;
-    }
-
-    @Override
-    public boolean isTranslucent() {
-        return isTranslucent;
-    }
-
-    @Override
-    public void markTranslucent(boolean translucent) {
-        isTranslucent = translucent;
     }
 }
