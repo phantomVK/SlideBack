@@ -1,6 +1,5 @@
 package com.phantomvk.slideback.support.listener;
 
-
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

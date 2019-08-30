@@ -1,6 +1,5 @@
 package com.phantomvk.slideback.support.listener;
 
-
 import android.support.v4.widget.ViewDragHelper;
 
 public interface SlideStateListener {
