@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -199,6 +200,35 @@ public class SlideLayout extends FrameLayout {
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild == this) return;
 
+        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+        int background = a.getResourceId(0, 0);
+        a.recycle();
+
+        decorChild.setBackgroundResource(background);
+        decorView.removeView(decorChild);
+        decorView.addView(this);
+        addView(decorChild);
+        setContentView(decorChild);
+    }
+
+    public void attachColor(@NonNull Activity activity, @ColorInt int color) {
+        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+        ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
+        if (decorChild == this) return;
+
+        decorChild.setBackgroundColor(color);
+        decorView.removeView(decorChild);
+        decorView.addView(this);
+        addView(decorChild);
+        setContentView(decorChild);
+    }
+
+    public void attachColorRes(@NonNull Activity activity, @ColorRes int colorRes) {
+        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+        ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
+        if (decorChild == this) return;
+
+        decorChild.setBackgroundResource(colorRes);
         decorView.removeView(decorChild);
         decorView.addView(this);
         addView(decorChild);
