@@ -7,11 +7,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.ViewDragHelper;
 
 import com.phantomvk.slideback.support.listener.SlideStateAdapter;
 import com.phantomvk.slideback.support.listener.SlideStateListener;
 import com.phantomvk.slideback.utility.TranslucentHelper;
-import com.phantomvk.slideback.utility.ViewDragHelper;
 
 public class SlideManager {
     /**

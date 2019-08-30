@@ -2,8 +2,7 @@ package com.phantomvk.slideback.utility;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import java.lang.reflect.Method;
 

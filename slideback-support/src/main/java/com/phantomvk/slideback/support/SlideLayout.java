@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.phantomvk.slideback.support.listener.SlideStateListener;
-import com.phantomvk.slideback.utility.ViewDragHelper;
+import com.phantomvk.slideback.support.utility.ViewDragHelper;
 
 import java.util.ArrayList;
 
