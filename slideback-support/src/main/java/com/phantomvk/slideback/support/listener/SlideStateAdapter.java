@@ -8,7 +8,6 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
 public class SlideStateAdapter extends BaseSlideStateAdapter {
-
     /**
      * The target activity to control.
      */
@@ -33,7 +32,7 @@ public class SlideStateAdapter extends BaseSlideStateAdapter {
      *
      * @param activity the target activity to finish
      */
-    public void finishActivity(@Nullable Activity activity) {
+    protected void finishActivity(@Nullable Activity activity) {
         if (activity == null || activity.isFinishing()) return;
         if (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed()) return;
 

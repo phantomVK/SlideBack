@@ -1,4 +1,4 @@
-package com.phantomvk.slideback.utility;
+package com.phantomvk.slideback.support.utility;
 
 import android.app.Activity;
 import android.app.ActivityOptions;

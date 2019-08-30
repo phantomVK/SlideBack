@@ -14,6 +14,16 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onContentChanged() {
+        super.onContentChanged();
+        SlideLayout l = mManager.getSlideLayout();
+        if (l != null) {
+            l.setScrimInterpolation((context, slidePercent) -> 0);
+            l.setShadowInterpolation((context, slidePercent) -> 1);
+        }
+    }
+
+    @Override
     public void finishAfterTransition() {
         SlideLayout l = mManager.getSlideLayout();
         if (l != null) {

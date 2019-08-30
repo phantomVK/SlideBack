@@ -13,7 +13,7 @@ import android.support.v4.widget.ViewDragHelper;
 
 import com.phantomvk.slideback.support.listener.SlideStateAdapter;
 import com.phantomvk.slideback.support.listener.SlideStateListener;
-import com.phantomvk.slideback.utility.TranslucentHelper;
+import com.phantomvk.slideback.support.utility.TranslucentHelper;
 
 public class SlideManager {
     /**
