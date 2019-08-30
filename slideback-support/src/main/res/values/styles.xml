@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SlideBackLayout">
+        <item name="slide_back_edge_size">50dp</item>
+        <item name="slide_back_shadow_left">@drawable/drawable_slide_left</item>
+        <item name="slide_back_shadow_right">@drawable/drawable_slide_right</item>
+        <item name="slide_back_shadow_top">@drawable/drawable_slide_top</item>
+        <item name="slide_back_shadow_bottom">@drawable/drawable_slide_bottom</item>
+    </style>
+</resources>
