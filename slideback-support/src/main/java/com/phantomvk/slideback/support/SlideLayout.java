@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -205,9 +206,33 @@ public class SlideLayout extends FrameLayout {
 
         decorChild.setBackgroundResource(background);
         decorView.removeView(decorChild);
+        decorView.addView(this);
         addView(decorChild);
         setContentView(decorChild);
+    }
+
+    public void attachColor(@NonNull Activity activity, @ColorInt int color) {
+        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+        ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
+        if (decorChild == this) return;
+
+        decorChild.setBackgroundColor(color);
+        decorView.removeView(decorChild);
         decorView.addView(this);
+        addView(decorChild);
+        setContentView(decorChild);
+    }
+
+    public void attachColorRes(@NonNull Activity activity, @DrawableRes int colorRes) {
+        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+        ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
+        if (decorChild == this) return;
+
+        decorChild.setBackgroundResource(colorRes);
+        decorView.removeView(decorChild);
+        decorView.addView(this);
+        addView(decorChild);
+        setContentView(decorChild);
     }
 
     public void setEdgeSize(int size) {

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ViewDragHelper;
@@ -73,11 +75,27 @@ public class SlideManager {
     }
 
     /**
-     * Called on Activity.onContentChanged()
+     * Called on Activity.onContentChanged() with background from theme.
      */
     public void onContentChanged() {
         if (slideLayout == null) return;
         slideLayout.attach(activity);
+    }
+
+    /**
+     * Called on Activity.onContentChanged() with background color int.
+     */
+    public void onContentChanged(@ColorInt int color) {
+        if (slideLayout == null) return;
+        slideLayout.attachColor(activity, color);
+    }
+
+    /**
+     * Called on Activity.onContentChanged() with background color resource.
+     */
+    public void onContentChangedRes(@DrawableRes int colorRes) {
+        if (slideLayout == null) return;
+        slideLayout.attachColorRes(activity, colorRes);
     }
 
     /**

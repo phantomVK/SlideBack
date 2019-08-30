@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -94,7 +94,7 @@ public class SlideManager {
     /**
      * Called on Activity.onContentChanged() with background color resource.
      */
-    public void onContentChangedRes(@ColorRes int colorRes) {
+    public void onContentChangedRes(@DrawableRes int colorRes) {
         if (slideLayout == null) return;
         slideLayout.attachColorRes(activity, colorRes);
     }

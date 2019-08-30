@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -223,7 +223,7 @@ public class SlideLayout extends FrameLayout {
         setContentView(decorChild);
     }
 
-    public void attachColorRes(@NonNull Activity activity, @ColorRes int colorRes) {
+    public void attachColorRes(@NonNull Activity activity, @DrawableRes int colorRes) {
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild == this) return;
