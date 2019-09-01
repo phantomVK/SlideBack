@@ -35,7 +35,7 @@ public class SlideManager {
     /**
      * Mark the latest translucent state of the current activity.
      */
-    protected boolean isTranslucent;
+    protected boolean translucent;
 
     /**
      * Constructor which using a default {@link SlideStateListener} implementation
@@ -100,18 +100,18 @@ public class SlideManager {
      * Called on Activity.onResume()
      */
     public void onResume() {
-        if ((conductor != null && conductor.slideBackDisable()) || isTranslucent) return;
+        if ((conductor != null && conductor.slideBackDisable()) || translucent) return;
         TranslucentHelper.setTranslucent(activity);
-        isTranslucent = true;
+        translucent = true;
     }
 
     /**
      * Called on Activity.startActivityForResult(Intent, int, Bundle)
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if ((conductor != null && conductor.slideBackDisable()) || !isTranslucent) return;
+        if ((conductor != null && conductor.slideBackDisable()) || !translucent) return;
         TranslucentHelper.removeTranslucent(activity);
-        isTranslucent = false;
+        translucent = false;
     }
 
     /**
@@ -131,7 +131,7 @@ public class SlideManager {
      * @return is translucent
      */
     public boolean isTranslucent() {
-        return isTranslucent;
+        return translucent;
     }
 
     /**

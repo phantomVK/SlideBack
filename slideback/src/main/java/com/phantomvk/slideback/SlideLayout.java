@@ -37,7 +37,12 @@ import static androidx.customview.widget.ViewDragHelper.STATE_DRAGGING;
  */
 public class SlideLayout extends FrameLayout {
 
-    private static final int FULL_ALPHA = 255;
+    /**
+     * Attribute to get background drawable from theme.
+     */
+    private static final int[] ATTRS = new int[]{android.R.attr.windowBackground};
+
+    private static final int FULL_ALPHA = 2 << 8 - 1;
 
     /**
      * Default scrim color.
@@ -200,7 +205,7 @@ public class SlideLayout extends FrameLayout {
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild == this) return;
 
-        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+        TypedArray a = activity.getTheme().obtainStyledAttributes(ATTRS);
         int background = a.getResourceId(0, 0);
         a.recycle();
 
