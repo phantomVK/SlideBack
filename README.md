@@ -1,13 +1,13 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.2.4)](https://bintray.com/phantomtvk/SlideBack/slideback/0.2.4/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.2.5)](https://bintray.com/phantomtvk/SlideBack/slideback/0.2.5/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 [中文版README](./README_CN.md)
 
 An android library that helps you to finish activity with slide gesture, never stuck with a bunch of activities openning.
 
-![GIF](https://j.gifs.com/71OyLj.gif)
+<img src="https://j.gifs.com/71OyLj.gif" alt="gif" width="288" height="512" style="display: inline;"/>
 
 Preview
 ----------
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback:0.2.4'
+    implementation 'com.phantomvk.slideback:slideback:0.2.5'
 }
 ```
 Or Maven:
@@ -32,7 +32,7 @@ Or Maven:
 <dependency>
   <groupId>com.phantomvk.slideback</groupId>
   <artifactId>slideback</artifactId>
-  <version>0.2.4</version>
+  <version>0.2.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback-support:0.2.4'
+    implementation 'com.phantomvk.slideback:slideback-support:0.2.5'
 }
 ```
 
@@ -56,7 +56,7 @@ Or Maven:
 <dependency>
 	<groupId>com.phantomvk.slideback</groupId>
 	<artifactId>slideback-support</artifactId>
-	<version>0.2.4</version>
+	<version>0.2.5</version>
 	<type>pom</type>
 </dependency>
 ```
@@ -82,13 +82,13 @@ public class MainActivity extends SlideActivity {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        mManager.getSlideLayout().setTrackingEdge(ViewDragHelper.EDGE_RIGHT);
+        slideManager.getSlideLayout().setTrackingEdge(ViewDragHelper.EDGE_RIGHT);
     }
 
     // called by super.onBackPressed(); to finish activity with transition.
     @Override
     public void finishAfterTransition() {
-        SlideLayout l = mManager.getSlideLayout();
+        SlideLayout l = slideManager.getSlideLayout();
         if (l != null) {
             l.slideExit();
         } else {
@@ -112,10 +112,17 @@ public class MainActivity extends SlideActivity {
 
 To temporarily disable the slide action, enable again whenever you want, see the method below.
 
-__mManager__ comes from __SlideActivity__ the super class you extended. What __mManager.getSlideLayout()__ returns is null if slide action has been totally disabled, see method mentioned above named __slideBackDisable()__ for more details.
+__slideManager__ comes from __SlideActivity__ the super class you extended. What __slideManager.getSlideLayout()__ returns is null if slide action has been totally disabled, see method mentioned above named __slideBackDisable()__ for more details.
 
 ```java
-mManager.getSlideLayout().setEnable(false);
+public class MainActivity extends SlideActivity {
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        slideManager.getSlideLayout().setEnable(false);
+    }
+}
 ```
 
 Compatibility

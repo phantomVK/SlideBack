@@ -15,36 +15,36 @@ import android.view.View;
  */
 public class SlideActivity extends AppCompatActivity {
 
-    protected SlideManager mManager;
+    protected SlideManager slideManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mManager = new SlideManager(this);
-        mManager.onCreate(savedInstanceState);
+        slideManager = new SlideManager(this);
+        slideManager.onCreate(savedInstanceState);
     }
 
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        mManager.onContentChanged();
+        slideManager.onContentChanged();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mManager.onResume();
+        slideManager.onResume();
     }
 
     @Override
     public <T extends View> T findViewById(int id) {
-        SlideLayout l = mManager.getSlideLayout();
+        SlideLayout l = slideManager.getSlideLayout();
         return l != null ? l.<T>findViewById(id) : super.<T>findViewById(id);
     }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        mManager.startActivityForResult(intent, requestCode, options);
+        slideManager.startActivityForResult(intent, requestCode, options);
         super.startActivityForResult(intent, requestCode, options);
     }
 }

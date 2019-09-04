@@ -1,13 +1,13 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.2.4)](https://bintray.com/phantomtvk/SlideBack/slideback/0.2.4/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.2.5)](https://bintray.com/phantomtvk/SlideBack/slideback/0.2.5/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 [README in English](./README.md)
 
 用于Android上协助完成滑动关闭界面的开源库，在开启很多 __Activity__ 后也不卡顿
 
-![GIF](https://j.gifs.com/71OyLj.gif)
+<img src="https://j.gifs.com/71OyLj.gif" alt="gif" width="288" height="512" style="display: inline;"/>
 
 预览
 ----------
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback:0.2.4'
+    implementation 'com.phantomvk.slideback:slideback:0.2.5'
 }
 ```
 或 Maven：
@@ -32,7 +32,7 @@ dependencies {
 <dependency>
   <groupId>com.phantomvk.slideback</groupId>
   <artifactId>slideback</artifactId>
-  <version>0.2.4</version>
+  <version>0.2.5</version>
   <type>pom</type>
 </dependency>
 ```
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback-support:0.2.4'
+    implementation 'com.phantomvk.slideback:slideback-support:0.2.5'
 }
 ```
 
@@ -56,7 +56,7 @@ dependencies {
 <dependency>
 	<groupId>com.phantomvk.slideback</groupId>
 	<artifactId>slideback-support</artifactId>
-	<version>0.2.4</version>
+	<version>0.2.5</version>
 	<type>pom</type>
 </dependency>
 ```
@@ -82,13 +82,13 @@ public class MainActivity extends SlideActivity {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        mManager.getSlideLayout().setTrackingEdge(ViewDragHelper.EDGE_RIGHT);
+        slideManager.getSlideLayout().setTrackingEdge(ViewDragHelper.EDGE_RIGHT);
     }
 
     // 由super.onBackPressed();调用，在结束界面前进行退场动画
     @Override
     public void finishAfterTransition() {
-        SlideLayout l = mManager.getSlideLayout();
+        SlideLayout l = slideManager.getSlideLayout();
         if (l != null) {
             l.slideExit();
         } else {
@@ -112,11 +112,19 @@ public class MainActivity extends SlideActivity {
 
 以下方法暂时关闭功能，可在需要时再次启用。
 
-变量 __mManager__ 来自父类 __SlideActivity__。当滑动操作被彻底关闭后，__mManager.getSlideLayout()__ 返回值为空，详情请看上文名为 __slideBackDisable()__ 方法的指南
+变量 __slideManager__ 来自父类 __SlideActivity__。当滑动操作被彻底关闭后，__slideManager.getSlideLayout()__ 返回值为空，详情请看上文名为 __slideBackDisable()__ 方法的指南
 
 ```java
-mManager.getSlideLayout().setEnable(false);
+public class MainActivity extends SlideActivity {
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        slideManager.getSlideLayout().setEnable(false);
+    }
+}
 ```
+
 兼容
 -------------
 
