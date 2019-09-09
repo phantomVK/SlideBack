@@ -19,7 +19,7 @@ public class MainActivity extends BaseActivity {
         SlideLayout l = slideManager.getSlideLayout();
         if (l != null) {
             l.setScrimInterpolation((context, slidePercent) -> 0);
-            l.setShadowInterpolation((context, slidePercent) -> 1);
+            l.setShadowInterpolation((context, slidePercent) -> 1 - slidePercent);
         }
     }
 
