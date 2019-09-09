@@ -130,7 +130,7 @@ Compatibility
 
  * **Minimum Android SDK**: SlideBack requires a minimum API level of 15.
  * **Compile Android SDK**: SlideBack requires you to compile against API 28 or later.
- * Both **AndroidX** and **Android Support** are supported using different dependencies.
+ * Both **AndroidX** and **Android Support** are supported by using different dependencies.
 
 License
 --------

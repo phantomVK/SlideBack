@@ -629,6 +629,7 @@ public class SlideLayout extends FrameLayout {
     /**
      * The Interpolation for shadow and scrim.
      */
+    @FunctionalInterface
     public interface Interpolation {
         float getInterpolation(@NonNull Context context,
                                @FloatRange(from = 0.0F, to = 1.0F) float slidePercent);
