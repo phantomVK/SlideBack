@@ -27,15 +27,6 @@ dependencies {
     implementation 'com.phantomvk.slideback:slideback:0.2.5'
 }
 ```
-或 Maven：
-```xml
-<dependency>
-  <groupId>com.phantomvk.slideback</groupId>
-  <artifactId>slideback</artifactId>
-  <version>0.2.5</version>
-  <type>pom</type>
-</dependency>
-```
 
 如果你的工程不能迁移到 __AndroidX__，可以使用已适配 __Android.Support__ 的版本：
 
@@ -48,17 +39,6 @@ repositories {
 dependencies {
     implementation 'com.phantomvk.slideback:slideback-support:0.2.5'
 }
-```
-
-或 Maven：
-
-```xml
-<dependency>
-	<groupId>com.phantomvk.slideback</groupId>
-	<artifactId>slideback-support</artifactId>
-	<version>0.2.5</version>
-	<type>pom</type>
-</dependency>
 ```
 
 上述依赖库不同的 __artifactId__ 使用一样的版本号，你仅需使用其中最合适的一个。

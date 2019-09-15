@@ -27,17 +27,8 @@ dependencies {
     implementation 'com.phantomvk.slideback:slideback:0.2.5'
 }
 ```
-Or Maven:
-```xml
-<dependency>
-  <groupId>com.phantomvk.slideback</groupId>
-  <artifactId>slideback</artifactId>
-  <version>0.2.5</version>
-  <type>pom</type>
-</dependency>
-```
 
-If your are no using __AndroidX__, why not try this for __Android.Support__?
+If your're no using __AndroidX__, why not try this for __Android.Support__?
 
 ```groovy
 repositories {
@@ -48,17 +39,6 @@ repositories {
 dependencies {
     implementation 'com.phantomvk.slideback:slideback-support:0.2.5'
 }
-```
-
-Or Maven:
-
-```xml
-<dependency>
-	<groupId>com.phantomvk.slideback</groupId>
-	<artifactId>slideback-support</artifactId>
-	<version>0.2.5</version>
-	<type>pom</type>
-</dependency>
 ```
 
 They both sharing the same version with different __artifactId__, you just need one of then.
