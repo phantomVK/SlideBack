@@ -6,19 +6,25 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/window_no_anim_style</item>
+        <item name="android:windowAnimationStyle">@style/windowNoAnimStyle</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="toolbarStyle">@style/toolbarStyle</item>
     </style>
 
-    <style name="style_radio_button" parent="Widget.AppCompat.CompoundButton.RadioButton">
+    <style name="styleRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="window_no_anim_style" parent="@android:style/Animation.Translucent">
+    <style name="windowNoAnimStyle" parent="@android:style/Animation.Translucent">
         <item name="android:windowEnterAnimation">@null</item>
         <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <style name="toolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">@android:color/white</item>
     </style>
 </resources>

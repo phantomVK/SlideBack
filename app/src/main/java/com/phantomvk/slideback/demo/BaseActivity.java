@@ -1,19 +1,23 @@
 package com.phantomvk.slideback.demo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Window;
 import android.widget.RadioGroup;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.customview.widget.ViewDragHelper;
 
 import com.phantomvk.slideback.SlideActivity;
 import com.phantomvk.slideback.SlideLayout;
 
-import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 import static androidx.customview.widget.ViewDragHelper.EDGE_BOTTOM;
 import static androidx.customview.widget.ViewDragHelper.EDGE_LEFT;
@@ -34,9 +38,7 @@ public class BaseActivity extends SlideActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return;
-        getWindow().setFlags(FLAG_TRANSLUCENT_NAVIGATION, FLAG_TRANSLUCENT_NAVIGATION);
-        getWindow().setFlags(FLAG_TRANSLUCENT_STATUS, FLAG_TRANSLUCENT_STATUS);
+        setWindow();
     }
 
     /**
@@ -49,8 +51,11 @@ public class BaseActivity extends SlideActivity {
     public void onContentChanged() {
         super.onContentChanged();
 
-        View contentView = findViewById(android.R.id.content);
-        contentView.setBackgroundColor(mColors[sIndex++ & (8 - 1)]);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+        toolbar.setBackgroundColor(mColors[sIndex++ & (8 - 1)]);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         AppCompatTextView textView = findViewById(R.id.text);
         textView.setText(toString().split("\\.")[4]);
@@ -81,5 +86,23 @@ public class BaseActivity extends SlideActivity {
                     break;
             }
         });
+    }
+
+    private void setWindow() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.clearFlags(FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
+    public int getStatusBarHeight() {
+        int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return (id > 0) ? getResources().getDimensionPixelSize(id) : 0;
     }
 }

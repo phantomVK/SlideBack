@@ -7,7 +7,7 @@ SlideBack
 
 An android library that helps you to finish activity with slide gesture, never stuck with a bunch of activities openning.
 
-<img src="https://j.gifs.com/71OyLj.gif" alt="gif" width="288" height="512" style="display: inline;"/>
+<img src="https://j.gifs.com/xn8gqB.gif" alt="gif" width="288" height="512" style="display: inline;"/>
 
 Preview
 ----------

@@ -7,7 +7,7 @@ SlideBack
 
 用于Android上协助完成滑动关闭界面的开源库，在开启很多 __Activity__ 后也不卡顿
 
-<img src="https://j.gifs.com/71OyLj.gif" alt="gif" width="288" height="512" style="display: inline;"/>
+<img src="https://j.gifs.com/xn8gqB.gif" alt="gif" width="288" height="512" style="display: inline;"/>
 
 预览
 ----------
