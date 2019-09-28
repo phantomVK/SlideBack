@@ -48,23 +48,23 @@
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioLeft"
-                style="@style/styleRadioButton"
+                style="@style/radioButtonStyle"
                 android:checked="true"
                 android:text="Left" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioRight"
-                style="@style/styleRadioButton"
+                style="@style/radioButtonStyle"
                 android:text="Right" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioTop"
-                style="@style/styleRadioButton"
+                style="@style/radioButtonStyle"
                 android:text="Top" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioBottom"
-                style="@style/styleRadioButton"
+                style="@style/radioButtonStyle"
                 android:text="Bottom" />
         </RadioGroup>
     </androidx.appcompat.widget.LinearLayoutCompat>

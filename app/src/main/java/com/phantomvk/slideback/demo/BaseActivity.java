@@ -1,5 +1,6 @@
 package com.phantomvk.slideback.demo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.RadioGroup;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
@@ -28,6 +30,7 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
  * This class contains nothing about {@link SlideActivity}.
  * Code moved here to make the subclass more easier to read.
  */
+@SuppressLint("Registered")
 public class BaseActivity extends SlideActivity {
 
     private static int sIndex = 0;
@@ -39,6 +42,8 @@ public class BaseActivity extends SlideActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setWindow();
+        overridePendingTransition(R.anim.slide_in_right, 0);
+        setContentView(R.layout.activity_main);
     }
 
     /**
@@ -54,8 +59,12 @@ public class BaseActivity extends SlideActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         toolbar.setBackgroundColor(mColors[sIndex++ & (8 - 1)]);
+
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setDisplayHomeAsUpEnabled(true);
+        }
 
         AppCompatTextView textView = findViewById(R.id.text);
         textView.setText(toString().split("\\.")[4]);
