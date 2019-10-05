@@ -3,7 +3,6 @@ package com.phantomvk.slideback.listener;
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
@@ -33,9 +32,8 @@ public class SlideStateAdapter extends BaseSlideStateAdapter {
      *
      * @param activity the target activity to finish
      */
-    protected void finishActivity(@Nullable Activity activity) {
-        if (activity == null || activity.isFinishing()) return;
-        if (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed()) return;
+    protected void finishActivity(@NonNull Activity activity) {
+        if (activity.isFinishing() || (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed())) return;
 
         activity.finish();
         activity.overridePendingTransition(0, 0);

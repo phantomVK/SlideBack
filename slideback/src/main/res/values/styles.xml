@@ -3,9 +3,9 @@
 
     <style name="SlideBackLayout">
         <item name="slide_back_edge_size">50dp</item>
-        <item name="slide_back_shadow_left">@drawable/drawable_slide_left</item>
-        <item name="slide_back_shadow_right">@drawable/drawable_slide_right</item>
-        <item name="slide_back_shadow_top">@drawable/drawable_slide_top</item>
-        <item name="slide_back_shadow_bottom">@drawable/drawable_slide_bottom</item>
+        <item name="slide_back_shadow_left">@drawable/drawable_slide_back_left</item>
+        <item name="slide_back_shadow_right">@drawable/drawable_slide_back_right</item>
+        <item name="slide_back_shadow_top">@drawable/drawable_slide_back_top</item>
+        <item name="slide_back_shadow_bottom">@drawable/drawable_slide_back_bottom</item>
     </style>
 </resources>

@@ -29,7 +29,7 @@ public class TranslucentHelper {
 
         Class<?>[] classes = Activity.class.getDeclaredClasses();
         Class<?> clz = null;
-        for (final Class c : classes) {
+        for (Class c : classes) {
             if (c.getSimpleName().equals("TranslucentConversionListener")) {
                 clz = c;
                 break;
@@ -57,7 +57,7 @@ public class TranslucentHelper {
      *
      * @param activity Activity
      */
-    public static void setTranslucent(@Nullable final Activity activity) {
+    public static void setTranslucent(@Nullable Activity activity) {
         if (SDK_INT < KITKAT || activity == null || sInvokeMethod == null) return;
         try {
             if (SDK_INT >= LOLLIPOP) {
@@ -75,7 +75,7 @@ public class TranslucentHelper {
      *
      * @param activity Activity
      */
-    public static void removeTranslucent(@Nullable final Activity activity) {
+    public static void removeTranslucent(@Nullable Activity activity) {
         if (SDK_INT < KITKAT || activity == null || sRevokeMethod == null) return;
         try {
             sRevokeMethod.invoke(activity);

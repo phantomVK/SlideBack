@@ -37,11 +37,6 @@ import static android.support.v4.widget.ViewDragHelper.STATE_DRAGGING;
  */
 public class SlideLayout extends FrameLayout {
 
-    /**
-     * Attribute to get background drawable from theme.
-     */
-    private static final int[] ATTRS = new int[]{android.R.attr.windowBackground};
-
     private static final int FULL_ALPHA = 2 << 8 - 1;
 
     /**
@@ -179,22 +174,22 @@ public class SlideLayout extends FrameLayout {
 
         int shadowLeft = a.getResourceId(
                 R.styleable.SlideLayout_slide_back_shadow_left,
-                R.drawable.drawable_slide_left);
+                R.drawable.drawable_slide_back_left);
         setShadow(shadowLeft, EDGE_LEFT);
 
         int shadowRight = a.getResourceId(
                 R.styleable.SlideLayout_slide_back_shadow_right,
-                R.drawable.drawable_slide_right);
+                R.drawable.drawable_slide_back_right);
         setShadow(shadowRight, EDGE_RIGHT);
 
         int shadowTop = a.getResourceId(
                 R.styleable.SlideLayout_slide_back_shadow_top,
-                R.drawable.drawable_slide_top);
+                R.drawable.drawable_slide_back_top);
         setShadow(shadowTop, EDGE_TOP);
 
         int shadowBottom = a.getResourceId(
                 R.styleable.SlideLayout_slide_back_shadow_bottom,
-                R.drawable.drawable_slide_bottom);
+                R.drawable.drawable_slide_back_bottom);
         setShadow(shadowBottom, EDGE_BOTTOM);
 
         a.recycle();
@@ -205,7 +200,7 @@ public class SlideLayout extends FrameLayout {
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild == this) return;
 
-        TypedArray a = activity.getTheme().obtainStyledAttributes(ATTRS);
+        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
         int background = a.getResourceId(0, 0);
         a.recycle();
 

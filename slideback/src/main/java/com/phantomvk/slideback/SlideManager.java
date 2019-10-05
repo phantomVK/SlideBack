@@ -59,11 +59,10 @@ public class SlideManager {
 
         this.conductor = c;
         this.activity = activity;
-        listener = (listener == null) ? new SlideStateAdapter(activity) : listener;
 
         slideLayout = new SlideLayout(activity);
         slideLayout.setTrackingEdge(ViewDragHelper.EDGE_LEFT);
-        slideLayout.addListener(listener);
+        slideLayout.addListener((listener == null) ? new SlideStateAdapter(activity) : listener);
     }
 
     /**
