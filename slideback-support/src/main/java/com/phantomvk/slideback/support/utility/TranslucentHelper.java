@@ -10,6 +10,9 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
+/**
+ * Available since Android 4.4(API19).
+ */
 public class TranslucentHelper {
 
     private static Method sOptionsMethod;

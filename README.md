@@ -81,11 +81,11 @@ public class MainActivity extends SlideActivity {
 Totally disable the slide function, nothing inside __SlideManager__ will be initialized, re-initialize is illegal either.
 
 ```java
-public class MainActivity extends SlideActivity {
+public class MainActivity extends SlideActivity implements SlideManager.Conductor {
 
     @Override
     public boolean slideBackDisable() {
-        return true;
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }
 ```

@@ -1,10 +1,12 @@
 package com.phantomvk.slideback.demo;
 
+import android.os.Build;
 import android.view.MenuItem;
 
 import com.phantomvk.slideback.SlideLayout;
+import com.phantomvk.slideback.SlideManager;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements SlideManager.Conductor {
 
     @Override
     public void onContentChanged() {
@@ -33,5 +35,13 @@ public class MainActivity extends BaseActivity {
         } else {
             super.finishAfterTransition();
         }
+    }
+
+    /**
+     * Available since Android 4.4(API19).
+     */
+    @Override
+    public boolean slideBackDisable() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }

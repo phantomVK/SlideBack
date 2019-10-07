@@ -81,11 +81,11 @@ public class MainActivity extends SlideActivity {
 彻底关闭滑动操作，设置后 __SlideManager__ 内部不会初始化，也不能在后续运行重新初始化
 
 ```java
-public class MainActivity extends SlideActivity {
+public class MainActivity extends SlideActivity implements SlideManager.Conductor {
 
     @Override
     public boolean slideBackDisable() {
-        return true;
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }
 ```
