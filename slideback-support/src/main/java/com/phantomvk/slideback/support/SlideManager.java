@@ -54,7 +54,7 @@ public class SlideManager {
      */
     public SlideManager(@NonNull Activity activity, @Nullable SlideStateListener listener) {
         Conductor c = (activity instanceof Conductor) ? (Conductor) activity : null;
-        if (c != null && c.slideBackDisable()) return;
+        if (c == null || c.slideBackDisable()) return;
 
         this.conductor = c;
         this.activity = activity;

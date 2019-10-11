@@ -19,6 +19,7 @@ import com.phantomvk.slideback.SlideLayout;
 
 import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+import static android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
 import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 import static androidx.customview.widget.ViewDragHelper.EDGE_BOTTOM;
@@ -57,14 +58,12 @@ public class BaseActivity extends SlideActivity {
         super.onContentChanged();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
         toolbar.setBackgroundColor(mColors[sIndex++ & (8 - 1)]);
+//        toolbar.setPadding(0, getStatusBarHeight(this), 0, 0);
 
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
-        if (bar != null) {
-            bar.setDisplayHomeAsUpEnabled(true);
-        }
+        if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
 
         AppCompatTextView textView = findViewById(R.id.text);
         textView.setText(toString().split("\\.")[4]);
@@ -100,18 +99,21 @@ public class BaseActivity extends SlideActivity {
     private void setWindow() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Color.TRANSPARENT);
             window.clearFlags(FLAG_TRANSLUCENT_STATUS);
-            window.getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
             window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.WHITE);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(FLAG_TRANSLUCENT_STATUS);
         }
     }
 
-    public int getStatusBarHeight() {
-        int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        return (id > 0) ? getResources().getDimensionPixelSize(id) : 0;
-    }
+//    public static int getStatusBarHeight(Activity activity) {
+//        Resources res = activity.getResources();
+//        int id = res.getIdentifier("status_bar_height", "dimen", "android");
+//        return (id > 0) ? res.getDimensionPixelSize(id) : 0;
+//    }
 }
