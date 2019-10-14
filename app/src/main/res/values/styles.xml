@@ -9,6 +9,7 @@
         <item name="android:windowAnimationStyle">@style/windowNoAnimStyle</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="toolbarStyle">@style/toolbarStyle</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="radioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">

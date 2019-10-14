@@ -62,15 +62,7 @@ public class SlideManager {
         slideLayout = new SlideLayout(activity);
         slideLayout.setTrackingEdge(ViewDragHelper.EDGE_LEFT);
         slideLayout.addListener((listener == null) ? new SlideStateAdapter(activity) : listener);
-    }
-
-    /**
-     * Called on Activity.onCreate(Bundle)
-     */
-    public void onCreate(Bundle savedInstanceState) {
-        if (activity == null) return;
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        activity.getWindow().getDecorView().setBackgroundDrawable(null);
     }
 
     /**

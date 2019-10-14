@@ -21,7 +21,6 @@ public class SlideActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         slideManager = new SlideManager(this);
-        slideManager.onCreate(savedInstanceState);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class SlideActivity extends AppCompatActivity {
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        slideManager.startActivityForResult(intent, requestCode, options);
         super.startActivityForResult(intent, requestCode, options);
+        slideManager.startActivityForResult(intent, requestCode, options);
     }
 }

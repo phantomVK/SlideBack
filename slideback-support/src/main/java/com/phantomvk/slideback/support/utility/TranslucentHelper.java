@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.support.annotation.Nullable;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.KITKAT;
@@ -18,6 +19,7 @@ public class TranslucentHelper {
     private static Method sOptionsMethod;
     private static Method sInvokeMethod;
     private static Method sRevokeMethod;
+    private static Class<?> sClz = null;
 
     static {
         try {
@@ -30,23 +32,22 @@ public class TranslucentHelper {
         if (SDK_INT < KITKAT) return;
 
         Class<?>[] classes = Activity.class.getDeclaredClasses();
-        Class<?> clz = null;
         for (Class c : classes) {
             if (c.getSimpleName().equals("TranslucentConversionListener")) {
-                clz = c;
+                sClz = c;
                 break;
             }
         }
 
-        if (clz == null) return;
+        if (sClz == null) return;
         if (SDK_INT >= LOLLIPOP) {
             sOptionsMethod = Activity.class.getDeclaredMethod("getActivityOptions");
             sOptionsMethod.setAccessible(true);
 
-            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", clz, ActivityOptions.class);
+            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClz, ActivityOptions.class);
             sInvokeMethod.setAccessible(true);
         } else {
-            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", clz);
+            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClz);
             sInvokeMethod.setAccessible(true);
         }
 
@@ -60,11 +61,28 @@ public class TranslucentHelper {
      * @param activity Activity
      */
     public static void setTranslucent(@Nullable Activity activity) {
+        setTranslucent(activity, null);
+    }
+
+    /**
+     * Available since Android 4.4(API19).
+     *
+     * @param activity Activity
+     */
+    public static void setTranslucent(@Nullable Activity activity,
+                                      @Nullable TranslucentConversionListener listener) {
         if (SDK_INT < KITKAT || activity == null || sInvokeMethod == null) return;
         try {
             if (SDK_INT >= LOLLIPOP) {
                 Object o = (sOptionsMethod == null) ? null : sOptionsMethod.invoke(activity);
-                sInvokeMethod.invoke(activity, null, o);
+                if (listener == null) {
+                    sInvokeMethod.invoke(activity, null, o);
+                } else {
+                    Object obj = Proxy.newProxyInstance(Activity.class.getClassLoader(),
+                            new Class[]{sClz},
+                            new InvocationHandler(listener));
+                    sInvokeMethod.invoke(activity, obj, o);
+                }
             } else {
                 sInvokeMethod.invoke(activity, new Object[]{null});
             }
