@@ -2,7 +2,6 @@ package com.phantomvk.slideback;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,12 +32,6 @@ public class SlideActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         slideManager.onResume();
-    }
-
-    @Override
-    public <T extends View> T findViewById(int id) {
-        SlideLayout l = slideManager.getSlideLayout();
-        return l != null ? l.<T>findViewById(id) : super.<T>findViewById(id);
     }
 
     @Override

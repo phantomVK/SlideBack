@@ -59,7 +59,6 @@ public class BaseActivity extends SlideActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(mColors[sIndex++ & (8 - 1)]);
-//        toolbar.setPadding(0, getStatusBarHeight(this), 0, 0);
 
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();
@@ -69,7 +68,7 @@ public class BaseActivity extends SlideActivity {
         textView.setText(toString().split("\\.")[4]);
 
         AppCompatButton button = findViewById(R.id.start);
-        button.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), MainActivity.class)));
+        button.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
 
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -110,10 +109,4 @@ public class BaseActivity extends SlideActivity {
             getWindow().addFlags(FLAG_TRANSLUCENT_STATUS);
         }
     }
-
-//    public static int getStatusBarHeight(Activity activity) {
-//        Resources res = activity.getResources();
-//        int id = res.getIdentifier("status_bar_height", "dimen", "android");
-//        return (id > 0) ? res.getDimensionPixelSize(id) : 0;
-//    }
 }

@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import com.phantomvk.slideback.listener.SlideStateAdapter;
 import com.phantomvk.slideback.listener.SlideStateListener;
 import com.phantomvk.slideback.utility.TranslucentHelper;
-import com.phantomvk.slideback.utility.ViewDragHelper;
 
 public class SlideManager {
     /**
@@ -31,11 +30,6 @@ public class SlideManager {
      * To indicate the states of the current activity.
      */
     protected Conductor conductor;
-
-    /**
-     * Mark the latest translucent state of the current activity.
-     */
-    protected boolean translucent;
 
     /**
      * Constructor which using a default {@link SlideStateListener} implementation
@@ -61,7 +55,6 @@ public class SlideManager {
         this.activity = activity;
 
         slideLayout = new SlideLayout(activity);
-        slideLayout.setTrackingEdge(ViewDragHelper.EDGE_LEFT);
         slideLayout.addListener((listener == null) ? new SlideStateAdapter(activity) : listener);
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
@@ -91,18 +84,20 @@ public class SlideManager {
      * Called on Activity.onResume()
      */
     public void onResume() {
-        if ((conductor != null && conductor.slideBackDisable()) || translucent) return;
-        TranslucentHelper.setTranslucent(activity);
-        translucent = true;
+        if ((conductor == null || !conductor.slideBackDisable()) && !slideLayout.isDrawComplete()) {
+            TranslucentHelper.setTranslucent(activity);
+            slideLayout.setDrawComplete(true);
+        }
     }
 
     /**
      * Called on Activity.startActivityForResult(Intent, int, Bundle)
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if ((conductor != null && conductor.slideBackDisable()) || !translucent) return;
-        TranslucentHelper.removeTranslucent(activity);
-        translucent = false;
+        if ((conductor == null || !conductor.slideBackDisable()) && slideLayout.isDrawComplete()) {
+            TranslucentHelper.removeTranslucent(activity);
+            slideLayout.setDrawComplete(false);
+        }
     }
 
     /**
@@ -122,7 +117,7 @@ public class SlideManager {
      * @return is translucent
      */
     public boolean isTranslucent() {
-        return translucent;
+        return slideLayout != null && slideLayout.isDrawComplete();
     }
 
     /**

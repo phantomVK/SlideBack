@@ -12,10 +12,9 @@ public class MainActivity extends BaseActivity implements SlideManager.Conductor
     public void onContentChanged() {
         super.onContentChanged();
         SlideLayout l = slideManager.getSlideLayout();
-        if (l != null) {
-            l.setScrimInterpolation((context, slidePercent) -> 0);
-            l.setShadowInterpolation((context, slidePercent) -> 1 - slidePercent);
-        }
+        if (l == null) return;
+        l.setScrimInterpolation((context, slidePercent) -> 0);
+        l.setShadowInterpolation((context, slidePercent) -> 1 - slidePercent);
     }
 
     @Override

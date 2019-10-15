@@ -75,6 +75,12 @@ public class SlideLayout extends FrameLayout {
     private boolean mSlideEnable = true;
 
     /**
+     * True if the background Activity has drawn itself.
+     * False if a timeout occurred waiting for the Activity to complete drawing.
+     */
+    private boolean mDrawComplete = false;
+
+    /**
      * Sliding percent.
      */
     private float mSlidePercent;
@@ -170,7 +176,7 @@ public class SlideLayout extends FrameLayout {
         int edgeSize = a.getDimensionPixelSize(R.styleable.SlideLayout_slide_back_edge_size, -1);
         if (edgeSize > 0) setEdgeSize(edgeSize);
 
-        setTrackingEdge(a.getInt(R.styleable.SlideLayout_slide_back_edge_flag, 0));
+        setTrackingEdge(a.getInt(R.styleable.SlideLayout_slide_back_edge_flag, EDGE_LEFT));
 
         int shadowLeft = a.getResourceId(
                 R.styleable.SlideLayout_slide_back_shadow_left,
@@ -198,7 +204,7 @@ public class SlideLayout extends FrameLayout {
     public void attach(@NonNull Activity activity) {
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
-        if (decorChild == this) return;
+        if (decorChild instanceof SlideLayout) return;
 
         TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
         int background = a.getResourceId(0, 0);
@@ -262,7 +268,7 @@ public class SlideLayout extends FrameLayout {
      * @param threshold float value from 0F to 1F
      */
     public void setThreshold(final float threshold) {
-        if (threshold >= 1.0F || threshold <= 0) {
+        if (threshold >= 1.0F || threshold <= 0F) {
             throw new IllegalArgumentException("The value of threshold must between 0F to 1.0F");
         }
         mThreshold = threshold;
@@ -461,6 +467,14 @@ public class SlideLayout extends FrameLayout {
 
     public void setEnable(boolean enable) {
         mSlideEnable = enable;
+    }
+
+    public boolean isDrawComplete() {
+        return mDrawComplete;
+    }
+
+    public void setDrawComplete(boolean drawComplete) {
+        mDrawComplete = drawComplete;
     }
 
     public void setScrimColor(@ColorInt int color) {
