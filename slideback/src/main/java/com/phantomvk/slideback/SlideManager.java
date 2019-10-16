@@ -62,34 +62,31 @@ public class SlideManager {
      * Called on Activity.onContentChanged() with background from theme.
      */
     public void onContentChanged() {
-        if ((conductor == null || !conductor.slideBackDisable())) {
-            slideLayout.attach(activity);
-        }
+        if (conductor != null && conductor.slideBackDisable()) return;
+        slideLayout.attach(activity);
     }
 
     /**
      * Called on Activity.onContentChanged() with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
-        if (conductor == null || !conductor.slideBackDisable()) {
-            slideLayout.attachColor(activity, color);
-        }
+        if (conductor != null && conductor.slideBackDisable()) return;
+        slideLayout.attachColor(activity, color);
     }
 
     /**
      * Called on Activity.onContentChanged() with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
-        if (conductor == null || !conductor.slideBackDisable()) {
-            slideLayout.attachColorRes(activity, colorRes);
-        }
+        if (conductor != null && conductor.slideBackDisable()) return;
+        slideLayout.attachColorRes(activity, colorRes);
     }
 
     /**
      * Called on Activity.onResume()
      */
     public void onResume() {
-        if ((conductor == null || !conductor.slideBackDisable()) && !slideLayout.isDrawComplete()) {
+        if (!(conductor != null && conductor.slideBackDisable()) && !slideLayout.isDrawComplete()) {
             slideLayout.convertToTranslucent();
         }
     }
@@ -98,9 +95,8 @@ public class SlideManager {
      * Called on Activity.startActivityForResult(Intent, int, Bundle)
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if (conductor == null || !conductor.slideBackDisable()) {
-            slideLayout.convertFromTranslucent();
-        }
+        if (conductor != null && conductor.slideBackDisable()) return;
+        slideLayout.convertFromTranslucent();
     }
 
     /**
