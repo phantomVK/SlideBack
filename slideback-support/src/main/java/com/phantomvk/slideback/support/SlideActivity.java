@@ -29,15 +29,20 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        slideManager.onResume();
+    }
+
+    @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        slideManager.startActivityForResult(intent, requestCode, options);
         super.startActivityForResult(intent, requestCode, options);
     }
 
-    /**
-     * Available since Android 4.4(API19).
-     */
     @Override
     public boolean slideBackDisable() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }
+

@@ -1477,8 +1477,8 @@ public class ViewDragHelper {
         if (dx != 0 || dy != 0) {
             final int clampedDx = clampedX - oldLeft;
             final int clampedDy = clampedY - oldTop;
-            mCallback.onViewPositionChanged(mCapturedView, clampedX, clampedY, clampedDx, clampedDy);
-
+            mCallback.onViewPositionChanged(mCapturedView, clampedX, clampedY,
+                    clampedDx, clampedDy);
         }
     }
 

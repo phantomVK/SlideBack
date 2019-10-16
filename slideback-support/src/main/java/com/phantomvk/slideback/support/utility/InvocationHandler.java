@@ -4,15 +4,15 @@ import java.lang.reflect.Method;
 
 public class InvocationHandler implements java.lang.reflect.InvocationHandler {
 
-    private TranslucentConversionListener listener;
+    private TranslucentConversionListener l;
 
     InvocationHandler(TranslucentConversionListener listener) {
-        this.listener = listener;
+        l = listener;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
-        if (listener != null) listener.onTranslucentConversionComplete((boolean) args[0]);
+        if ((l != null) && (boolean) args[0]) l.onTranslucentConversionComplete(true);
         return null;
     }
 }

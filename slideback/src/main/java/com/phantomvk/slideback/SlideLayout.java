@@ -159,6 +159,13 @@ public class SlideLayout extends FrameLayout {
     private Interpolation mScrimInterpolation;
     private Interpolation mShadowInterpolation;
 
+    private final TranslucentConversionListener mListener = new TranslucentConversionListener() {
+        @Override
+        public void onTranslucentConversionComplete(boolean drawComplete) {
+            setDrawComplete(drawComplete);
+        }
+    };
+
     public SlideLayout(@NonNull Context context) {
         this(context, null);
     }
@@ -513,6 +520,15 @@ public class SlideLayout extends FrameLayout {
         mListeners.clear();
     }
 
+    public void convertToTranslucent() {
+        TranslucentHelper.setTranslucent(mActivity, mListener);
+    }
+
+    public void convertFromTranslucent() {
+        TranslucentHelper.removeTranslucent(mActivity);
+        setDrawComplete(false);
+    }
+
     private class ViewDragCallback extends ViewDragHelper.Callback {
 
         private boolean triggered; // If view has been slided over the threshold.
@@ -533,7 +549,7 @@ public class SlideLayout extends FrameLayout {
             } else if ((mEdge & (EDGE_TOP | EDGE_BOTTOM)) != 0) {
                 direction = !mHelper.checkTouchSlop(DIRECTION_HORIZONTAL, pointerId);
             } else {
-                direction = true;
+                direction = false;
             }
 
             return touched && direction;
@@ -541,12 +557,24 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public int getViewVerticalDragRange(@NonNull View child) {
-            return mEdge & (EDGE_TOP | EDGE_BOTTOM);
+            if ((mEdge & EDGE_TOP) != 0) {
+                return mChildView.getHeight() + mOverRangePixel + mShadowTop.getIntrinsicHeight();
+            } else if ((mEdge & EDGE_BOTTOM) != 0) {
+                return mChildView.getHeight() + mOverRangePixel + mShadowBottom.getIntrinsicHeight();
+            } else {
+                return 0;
+            }
         }
 
         @Override
         public int getViewHorizontalDragRange(@NonNull View child) {
-            return mEdge & (EDGE_LEFT | EDGE_RIGHT);
+            if ((mEdge & EDGE_LEFT) != 0) {
+                return mChildView.getWidth() + mOverRangePixel + mShadowLeft.getIntrinsicWidth();
+            } else if ((mEdge & EDGE_RIGHT) != 0) {
+                return mChildView.getWidth() + mOverRangePixel + mShadowRight.getIntrinsicWidth();
+            } else {
+                return 0;
+            }
         }
 
         @Override
@@ -622,14 +650,7 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public void onEdgeTouched(int edgeFlags, int pointerId) {
-            if (isDrawComplete()) return;
-            TranslucentHelper.setTranslucent(mActivity, new TranslucentConversionListener() {
-                @Override
-                public void onTranslucentConversionComplete(boolean drawComplete) {
-                    mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
-                    setDrawComplete(drawComplete);
-                }
-            });
+            if (!isDrawComplete()) convertToTranslucent();
         }
 
         @Override

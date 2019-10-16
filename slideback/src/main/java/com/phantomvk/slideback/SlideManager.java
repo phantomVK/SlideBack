@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import com.phantomvk.slideback.listener.SlideStateAdapter;
 import com.phantomvk.slideback.listener.SlideStateListener;
-import com.phantomvk.slideback.utility.TranslucentHelper;
 
 public class SlideManager {
     /**
@@ -48,10 +47,9 @@ public class SlideManager {
      * @param listener default implementation will be used if this is null
      */
     public SlideManager(@NonNull Activity activity, @Nullable SlideStateListener listener) {
-        Conductor c = (activity instanceof Conductor) ? (Conductor) activity : null;
-        if (c == null || c.slideBackDisable()) return;
+        conductor = (activity instanceof Conductor) ? (Conductor) activity : null;
+        if (conductor != null && conductor.slideBackDisable()) return;
 
-        this.conductor = c;
         this.activity = activity;
 
         slideLayout = new SlideLayout(activity);
@@ -64,31 +62,44 @@ public class SlideManager {
      * Called on Activity.onContentChanged() with background from theme.
      */
     public void onContentChanged() {
-        if (slideLayout != null) slideLayout.attach(activity);
+        if ((conductor == null || !conductor.slideBackDisable())) {
+            slideLayout.attach(activity);
+        }
     }
 
     /**
      * Called on Activity.onContentChanged() with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
-        if (slideLayout != null) slideLayout.attachColor(activity, color);
+        if (conductor == null || !conductor.slideBackDisable()) {
+            slideLayout.attachColor(activity, color);
+        }
     }
 
     /**
      * Called on Activity.onContentChanged() with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
-        if (slideLayout != null) slideLayout.attachColorRes(activity, colorRes);
+        if (conductor == null || !conductor.slideBackDisable()) {
+            slideLayout.attachColorRes(activity, colorRes);
+        }
+    }
+
+    /**
+     * Called on Activity.onResume()
+     */
+    public void onResume() {
+        if ((conductor == null || !conductor.slideBackDisable()) && !slideLayout.isDrawComplete()) {
+            slideLayout.convertToTranslucent();
+        }
     }
 
     /**
      * Called on Activity.startActivityForResult(Intent, int, Bundle)
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if ((conductor == null || !conductor.slideBackDisable()) && slideLayout.isDrawComplete()) {
-            activity.getWindow().getDecorView().setBackgroundColor(Color.WHITE);
-            TranslucentHelper.removeTranslucent(activity);
-            slideLayout.setDrawComplete(false);
+        if (conductor == null || !conductor.slideBackDisable()) {
+            slideLayout.convertFromTranslucent();
         }
     }
 

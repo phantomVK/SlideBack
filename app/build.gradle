@@ -23,7 +23,7 @@ android {
     defaultConfig {
         applicationId "com.phantomvk.slideback.demo"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         resConfigs "en"
