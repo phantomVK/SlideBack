@@ -91,11 +91,6 @@ public class SlideLayout extends FrameLayout {
     private float mThreshold = SLIDE_OVER_THRESHOLD;
 
     /**
-     * If view has been slided over the threshold.
-     */
-    private boolean mThresholdTrigger;
-
-    /**
      * If view has been slided over the range.
      */
     private boolean mOverRangeTrigger;
@@ -511,11 +506,14 @@ public class SlideLayout extends FrameLayout {
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {
+
+        private boolean triggered; // If view has been slided over the threshold.
+
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
             boolean touched = mHelper.isEdgeTouched(mEdge, pointerId);
             if (touched) {
-                mThresholdTrigger = true;
+                triggered = true;
                 for (SlideStateListener l : mListeners) {
                     l.onEdgeTouched(mEdge);
                 }
@@ -566,15 +564,17 @@ public class SlideLayout extends FrameLayout {
             mViewTop = top;
             invalidate();
 
-            mThresholdTrigger = (mSlidePercent < mThreshold && !mThresholdTrigger);
+            if (mSlidePercent < mThreshold && !triggered) {
+                triggered = true;
+            }
 
             final int dragState = mHelper.getViewDragState();
             for (SlideStateListener l : mListeners) {
                 l.onDragStateChanged(dragState, mSlidePercent);
             }
 
-            if (dragState == STATE_DRAGGING && mThresholdTrigger && mSlidePercent >= mThreshold) {
-                mThresholdTrigger = false;
+            if (dragState == STATE_DRAGGING && triggered && mSlidePercent >= mThreshold) {
+                triggered = false;
                 for (SlideStateListener l : mListeners) {
                     l.onSlideOverThreshold();
                 }
