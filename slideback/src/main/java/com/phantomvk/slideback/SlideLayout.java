@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 
 import com.phantomvk.slideback.listener.SlideStateListener;
+import com.phantomvk.slideback.utility.TranslucentConversionListener;
+import com.phantomvk.slideback.utility.TranslucentHelper;
 import com.phantomvk.slideback.utility.ViewDragHelper;
 
 import java.util.ArrayList;
@@ -137,6 +139,11 @@ public class SlideLayout extends FrameLayout {
     private final Rect mRect = new Rect();
 
     /**
+     * Target activity.
+     */
+    private Activity mActivity;
+
+    /**
      * The list of {@link SlideStateListener} to send events.
      */
     private ArrayList<SlideStateListener> mListeners = new ArrayList<>();
@@ -197,6 +204,7 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void attach(@NonNull Activity activity) {
+        mActivity = activity;
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild instanceof SlideLayout) return;
@@ -613,6 +621,18 @@ public class SlideLayout extends FrameLayout {
         }
 
         @Override
+        public void onEdgeTouched(int edgeFlags, int pointerId) {
+            if (isDrawComplete()) return;
+            TranslucentHelper.setTranslucent(mActivity, new TranslucentConversionListener() {
+                @Override
+                public void onTranslucentConversionComplete(boolean drawComplete) {
+                    mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
+                    setDrawComplete(drawComplete);
+                }
+            });
+        }
+
+        @Override
         public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
             int position = 0;
             if ((mEdge & EDGE_TOP) != 0) {
@@ -632,6 +652,11 @@ public class SlideLayout extends FrameLayout {
                 position = Math.min(0, Math.max(left, -child.getWidth()));
             }
             return position;
+        }
+
+        @Override
+        public boolean getDrawComplete() {
+            return mDrawComplete;
         }
     }
 

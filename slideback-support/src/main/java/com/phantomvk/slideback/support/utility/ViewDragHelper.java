@@ -325,6 +325,10 @@ public class ViewDragHelper {
         public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
             return 0;
         }
+
+        public boolean getDrawComplete() {
+            return false;
+        }
     }
 
     /**
@@ -1195,6 +1199,7 @@ public class ViewDragHelper {
                 if (mDragState == STATE_DRAGGING) {
                     // If pointer is invalid then skip the ACTION_MOVE.
                     if (!isValidPointerForActionMove(mActivePointerId)) break;
+                    if (!mCallback.getDrawComplete()) break;
 
                     final int index = ev.findPointerIndex(mActivePointerId);
                     final float x = ev.getX(index);
@@ -1471,8 +1476,8 @@ public class ViewDragHelper {
         if (dx != 0 || dy != 0) {
             final int clampedDx = clampedX - oldLeft;
             final int clampedDy = clampedY - oldTop;
-            mCallback.onViewPositionChanged(mCapturedView, clampedX, clampedY,
-                    clampedDx, clampedDy);
+            mCallback.onViewPositionChanged(mCapturedView, clampedX, clampedY, clampedDx, clampedDy);
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.phantomvk.slideback;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * please create a new class to extend what you are willing to use, then do implement the same as
  * what this class do.
  */
-public class SlideActivity extends AppCompatActivity {
+public class SlideActivity extends AppCompatActivity implements SlideManager.Conductor {
 
     protected SlideManager slideManager;
 
@@ -29,14 +30,15 @@ public class SlideActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        slideManager.onResume();
-    }
-
-    @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
-        slideManager.startActivityForResult(intent, requestCode, options);
+    }
+
+    /**
+     * Available since Android 4.4(API19).
+     */
+    @Override
+    public boolean slideBackDisable() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }

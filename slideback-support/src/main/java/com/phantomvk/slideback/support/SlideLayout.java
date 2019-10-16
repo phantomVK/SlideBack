@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.phantomvk.slideback.support.listener.SlideStateListener;
+import com.phantomvk.slideback.support.utility.TranslucentConversionListener;
+import com.phantomvk.slideback.support.utility.TranslucentHelper;
 import com.phantomvk.slideback.support.utility.ViewDragHelper;
 
 import java.util.ArrayList;
@@ -91,11 +93,6 @@ public class SlideLayout extends FrameLayout {
     private float mThreshold = SLIDE_OVER_THRESHOLD;
 
     /**
-     * If view has been slided over the threshold.
-     */
-    private boolean mThresholdTrigger;
-
-    /**
      * If view has been slided over the range.
      */
     private boolean mOverRangeTrigger;
@@ -140,6 +137,11 @@ public class SlideLayout extends FrameLayout {
      * Rect for drawing shadow.
      */
     private final Rect mRect = new Rect();
+
+    /**
+     * Target activity.
+     */
+    private Activity mActivity;
 
     /**
      * The list of {@link SlideStateListener} to send events.
@@ -202,6 +204,7 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void attach(@NonNull Activity activity) {
+        mActivity = activity;
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild instanceof SlideLayout) return;
@@ -511,11 +514,14 @@ public class SlideLayout extends FrameLayout {
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {
+
+        private boolean triggered; // If view has been slided over the threshold.
+
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
             boolean touched = mHelper.isEdgeTouched(mEdge, pointerId);
             if (touched) {
-                mThresholdTrigger = true;
+                triggered = true;
                 for (SlideStateListener l : mListeners) {
                     l.onEdgeTouched(mEdge);
                 }
@@ -566,15 +572,17 @@ public class SlideLayout extends FrameLayout {
             mViewTop = top;
             invalidate();
 
-            mThresholdTrigger = (mSlidePercent < mThreshold && !mThresholdTrigger);
+            if (mSlidePercent < mThreshold && !triggered) {
+                triggered = true;
+            }
 
             final int dragState = mHelper.getViewDragState();
             for (SlideStateListener l : mListeners) {
                 l.onDragStateChanged(dragState, mSlidePercent);
             }
 
-            if (dragState == STATE_DRAGGING && mThresholdTrigger && mSlidePercent >= mThreshold) {
-                mThresholdTrigger = false;
+            if (dragState == STATE_DRAGGING && triggered && mSlidePercent >= mThreshold) {
+                triggered = false;
                 for (SlideStateListener l : mListeners) {
                     l.onSlideOverThreshold();
                 }
@@ -613,6 +621,18 @@ public class SlideLayout extends FrameLayout {
         }
 
         @Override
+        public void onEdgeTouched(int edgeFlags, int pointerId) {
+            if (isDrawComplete()) return;
+            TranslucentHelper.setTranslucent(mActivity, new TranslucentConversionListener() {
+                @Override
+                public void onTranslucentConversionComplete(boolean drawComplete) {
+                    mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
+                    setDrawComplete(drawComplete);
+                }
+            });
+        }
+
+        @Override
         public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
             int position = 0;
             if ((mEdge & EDGE_TOP) != 0) {
@@ -632,6 +652,11 @@ public class SlideLayout extends FrameLayout {
                 position = Math.min(0, Math.max(left, -child.getWidth()));
             }
             return position;
+        }
+
+        @Override
+        public boolean getDrawComplete() {
+            return mDrawComplete;
         }
     }
 

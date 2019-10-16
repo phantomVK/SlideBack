@@ -55,6 +55,7 @@ public class SlideManager {
 
         slideLayout = new SlideLayout(activity);
         slideLayout.addListener((listener == null) ? new SlideStateAdapter(activity) : listener);
+
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
@@ -80,20 +81,11 @@ public class SlideManager {
     }
 
     /**
-     * Called on Activity.onResume()
-     */
-    public void onResume() {
-        if ((conductor == null || !conductor.slideBackDisable()) && !slideLayout.isDrawComplete()) {
-            TranslucentHelper.setTranslucent(activity);
-            slideLayout.setDrawComplete(true);
-        }
-    }
-
-    /**
      * Called on Activity.startActivityForResult(Intent, int, Bundle)
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         if ((conductor == null || !conductor.slideBackDisable()) && slideLayout.isDrawComplete()) {
+            activity.getWindow().getDecorView().setBackgroundColor(Color.WHITE);
             TranslucentHelper.removeTranslucent(activity);
             slideLayout.setDrawComplete(false);
         }
