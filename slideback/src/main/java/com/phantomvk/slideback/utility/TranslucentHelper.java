@@ -81,7 +81,7 @@ public class TranslucentHelper {
                 } else {
                     Object obj = Proxy.newProxyInstance(Activity.class.getClassLoader(),
                             new Class[]{sClz},
-                            new InvocationHandler(listener));
+                            new TranslucentConversionHandler(listener));
                     sInvokeMethod.invoke(activity, obj, o);
                 }
             } else {

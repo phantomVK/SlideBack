@@ -47,7 +47,7 @@ public class SlideManager {
      */
     public SlideManager(@NonNull Activity activity, @Nullable SlideStateListener listener) {
         conductor = (activity instanceof Conductor) ? (Conductor) activity : null;
-        if (conductor != null && conductor.slideBackDisable()) return;
+        if (isSlideDisable()) return;
 
         this.activity = activity;
 
@@ -61,31 +61,28 @@ public class SlideManager {
      * Called on Activity.onContentChanged() with background from theme.
      */
     public void onContentChanged() {
-        if (conductor != null && conductor.slideBackDisable()) return;
-        slideLayout.attach(activity);
+        if (!isSlideDisable()) slideLayout.attach(activity);
     }
 
     /**
      * Called on Activity.onContentChanged() with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
-        if (conductor != null && conductor.slideBackDisable()) return;
-        slideLayout.attachColor(activity, color);
+        if (!isSlideDisable()) slideLayout.attachColor(activity, color);
     }
 
     /**
      * Called on Activity.onContentChanged() with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
-        if (conductor != null && conductor.slideBackDisable()) return;
-        slideLayout.attachColorRes(activity, colorRes);
+        if (!isSlideDisable()) slideLayout.attachColorRes(activity, colorRes);
     }
 
     /**
      * Called on Activity.onResume()
      */
     public void onResume() {
-        if (!(conductor != null && conductor.slideBackDisable()) && !slideLayout.isDrawComplete()) {
+        if (!isSlideDisable() && !slideLayout.isDrawComplete()) {
             slideLayout.convertToTranslucent();
         }
     }
@@ -94,8 +91,18 @@ public class SlideManager {
      * Called on Activity.startActivityForResult(Intent, int, Bundle)
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if (conductor != null && conductor.slideBackDisable()) return;
-        slideLayout.convertFromTranslucent();
+        if (!isSlideDisable()) slideLayout.convertFromTranslucent();
+    }
+
+    /**
+     * Activities cannot draw during the period that their windows are animating in. In order
+     * to know when it is safe to begin drawing they can override this method which will be
+     * called when the entering animation has completed.
+     * <p>
+     * For more details, see onEnterAnimationComplete() in {@link Activity}.
+     */
+    public void onEnterAnimationComplete() {
+        slideLayout.onEnterAnimationComplete();
     }
 
     /**
@@ -115,7 +122,11 @@ public class SlideManager {
      * @return is translucent
      */
     public boolean isTranslucent() {
-        return slideLayout != null && slideLayout.isDrawComplete();
+        return !isSlideDisable() && slideLayout.isDrawComplete();
+    }
+
+    protected boolean isSlideDisable() {
+        return conductor != null && conductor.slideBackDisable();
     }
 
     /**

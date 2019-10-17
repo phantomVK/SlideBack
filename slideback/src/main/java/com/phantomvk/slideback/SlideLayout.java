@@ -79,6 +79,9 @@ public class SlideLayout extends FrameLayout {
     /**
      * True if the background Activity has drawn itself.
      * False if a timeout occurred waiting for the Activity to complete drawing.
+     * <p>
+     * For more details, see interface called TranslucentConversionListener
+     * in {@link android.app.Activity}.
      */
     private boolean mDrawComplete = false;
 
@@ -88,7 +91,7 @@ public class SlideLayout extends FrameLayout {
     private float mSlidePercent;
 
     /**
-     * Default slide threshold.
+     * Slide threshold.
      */
     private float mThreshold = SLIDE_OVER_THRESHOLD;
 
@@ -139,14 +142,23 @@ public class SlideLayout extends FrameLayout {
     private final Rect mRect = new Rect();
 
     /**
-     * Target activity.
+     * The target activity.
      */
     private Activity mActivity;
 
     /**
+     * Activities cannot draw during the period that their windows are animating in. In order
+     * to know when it is safe to begin drawing they can override this method which will be
+     * called when the entering animation has completed.
+     * <p>
+     * For more details, see onEnterAnimationComplete() in {@link Activity}.
+     */
+    private boolean mEnterAnimationComplete;
+
+    /**
      * The list of {@link SlideStateListener} to send events.
      */
-    private ArrayList<SlideStateListener> mListeners = new ArrayList<>();
+    private final ArrayList<SlideStateListener> mListeners = new ArrayList<>();
 
     /**
      * Shadow drawables of different directions.
@@ -176,6 +188,7 @@ public class SlideLayout extends FrameLayout {
 
     public SlideLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         mHelper = ViewDragHelper.create(this, new ViewDragCallback());
         mOverRangePixel = (int) (getResources().getDisplayMetrics().density * SLIDE_OVER_RANGE);
 
@@ -330,7 +343,7 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!mSlideEnable) return false;
+        if (!mSlideEnable || !mEnterAnimationComplete) return false;
         try {
             mHelper.processTouchEvent(event);
             return true;
@@ -353,8 +366,8 @@ public class SlideLayout extends FrameLayout {
         boolean drawChild = super.drawChild(canvas, child, drawingTime);
 
         if (needDrawn && mHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
-            if (mShadowOpacity > 0) drawShadow(canvas, child);
-            if (mScrimOpacity > 0) drawScrim(canvas, child);
+            if (mShadowOpacity >= 0) drawShadow(canvas, child);
+            if (mScrimOpacity >= 0) drawScrim(canvas, child);
         }
 
         return drawChild;
@@ -381,31 +394,27 @@ public class SlideLayout extends FrameLayout {
     private void drawShadow(Canvas canvas, View child) {
         child.getHitRect(mRect);
 
+        final int alpha = (int) (mShadowOpacity * FULL_ALPHA);
+
         if ((mEdge & EDGE_LEFT) != 0) {
             mShadowLeft.setBounds(mRect.left - mShadowLeft.getIntrinsicWidth(), mRect.top,
                     mRect.left, mRect.bottom);
-            mShadowLeft.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
+            mShadowLeft.setAlpha(alpha);
             mShadowLeft.draw(canvas);
-        }
-
-        if ((mEdge & EDGE_RIGHT) != 0) {
+        } else if ((mEdge & EDGE_RIGHT) != 0) {
             mShadowRight.setBounds(mRect.right, mRect.top,
                     mRect.right + mShadowRight.getIntrinsicWidth(), mRect.bottom);
-            mShadowRight.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
+            mShadowRight.setAlpha(alpha);
             mShadowRight.draw(canvas);
-        }
-
-        if ((mEdge & EDGE_TOP) != 0) {
+        } else if ((mEdge & EDGE_TOP) != 0) {
             mShadowTop.setBounds(mRect.left, mRect.top - mShadowTop.getIntrinsicHeight(),
                     mRect.right, mRect.top);
-            mShadowTop.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
+            mShadowTop.setAlpha(alpha);
             mShadowTop.draw(canvas);
-        }
-
-        if ((mEdge & EDGE_BOTTOM) != 0) {
+        } else if ((mEdge & EDGE_BOTTOM) != 0) {
             mShadowBottom.setBounds(mRect.left, mRect.bottom, mRect.right,
                     mRect.bottom + mShadowBottom.getIntrinsicHeight());
-            mShadowBottom.setAlpha((int) (mShadowOpacity * FULL_ALPHA));
+            mShadowBottom.setAlpha(alpha);
             mShadowBottom.draw(canvas);
         }
     }
@@ -452,8 +461,7 @@ public class SlideLayout extends FrameLayout {
      */
     private float calScrimOpacity(@FloatRange(from = 0.0F, to = 1.0F) float slidePercent) {
         return mScrimInterpolation != null
-                ? mScrimInterpolation.getInterpolation(getContext(), slidePercent)
-                : 1 - slidePercent;
+                ? mScrimInterpolation.getInterpolation(getContext(), slidePercent) : 0;
     }
 
     /**
@@ -471,8 +479,7 @@ public class SlideLayout extends FrameLayout {
      */
     private float calShadowOpacity(@FloatRange(from = 0.0F, to = 1.0F) float slidePercent) {
         return mShadowInterpolation != null
-                ? mShadowInterpolation.getInterpolation(getContext(), slidePercent)
-                : 1 - slidePercent;
+                ? mShadowInterpolation.getInterpolation(getContext(), slidePercent) : 1 - slidePercent;
     }
 
     public void setEnable(boolean enable) {
@@ -527,6 +534,21 @@ public class SlideLayout extends FrameLayout {
     public void convertFromTranslucent() {
         TranslucentHelper.removeTranslucent(mActivity);
         setDrawComplete(false);
+    }
+
+    public boolean isEnterAnimationComplete() {
+        return mEnterAnimationComplete;
+    }
+
+    /**
+     * Activities cannot draw during the period that their windows are animating in. In order
+     * to know when it is safe to begin drawing they can override this method which will be
+     * called when the entering animation has completed.
+     * <p>
+     * For more details, see onEnterAnimationComplete() in {@link Activity}.
+     */
+    public void onEnterAnimationComplete() {
+        mEnterAnimationComplete = true;
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {
@@ -646,11 +668,6 @@ public class SlideLayout extends FrameLayout {
 
             mHelper.settleCapturedViewAt(left, top);
             invalidate();
-        }
-
-        @Override
-        public void onEdgeTouched(int edgeFlags, int pointerId) {
-            if (!isDrawComplete()) convertToTranslucent();
         }
 
         @Override

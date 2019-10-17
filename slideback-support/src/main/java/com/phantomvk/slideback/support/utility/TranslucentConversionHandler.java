@@ -1,12 +1,15 @@
 package com.phantomvk.slideback.support.utility;
 
+import android.support.annotation.Nullable;
+
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-public class InvocationHandler implements java.lang.reflect.InvocationHandler {
+public class TranslucentConversionHandler implements InvocationHandler {
 
-    private TranslucentConversionListener l;
+    private final TranslucentConversionListener l;
 
-    InvocationHandler(TranslucentConversionListener listener) {
+    TranslucentConversionHandler(@Nullable TranslucentConversionListener listener) {
         l = listener;
     }
 
