@@ -42,13 +42,13 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     }
 
     @Override
-    public boolean slideBackDisable() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
-    }
-
-    @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
         slideManager.onEnterAnimationComplete();
+    }
+
+    @Override
+    public boolean slideBackDisable() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }

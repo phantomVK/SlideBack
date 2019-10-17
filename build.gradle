@@ -14,8 +14,8 @@ buildscript {
         // in the individual module build.gradle files
     }
     rootProject.ext {
-        versionCode = 30
-        versionName = "0.3.0"
+        versionCode = 31
+        versionName = "0.3.1"
     }
 }
 
