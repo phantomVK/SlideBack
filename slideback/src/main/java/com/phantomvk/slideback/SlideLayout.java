@@ -57,6 +57,11 @@ public class SlideLayout extends FrameLayout {
     private static final int SLIDE_OVER_RANGE = 3;
 
     /**
+     * Rect for drawing shadow.
+     */
+    private static final Rect RECT = new Rect();
+
+    /**
      * ViewDragHelper
      */
     private ViewDragHelper mHelper;
@@ -135,11 +140,6 @@ public class SlideLayout extends FrameLayout {
      * The top of the child view.
      */
     private int mViewTop;
-
-    /**
-     * Rect for drawing shadow.
-     */
-    private final Rect mRect = new Rect();
 
     /**
      * The target activity.
@@ -392,28 +392,28 @@ public class SlideLayout extends FrameLayout {
     }
 
     private void drawShadow(Canvas canvas, View child) {
-        child.getHitRect(mRect);
+        child.getHitRect(RECT);
 
         final int alpha = (int) (mShadowOpacity * FULL_ALPHA);
 
         if ((mEdge & EDGE_LEFT) != 0) {
-            mShadowLeft.setBounds(mRect.left - mShadowLeft.getIntrinsicWidth(), mRect.top,
-                    mRect.left, mRect.bottom);
+            mShadowLeft.setBounds(RECT.left - mShadowLeft.getIntrinsicWidth(), RECT.top,
+                    RECT.left, RECT.bottom);
             mShadowLeft.setAlpha(alpha);
             mShadowLeft.draw(canvas);
         } else if ((mEdge & EDGE_RIGHT) != 0) {
-            mShadowRight.setBounds(mRect.right, mRect.top,
-                    mRect.right + mShadowRight.getIntrinsicWidth(), mRect.bottom);
+            mShadowRight.setBounds(RECT.right, RECT.top,
+                    RECT.right + mShadowRight.getIntrinsicWidth(), RECT.bottom);
             mShadowRight.setAlpha(alpha);
             mShadowRight.draw(canvas);
         } else if ((mEdge & EDGE_TOP) != 0) {
-            mShadowTop.setBounds(mRect.left, mRect.top - mShadowTop.getIntrinsicHeight(),
-                    mRect.right, mRect.top);
+            mShadowTop.setBounds(RECT.left, RECT.top - mShadowTop.getIntrinsicHeight(),
+                    RECT.right, RECT.top);
             mShadowTop.setAlpha(alpha);
             mShadowTop.draw(canvas);
         } else if ((mEdge & EDGE_BOTTOM) != 0) {
-            mShadowBottom.setBounds(mRect.left, mRect.bottom, mRect.right,
-                    mRect.bottom + mShadowBottom.getIntrinsicHeight());
+            mShadowBottom.setBounds(RECT.left, RECT.bottom, RECT.right,
+                    RECT.bottom + mShadowBottom.getIntrinsicHeight());
             mShadowBottom.setAlpha(alpha);
             mShadowBottom.draw(canvas);
         }
@@ -698,7 +698,7 @@ public class SlideLayout extends FrameLayout {
         }
 
         @Override
-        public boolean isMoveActionValid() {
+        public boolean isValidMoveAction() {
             return mDrawComplete && mEnterAnimationComplete;
         }
     }

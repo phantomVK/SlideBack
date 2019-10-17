@@ -15,6 +15,9 @@ import com.phantomvk.slideback.listener.SlideStateAdapter;
 import com.phantomvk.slideback.listener.SlideStateListener;
 
 public class SlideManager {
+
+    private static final ColorDrawable DRAWABLE_TRANSPARENT = new ColorDrawable(Color.TRANSPARENT);
+
     /**
      * The target activity to control.
      */
@@ -55,7 +58,7 @@ public class SlideManager {
         slideLayout = new SlideLayout(activity);
         slideLayout.addListener((listener == null) ? new SlideStateAdapter(activity) : listener);
 
-        activity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        activity.getWindow().setBackgroundDrawable(DRAWABLE_TRANSPARENT);
     }
 
     /**
