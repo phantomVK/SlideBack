@@ -327,7 +327,12 @@ public class ViewDragHelper {
             return 0;
         }
 
-        public boolean getDrawComplete() {
+        /**
+         * Restrict the motion of the dragged child view is valid only when draw action
+         * and enter animation are both completed in target activity. The extending
+         * class must override this method and provide the flag.
+         */
+        public boolean isMoveActionValid() {
             return false;
         }
     }
@@ -1200,7 +1205,7 @@ public class ViewDragHelper {
                 if (mDragState == STATE_DRAGGING) {
                     // If pointer is invalid then skip the ACTION_MOVE.
                     if (!isValidPointerForActionMove(mActivePointerId)) break;
-                    if (!mCallback.getDrawComplete()) break;
+                    if (!mCallback.isMoveActionValid()) break;
 
                     final int index = ev.findPointerIndex(mActivePointerId);
                     final float x = ev.getX(index);
@@ -1556,4 +1561,3 @@ public class ViewDragHelper {
         return true;
     }
 }
-

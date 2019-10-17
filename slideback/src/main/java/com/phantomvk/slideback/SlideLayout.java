@@ -343,7 +343,7 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!mSlideEnable || !mEnterAnimationComplete) return false;
+        if (!mSlideEnable) return false;
         try {
             mHelper.processTouchEvent(event);
             return true;
@@ -671,6 +671,11 @@ public class SlideLayout extends FrameLayout {
         }
 
         @Override
+        public void onEdgeTouched(int edgeFlags, int pointerId) {
+            if (!isDrawComplete() && mEnterAnimationComplete) convertToTranslucent();
+        }
+
+        @Override
         public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
             int position = 0;
             if ((mEdge & EDGE_TOP) != 0) {
@@ -693,8 +698,8 @@ public class SlideLayout extends FrameLayout {
         }
 
         @Override
-        public boolean getDrawComplete() {
-            return mDrawComplete;
+        public boolean isMoveActionValid() {
+            return mDrawComplete && mEnterAnimationComplete;
         }
     }
 
