@@ -1,10 +1,8 @@
 package com.phantomvk.slideback.support;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -91,10 +89,10 @@ public class SlideManager {
     }
 
     /**
-     * Called on Activity.startActivityForResult(Intent, int, Bundle)
+     * Called on Activity.onPause()
      */
-    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        if (!isSlideDisable()) slideLayout.convertFromTranslucent();
+    public void onPause() {
+        if (!isSlideDisable() && !activity.isFinishing()) slideLayout.convertFromTranslucent();
     }
 
     /**

@@ -1,9 +1,7 @@
 package com.phantomvk.slideback.support;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 /**
@@ -35,9 +33,9 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     }
 
     @Override
-    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
-        slideManager.startActivityForResult(intent, requestCode, options);
-        super.startActivityForResult(intent, requestCode, options);
+    protected void onPause() {
+        super.onPause();
+        slideManager.onPause();
     }
 
     @Override
