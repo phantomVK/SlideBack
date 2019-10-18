@@ -536,10 +536,6 @@ public class SlideLayout extends FrameLayout {
         setDrawComplete(false);
     }
 
-    public boolean isEnterAnimationComplete() {
-        return mEnterAnimationComplete;
-    }
-
     /**
      * Activities cannot draw during the period that their windows are animating in. In order
      * to know when it is safe to begin drawing they can override this method which will be

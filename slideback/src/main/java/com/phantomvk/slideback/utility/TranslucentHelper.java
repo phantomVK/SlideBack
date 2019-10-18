@@ -61,15 +61,6 @@ public class TranslucentHelper {
      *
      * @param activity Activity
      */
-    public static void setTranslucent(@Nullable Activity activity) {
-        setTranslucent(activity, null);
-    }
-
-    /**
-     * Available since Android 4.4(API19).
-     *
-     * @param activity Activity
-     */
     public static void setTranslucent(@Nullable Activity activity,
                                       @Nullable TranslucentConversionListener listener) {
         if (SDK_INT < KITKAT || activity == null || sInvokeMethod == null) return;
