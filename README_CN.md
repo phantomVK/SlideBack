@@ -1,7 +1,7 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.3.3)](https://bintray.com/phantomtvk/SlideBack/slideback/0.3.3/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.3.4)](https://bintray.com/phantomtvk/SlideBack/slideback/0.3.4/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 [README in English](./README.md)
 
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback:0.3.3'
+    implementation 'com.phantomvk.slideback:slideback:0.3.4'
 }
 ```
 
@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback-support:0.3.3'
+    implementation 'com.phantomvk.slideback:slideback-support:0.3.4'
 }
 ```
 
@@ -108,7 +108,7 @@ public class MainActivity extends SlideActivity {
 兼容
 -------------
 
- * **最低 Android SDK**: SlideBack 最低支持到 API15；
+ * **最低 Android SDK**: SlideBack 最低支持到 API16；
  * **编译 Android SDK**: SlideBack 要求使用 API 28 或更新版本进行编译；
  * **通过不同依赖分别兼容 AndroidX** 和 **Android Support**；
 

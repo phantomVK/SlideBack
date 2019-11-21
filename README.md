@@ -1,7 +1,7 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.3.3)](https://bintray.com/phantomtvk/SlideBack/slideback/0.3.3/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg?version=0.3.4)](https://bintray.com/phantomtvk/SlideBack/slideback/0.3.4/link) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 [中文版README](./README_CN.md)
 
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback:0.3.3'
+    implementation 'com.phantomvk.slideback:slideback:0.3.4'
 }
 ```
 
@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback-support:0.3.3'
+    implementation 'com.phantomvk.slideback:slideback-support:0.3.4'
 }
 ```
 
@@ -108,7 +108,7 @@ public class MainActivity extends SlideActivity {
 Compatibility
 -------------
 
- * **Minimum Android SDK**: SlideBack requires a minimum API level of 15.
+ * **Minimum Android SDK**: SlideBack requires a minimum API level of 16.
  * **Compile Android SDK**: SlideBack requires you to compile against API 28 or later.
  * Both **AndroidX** and **Android Support** are supported by using different dependencies.
 

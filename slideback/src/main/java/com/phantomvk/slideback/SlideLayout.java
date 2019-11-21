@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +27,11 @@ import com.phantomvk.slideback.utility.ViewDragHelper;
 
 import java.util.ArrayList;
 
+import static android.graphics.drawable.GradientDrawable.Orientation.BOTTOM_TOP;
+import static android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT;
+import static android.graphics.drawable.GradientDrawable.Orientation.RIGHT_LEFT;
+import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static androidx.customview.widget.ViewDragHelper.DIRECTION_HORIZONTAL;
 import static androidx.customview.widget.ViewDragHelper.DIRECTION_VERTICAL;
 import static androidx.customview.widget.ViewDragHelper.EDGE_BOTTOM;
@@ -60,6 +66,11 @@ public class SlideLayout extends FrameLayout {
      * Rect for drawing shadow.
      */
     private static final Rect RECT = new Rect();
+
+    /**
+     * Colors for GradientDrawable.
+     */
+    private static final int[] GRADIENT_COLORS = new int[]{0, 0x60000000};
 
     /**
      * ViewDragHelper
@@ -192,33 +203,18 @@ public class SlideLayout extends FrameLayout {
         mHelper = ViewDragHelper.create(this, new ViewDragCallback());
         mOverRangePixel = (int) (getResources().getDisplayMetrics().density * SLIDE_OVER_RANGE);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout,
-                defStyleAttr, R.style.SlideBackLayout);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
 
-        int edgeSize = a.getDimensionPixelSize(R.styleable.SlideLayout_slide_back_edge_size, -1);
+        int edgeSize = a.getDimensionPixelSize(R.styleable.SlideLayout_slide_back_edge_size, 0);
         if (edgeSize > 0) setEdgeSize(edgeSize);
 
         setTrackingEdge(a.getInt(R.styleable.SlideLayout_slide_back_edge_flag, EDGE_LEFT));
 
-        int shadowLeft = a.getResourceId(
-                R.styleable.SlideLayout_slide_back_shadow_left,
-                R.drawable.drawable_slide_back_left);
-        setShadow(shadowLeft, EDGE_LEFT);
-
-        int shadowRight = a.getResourceId(
-                R.styleable.SlideLayout_slide_back_shadow_right,
-                R.drawable.drawable_slide_back_right);
-        setShadow(shadowRight, EDGE_RIGHT);
-
-        int shadowTop = a.getResourceId(
-                R.styleable.SlideLayout_slide_back_shadow_top,
-                R.drawable.drawable_slide_back_top);
-        setShadow(shadowTop, EDGE_TOP);
-
-        int shadowBottom = a.getResourceId(
-                R.styleable.SlideLayout_slide_back_shadow_bottom,
-                R.drawable.drawable_slide_back_bottom);
-        setShadow(shadowBottom, EDGE_BOTTOM);
+        int size = (int) (getContext().getResources().getDisplayMetrics().density * 15);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_left, EDGE_LEFT, size);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_right, EDGE_RIGHT, size);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_top, EDGE_TOP, size);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_bottom, EDGE_BOTTOM, size);
 
         a.recycle();
     }
@@ -283,6 +279,45 @@ public class SlideLayout extends FrameLayout {
     public void setTrackingEdge(int edgeFlags) {
         mEdge = edgeFlags;
         mHelper.setEdgeTrackingEnabled(mEdge);
+    }
+
+    private void setShadowDrawable(TypedArray a, int index, int edgeFlag, int size) {
+        int resId = a.getResourceId(index, 0);
+        if (resId != 0) {
+            setShadow(resId, edgeFlag);
+            return;
+        }
+
+        GradientDrawable.Orientation orientation;
+        int width;
+        int height;
+
+        switch (edgeFlag) {
+            case EDGE_LEFT:
+                orientation = LEFT_RIGHT;
+                width = size;
+                height = MATCH_PARENT;
+                break;
+            case EDGE_RIGHT:
+                orientation = RIGHT_LEFT;
+                width = size;
+                height = MATCH_PARENT;
+                break;
+            case EDGE_TOP:
+                orientation = TOP_BOTTOM;
+                width = MATCH_PARENT;
+                height = size;
+                break;
+            default:
+                orientation = BOTTOM_TOP;
+                width = MATCH_PARENT;
+                height = size;
+                break;
+        }
+
+        GradientDrawable d = new GradientDrawable(orientation, GRADIENT_COLORS);
+        d.setSize(width, height);
+        setShadow(d, edgeFlag);
     }
 
     /**
