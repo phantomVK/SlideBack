@@ -209,11 +209,11 @@ public class SlideLayout extends FrameLayout {
 
         setTrackingEdge(a.getInt(R.styleable.SlideLayout_slide_back_edge_flag, EDGE_LEFT));
 
-        int width = (int) (context.getResources().getDisplayMetrics().density * 15);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_left, EDGE_LEFT, width);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_right, EDGE_RIGHT, width);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_top, EDGE_TOP, width);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_bottom, EDGE_BOTTOM, width);
+        int size = (int) (getContext().getResources().getDisplayMetrics().density * 15);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_left, EDGE_LEFT, size);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_right, EDGE_RIGHT, size);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_top, EDGE_TOP, size);
+        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_bottom, EDGE_BOTTOM, size);
 
         a.recycle();
     }
@@ -400,8 +400,8 @@ public class SlideLayout extends FrameLayout {
         boolean drawChild = super.drawChild(canvas, child, drawingTime);
 
         if (needDrawn && mHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
-            if (mShadowOpacity >= 0) drawShadow(canvas, child);
-            if (mScrimOpacity >= 0) drawScrim(canvas, child);
+            drawShadow(canvas, child);
+            drawScrim(canvas, child);
         }
 
         return drawChild;

@@ -36,7 +36,7 @@ public class MainActivity extends SlideActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.slide_in_right, 0);
+        if (!slideBackDisable()) overridePendingTransition(R.anim.slide_in_right, 0);
 
         setWindow();
         setContentView(R.layout.activity_main);
@@ -55,7 +55,7 @@ public class MainActivity extends SlideActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.slide_out_right);
+        if (!slideBackDisable()) overridePendingTransition(0, R.anim.slide_out_right);
     }
 
     private void setWindow() {

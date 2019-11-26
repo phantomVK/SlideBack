@@ -19,7 +19,7 @@ public class TranslucentHelper {
     private static Method sOptionsMethod;
     private static Method sInvokeMethod;
     private static Method sRevokeMethod;
-    private static Class<?> sClz = null;
+    private static Class<?> sClz;
 
     static {
         try {

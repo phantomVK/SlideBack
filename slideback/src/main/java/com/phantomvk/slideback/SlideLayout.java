@@ -401,8 +401,8 @@ public class SlideLayout extends FrameLayout {
         boolean drawChild = super.drawChild(canvas, child, drawingTime);
 
         if (needDrawn && mHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
-            if (mShadowOpacity >= 0) drawShadow(canvas, child);
-            if (mScrimOpacity >= 0) drawScrim(canvas, child);
+            drawShadow(canvas, child);
+            drawScrim(canvas, child);
         }
 
         return drawChild;
