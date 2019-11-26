@@ -29,7 +29,7 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 public class MainActivity extends SlideActivity {
 
     private static int sIndex = 0;
-    private static final int[] mColors = {
+    private static final int[] COLORS = {
             0xFF33B5E5, 0xFF00574B, 0xFFAA66CC, 0xFF99CC00,
             0xFFFFBB33, 0xFFFF4444, 0xFF008577, 0xFFD81B60};
 
@@ -75,7 +75,7 @@ public class MainActivity extends SlideActivity {
 
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(mColors[sIndex++ & (8 - 1)]);
+        toolbar.setBackgroundColor(COLORS[sIndex++ & (8 - 1)]);
 
         setSupportActionBar(toolbar);
         ActionBar bar = getSupportActionBar();

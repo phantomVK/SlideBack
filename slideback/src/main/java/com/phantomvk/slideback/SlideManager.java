@@ -84,9 +84,7 @@ public class SlideManager {
      * Called on Activity.onResume()
      */
     public void onResume() {
-        if (!isSlideDisable() && !slideLayout.isDrawComplete()) {
-            slideLayout.convertToTranslucent();
-        }
+        if (!isSlideDisable() && !slideLayout.isDrawComplete()) slideLayout.convertToTranslucent();
     }
 
     /**
