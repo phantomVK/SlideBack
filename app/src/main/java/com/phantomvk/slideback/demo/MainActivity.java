@@ -38,7 +38,7 @@ public class MainActivity extends SlideActivity {
         super.onCreate(savedInstanceState);
         if (!slideBackDisable()) overridePendingTransition(R.anim.slide_in_right, 0);
 
-        setWindow();
+        setWindow(getWindow());
         setContentView(R.layout.activity_main);
         initViews();
     }
@@ -56,21 +56,6 @@ public class MainActivity extends SlideActivity {
     public void finish() {
         super.finish();
         if (!slideBackDisable()) overridePendingTransition(0, R.anim.slide_out_right);
-    }
-
-    private void setWindow() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.clearFlags(FLAG_TRANSLUCENT_STATUS);
-            window.getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.WHITE);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(FLAG_TRANSLUCENT_STATUS);
-        }
     }
 
     private void initViews() {
@@ -110,5 +95,19 @@ public class MainActivity extends SlideActivity {
                     break;
             }
         });
+    }
+
+    private static void setWindow(Window window) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.clearFlags(FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+            window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.WHITE);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.addFlags(FLAG_TRANSLUCENT_STATUS);
+        }
     }
 }

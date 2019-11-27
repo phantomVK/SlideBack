@@ -5,6 +5,7 @@
     tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
     <application
+        android:name=".XApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="SlideBack"

@@ -73,6 +73,11 @@ public class SlideLayout extends FrameLayout {
     private static final int[] GRADIENT_COLORS = new int[]{0, 0x60000000};
 
     /**
+     * Background attribute id.
+     */
+    private static final int[] ATTR_BACKGROUND = new int[]{android.R.attr.windowBackground};
+
+    /**
      * ViewDragHelper
      */
     private ViewDragHelper mHelper;
@@ -225,7 +230,7 @@ public class SlideLayout extends FrameLayout {
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         if (decorChild instanceof SlideLayout) return;
 
-        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+        TypedArray a = activity.getTheme().obtainStyledAttributes(ATTR_BACKGROUND);
         int background = a.getResourceId(0, 0);
         a.recycle();
 
