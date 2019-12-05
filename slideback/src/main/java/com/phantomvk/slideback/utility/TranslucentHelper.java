@@ -21,6 +21,7 @@ public class TranslucentHelper {
     private static Method sInvokeMethod;
     private static Method sRevokeMethod;
     private static Class<?> sClz;
+    private static Class[] sClzArray;
 
     static {
         try {
@@ -36,6 +37,7 @@ public class TranslucentHelper {
         for (Class c : classes) {
             if (c.getSimpleName().equals("TranslucentConversionListener")) {
                 sClz = c;
+                sClzArray = new Class[]{sClz};
                 break;
             }
         }
@@ -70,10 +72,9 @@ public class TranslucentHelper {
                 if (listener == null) {
                     sInvokeMethod.invoke(activity, null, o);
                 } else {
-                    Object obj = Proxy.newProxyInstance(Activity.class.getClassLoader(),
-                            new Class[]{sClz},
-                            new TranslucentConversionHandler(listener));
-                    sInvokeMethod.invoke(activity, obj, o);
+                    TranslucentConversionHandler h = new TranslucentConversionHandler(listener);
+                    Object p = Proxy.newProxyInstance(Activity.class.getClassLoader(), sClzArray, h);
+                    sInvokeMethod.invoke(activity, p, o);
                 }
             } else {
                 sInvokeMethod.invoke(activity, new Object[]{null});
