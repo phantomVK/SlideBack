@@ -19,7 +19,6 @@ public class TranslucentHelper {
     private static Method sOptionsMethod;
     private static Method sInvokeMethod;
     private static Method sRevokeMethod;
-    private static Class<?> sClz;
     private static Class[] sClzArray;
 
     static {
@@ -32,7 +31,9 @@ public class TranslucentHelper {
     private static void init() throws NoSuchMethodException {
         if (SDK_INT < KITKAT) return;
 
+        Class<?> sClz = null;
         Class<?>[] classes = Activity.class.getDeclaredClasses();
+
         for (Class c : classes) {
             if (c.getSimpleName().equals("TranslucentConversionListener")) {
                 sClz = c;
