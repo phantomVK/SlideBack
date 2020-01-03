@@ -64,23 +64,24 @@ public class TranslucentHelper {
      *
      * @param activity Activity
      */
-    public static void setTranslucent(@Nullable Activity activity,
-                                      @Nullable TranslucentConversionListener listener) {
-        if (SDK_INT < KITKAT || activity == null || sInvokeMethod == null) return;
+    public static boolean setTranslucent(@Nullable Activity activity,
+                                         @Nullable TranslucentConversionListener listener) {
+        if (SDK_INT < KITKAT || activity == null || sInvokeMethod == null) return false;
         try {
             if (SDK_INT >= LOLLIPOP) {
                 Object o = (sOptionsMethod == null) ? null : sOptionsMethod.invoke(activity);
                 if (listener == null) {
-                    sInvokeMethod.invoke(activity, null, o);
+                    return (boolean) sInvokeMethod.invoke(activity, null, o);
                 } else {
                     TranslucentConversionHandler h = new TranslucentConversionHandler(listener);
                     Object p = Proxy.newProxyInstance(Activity.class.getClassLoader(), sClzArray, h);
-                    sInvokeMethod.invoke(activity, p, o);
+                    return (boolean) sInvokeMethod.invoke(activity, p, o);
                 }
             } else {
-                sInvokeMethod.invoke(activity, new Object[]{null});
+                return (boolean) sInvokeMethod.invoke(activity, new Object[]{null});
             }
         } catch (Throwable ignored) {
+            return false;
         }
     }
 
@@ -89,11 +90,12 @@ public class TranslucentHelper {
      *
      * @param activity Activity
      */
-    public static void removeTranslucent(@Nullable Activity activity) {
-        if (SDK_INT < KITKAT || activity == null || sRevokeMethod == null) return;
+    public static boolean removeTranslucent(@Nullable Activity activity) {
+        if (SDK_INT < KITKAT || activity == null || sRevokeMethod == null) return false;
         try {
-            sRevokeMethod.invoke(activity);
+            return (boolean) sRevokeMethod.invoke(activity);
         } catch (Throwable ignored) {
+            return false;
         }
     }
 }
