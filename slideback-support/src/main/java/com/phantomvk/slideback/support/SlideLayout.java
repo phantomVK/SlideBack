@@ -518,7 +518,8 @@ public class SlideLayout extends FrameLayout {
      */
     private float calShadowOpacity(@FloatRange(from = 0.0F, to = 1.0F) float slidePercent) {
         return mShadowInterpolation != null
-                ? mShadowInterpolation.getInterpolation(getContext(), slidePercent) : 1 - slidePercent;
+                ? mShadowInterpolation.getInterpolation(getContext(), slidePercent)
+                : 1 - slidePercent;
     }
 
     public void setEnable(boolean enable) {
