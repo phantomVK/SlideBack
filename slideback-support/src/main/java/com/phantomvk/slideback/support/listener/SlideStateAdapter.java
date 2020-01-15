@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
-public class SlideStateAdapter extends BaseSlideStateAdapter {
+public class SlideStateAdapter extends SlideStateListener {
     /**
      * The target activity to control.
      */

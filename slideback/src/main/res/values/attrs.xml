@@ -13,6 +13,4 @@
         <attr name="slide_back_shadow_top" format="reference" />
         <attr name="slide_back_shadow_bottom" format="reference" />
     </declare-styleable>
-
-    <attr name="SlideLayoutStyle" format="reference" />
 </resources>

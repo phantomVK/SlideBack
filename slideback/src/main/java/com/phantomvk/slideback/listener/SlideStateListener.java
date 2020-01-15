@@ -2,7 +2,7 @@ package com.phantomvk.slideback.listener;
 
 import androidx.customview.widget.ViewDragHelper;
 
-public interface SlideStateListener {
+public abstract class SlideStateListener {
     /**
      * Called when one of the subscribed edges in the parent view has been touched
      * by the user while no child view is currently captured.
@@ -13,7 +13,8 @@ public interface SlideStateListener {
      * @see ViewDragHelper#EDGE_RIGHT
      * @see ViewDragHelper#EDGE_BOTTOM
      */
-    void onEdgeTouched(int edgeFlags);
+    public void onEdgeTouched(int edgeFlags) {
+    }
 
     /**
      * Called when the current drag state has been changed.
@@ -24,15 +25,18 @@ public interface SlideStateListener {
      * @see ViewDragHelper#STATE_DRAGGING
      * @see ViewDragHelper#STATE_SETTLING
      */
-    void onDragStateChanged(int state, float scrollPercent);
+    public void onDragStateChanged(int state, float scrollPercent) {
+    }
 
     /**
      * Called when the current view has been dragged over the threshold by the user.
      */
-    void onSlideOverThreshold();
+    public void onSlideOverThreshold() {
+    }
 
     /**
      * Called when the current view has been dragged and slided out of the parent view by the user.
      */
-    void onSlideOverRange();
+    public void onSlideOverRange() {
+    }
 }
