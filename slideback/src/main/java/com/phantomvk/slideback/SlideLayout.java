@@ -210,9 +210,7 @@ public class SlideLayout extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
 
-        int edgeSize = a.getDimensionPixelSize(R.styleable.SlideLayout_slide_back_edge_size, 0);
-        if (edgeSize > 0) setEdgeSize(edgeSize);
-
+        setEdgeSize(a.getDimensionPixelSize(R.styleable.SlideLayout_slide_back_edge_size, 0));
         setTrackingEdge(a.getInt(R.styleable.SlideLayout_slide_back_edge_flag, EDGE_LEFT));
 
         int size = (int) (getContext().getResources().getDisplayMetrics().density * 15);
@@ -266,7 +264,7 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void setEdgeSize(int size) {
-        mHelper.setEdgeSize(size);
+        if (size > 0) mHelper.setEdgeSize(size);
     }
 
     /**
