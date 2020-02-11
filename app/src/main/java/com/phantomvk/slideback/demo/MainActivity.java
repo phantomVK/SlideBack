@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.phantomvk.slideback.SlideActivity;
 import com.phantomvk.slideback.SlideLayout;
 
+import java.util.regex.Pattern;
+
 import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 import static android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
@@ -29,6 +31,7 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 public class MainActivity extends SlideActivity {
 
     private static int sIndex = 0;
+    private static final Pattern PATTERN = Pattern.compile("\\.");
     private static final int[] COLORS = {
             0xFF33B5E5, 0xFF00574B, 0xFFAA66CC, 0xFF99CC00,
             0xFFFFBB33, 0xFFFF4444, 0xFF008577, 0xFFD81B60};
@@ -67,7 +70,7 @@ public class MainActivity extends SlideActivity {
         if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
 
         AppCompatTextView textView = findViewById(R.id.text);
-        textView.setText(toString().split("\\.")[4]);
+        textView.setText(PATTERN.split(toString())[4]);
 
         AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));

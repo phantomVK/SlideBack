@@ -38,7 +38,8 @@
             android:textAllCaps="false"
             android:textColor="@android:color/black"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="MainActivity@de0ed2" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
