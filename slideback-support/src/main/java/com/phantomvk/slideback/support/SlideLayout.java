@@ -44,23 +44,6 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  */
 public class SlideLayout extends FrameLayout {
 
-    private static final int FULL_ALPHA = 2 << 8 - 1;
-
-    /**
-     * Default scrim color.
-     */
-    private static final int COLOR_SCRIM = 0x99000000;
-
-    /**
-     * Slide over threshold value.
-     */
-    private static final float SLIDE_OVER_THRESHOLD = 0.33F;
-
-    /**
-     * Slide over range in dp, the view has been slided out of the parent view.
-     */
-    private static final int SLIDE_OVER_RANGE = 3;
-
     /**
      * Rect for drawing shadow.
      */
@@ -113,7 +96,7 @@ public class SlideLayout extends FrameLayout {
     /**
      * Slide threshold.
      */
-    private float mThreshold = SLIDE_OVER_THRESHOLD;
+    private float mThreshold = 0.33F;
 
     /**
      * If view has been slided over the range.
@@ -139,7 +122,7 @@ public class SlideLayout extends FrameLayout {
      * The color of scrim.
      */
     @ColorInt
-    private int mScrimColor = COLOR_SCRIM;
+    private int mScrimColor = 0x99000000;
 
     /**
      * The child view.
@@ -205,7 +188,7 @@ public class SlideLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
 
         mHelper = ViewDragHelper.create(this, new ViewDragCallback());
-        mOverRangePixel = (int) (getResources().getDisplayMetrics().density * SLIDE_OVER_RANGE);
+        mOverRangePixel = (int) (getResources().getDisplayMetrics().density * 3);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
 
@@ -431,7 +414,7 @@ public class SlideLayout extends FrameLayout {
     private void drawShadow(Canvas canvas, View child) {
         child.getHitRect(RECT);
 
-        final int alpha = (int) (mShadowOpacity * FULL_ALPHA);
+        final int alpha = (int) (mShadowOpacity * (2 << 8 - 1));
 
         if ((mEdge & EDGE_LEFT) != 0) {
             mShadowLeft.setBounds(RECT.left - mShadowLeft.getIntrinsicWidth(), RECT.top,
