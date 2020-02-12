@@ -382,10 +382,9 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        boolean needDrawn = (child == mChildView);
         boolean drawChild = super.drawChild(canvas, child, drawingTime);
 
-        if (needDrawn && mHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
+        if (child == mChildView && mHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
             drawShadow(canvas, child);
             drawScrim(canvas, child);
         }
