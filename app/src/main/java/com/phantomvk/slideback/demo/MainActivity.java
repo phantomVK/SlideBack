@@ -32,6 +32,7 @@ public class MainActivity extends SlideActivity {
 
     private static int sIndex = 0;
     private static final Pattern PATTERN = Pattern.compile("\\.");
+    private static final int COLOR = Color.parseColor("#FAFAFA");
     private static final int[] COLORS = {
             0xFF33B5E5, 0xFF00574B, 0xFFAA66CC, 0xFF99CC00,
             0xFFFFBB33, 0xFFFF4444, 0xFF008577, 0xFFD81B60};
@@ -108,7 +109,7 @@ public class MainActivity extends SlideActivity {
                     | SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
             window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.WHITE);
+            window.setNavigationBarColor(COLOR);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(FLAG_TRANSLUCENT_STATUS);
         }
