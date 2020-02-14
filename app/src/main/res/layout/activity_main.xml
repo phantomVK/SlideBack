@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="HardcodedText">
 
@@ -52,22 +53,26 @@
                 android:id="@+id/radioLeft"
                 style="@style/radioButtonStyle"
                 android:checked="true"
-                android:text="Left" />
+                android:text="Left"
+                app:buttonTint="@drawable/selector_circle" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioRight"
                 style="@style/radioButtonStyle"
-                android:text="Right" />
+                android:text="Right"
+                app:buttonTint="@drawable/selector_circle" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioTop"
                 style="@style/radioButtonStyle"
-                android:text="Top" />
+                android:text="Top"
+                app:buttonTint="@drawable/selector_circle" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/radioBottom"
                 style="@style/radioButtonStyle"
-                android:text="Bottom" />
+                android:text="Bottom"
+                app:buttonTint="@drawable/selector_circle" />
         </RadioGroup>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </merge>
