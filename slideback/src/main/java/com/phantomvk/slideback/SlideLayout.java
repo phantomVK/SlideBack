@@ -393,24 +393,6 @@ public class SlideLayout extends FrameLayout {
         return drawChild;
     }
 
-    private void drawScrim(Canvas canvas, View child) {
-        final int baseAlpha = (mScrimColor & 0xFF000000) >>> 24;
-        final int slideAlpha = (int) (baseAlpha * mScrimOpacity);
-        final int color = (slideAlpha << 24) | (mScrimColor & 0xFFFFFF);
-
-        if ((mEdge & EDGE_LEFT) != 0) {
-            canvas.clipRect(getLeft(), getTop(), child.getLeft(), getHeight());
-        } else if ((mEdge & EDGE_RIGHT) != 0) {
-            canvas.clipRect(child.getRight(), 0, getRight(), getHeight());
-        } else if ((mEdge & EDGE_TOP) != 0) {
-            canvas.clipRect(0, 0, child.getRight(), child.getTop());
-        } else if ((mEdge & EDGE_BOTTOM) != 0) {
-            canvas.clipRect(child.getLeft(), child.getBottom(), getRight(), getHeight());
-        }
-
-        canvas.drawColor(color);
-    }
-
     private void drawShadow(Canvas canvas, View child) {
         child.getHitRect(RECT);
 
@@ -437,6 +419,26 @@ public class SlideLayout extends FrameLayout {
             mShadowBottom.setAlpha(alpha);
             mShadowBottom.draw(canvas);
         }
+    }
+
+    private void drawScrim(Canvas canvas, View child) {
+        if (mScrimOpacity == 0) return;
+
+        final int baseAlpha = (mScrimColor & 0xFF000000) >>> 24;
+        final int slideAlpha = (int) (baseAlpha * mScrimOpacity);
+        final int color = (slideAlpha << 24) | (mScrimColor & 0xFFFFFF);
+
+        if ((mEdge & EDGE_LEFT) != 0) {
+            canvas.clipRect(getLeft(), getTop(), child.getLeft(), getHeight());
+        } else if ((mEdge & EDGE_RIGHT) != 0) {
+            canvas.clipRect(child.getRight(), 0, getRight(), getHeight());
+        } else if ((mEdge & EDGE_TOP) != 0) {
+            canvas.clipRect(0, 0, child.getRight(), child.getTop());
+        } else if ((mEdge & EDGE_BOTTOM) != 0) {
+            canvas.clipRect(child.getLeft(), child.getBottom(), getRight(), getHeight());
+        }
+
+        canvas.drawColor(color);
     }
 
     @Override
