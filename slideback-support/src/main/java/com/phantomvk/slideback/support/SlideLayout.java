@@ -549,14 +549,13 @@ public class SlideLayout extends FrameLayout {
         mListeners.clear();
     }
 
-    public boolean convertToTranslucent() {
-        return TranslucentHelper.setTranslucent(mActivity, mListener);
+    public void convertToTranslucent() {
+        TranslucentHelper.setTranslucent(mActivity, mListener);
     }
 
-    public boolean convertFromTranslucent() {
-        boolean result = TranslucentHelper.removeTranslucent(mActivity);
+    public void convertFromTranslucent() {
+        TranslucentHelper.removeTranslucent(mActivity);
         setDrawComplete(false);
-        return result;
     }
 
     /**
