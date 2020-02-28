@@ -391,13 +391,6 @@ public class ViewDragHelper {
      */
     private ViewDragHelper(@NonNull Context context, @NonNull ViewGroup forParent,
                            @NonNull Callback cb) {
-        if (forParent == null) {
-            throw new IllegalArgumentException("Parent view may not be null");
-        }
-        if (cb == null) {
-            throw new IllegalArgumentException("Callback may not be null");
-        }
-
         mParentView = forParent;
         mCallback = cb;
 
