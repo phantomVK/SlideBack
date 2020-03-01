@@ -22,35 +22,31 @@ public class TranslucentHelper {
     private static Class[] sClzArray;
 
     static {
-        try {
-            init();
-        } catch (Throwable ignore) {
+        if (SDK_INT >= KITKAT) {
+            try {
+                init();
+            } catch (Throwable ignored) {
+            }
         }
     }
 
     private static void init() throws NoSuchMethodException {
-        if (SDK_INT < KITKAT) return;
-
-        Class<?> sClz = null;
-        Class<?>[] classes = Activity.class.getDeclaredClasses();
-
-        for (Class c : classes) {
+        for (Class c : Activity.class.getDeclaredClasses()) {
             if (c.getSimpleName().equals("TranslucentConversionListener")) {
-                sClz = c;
-                sClzArray = new Class[]{sClz};
+                sClzArray = new Class[]{c};
                 break;
             }
         }
 
-        if (sClz == null) return;
+        if (sClzArray == null) return;
         if (SDK_INT >= LOLLIPOP) {
             sOptionsMethod = Activity.class.getDeclaredMethod("getActivityOptions");
             sOptionsMethod.setAccessible(true);
 
-            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClz, ActivityOptions.class);
+            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClzArray[0], ActivityOptions.class);
             sInvokeMethod.setAccessible(true);
         } else {
-            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClz);
+            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClzArray[0]);
             sInvokeMethod.setAccessible(true);
         }
 
