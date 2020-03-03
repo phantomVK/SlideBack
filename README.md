@@ -1,7 +1,7 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg)](https://bintray.com/phantomtvk/SlideBack/slideback/_latestVersion) [![中文README](https://img.shields.io/badge/Readme-%E4%B8%AD%E6%96%87-orange)](https://github.com/phantomVK/SlideBack/blob/master/README_CN.md) [![README in English](https://img.shields.io/badge/Readme-English-yellow)](https://github.com/phantomVK/SlideBack/blob/master/README.md) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg)](https://bintray.com/phantomtvk/SlideBack/slideback/_latestVersion) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 [中文版README](./README_CN.md)
 
