@@ -40,8 +40,6 @@ import java.util.Arrays;
  * views within their parent ViewGroup.
  */
 public class ViewDragHelper {
-    private static final String TAG = "ViewDragHelper";
-
     /**
      * A null/invalid pointer ID.
      */
@@ -1546,7 +1544,7 @@ public class ViewDragHelper {
 
     private boolean isValidPointerForActionMove(int pointerId) {
         if (!isPointerDown(pointerId)) {
-            Log.e(TAG, "Ignoring pointerId=" + pointerId + " because ACTION_DOWN was not received "
+            Log.e("ViewDragHelper", "Ignoring pointerId=" + pointerId + " because ACTION_DOWN was not received "
                     + "for this pointer before ACTION_MOVE. It likely happened because "
                     + " ViewDragHelper did not receive all the events in the event stream.");
             return false;

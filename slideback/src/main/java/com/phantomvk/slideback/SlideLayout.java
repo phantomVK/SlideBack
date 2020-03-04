@@ -44,7 +44,6 @@ import static androidx.customview.widget.ViewDragHelper.STATE_DRAGGING;
  * To compute scroll, draw background, and do slide with animations.
  */
 public class SlideLayout extends FrameLayout {
-
     /**
      * Rect for drawing shadow.
      */

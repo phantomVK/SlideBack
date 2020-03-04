@@ -43,7 +43,6 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
  * To compute scroll, draw background, and do slide with animations.
  */
 public class SlideLayout extends FrameLayout {
-
     /**
      * Rect for drawing shadow.
      */
