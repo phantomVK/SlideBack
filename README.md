@@ -41,12 +41,12 @@ dependencies {
 }
 ```
 
-They both sharing the same version with different __artifactId__, you just need one of then.
+They sharing the same version but different __artifactId__, you just need one of them.
 
 Usage
 -------
 
-First, extends the class named __SlideActivity__ using your __Activity__, set the edge which is going to track after __setContentView(View)__.
+Extends the class named __SlideActivity__ using your __Activity__, set the edge which is going to track after __setContentView(View)__.
 
 ```java
 public class MainActivity extends SlideActivity {
@@ -81,7 +81,7 @@ public class MainActivity extends SlideActivity {
 Totally disable the slide function, nothing inside __SlideManager__ will be initialized, re-initialize is illegal either.
 
 ```java
-public class MainActivity extends SlideActivity implements SlideManager.Conductor {
+public class MainActivity extends SlideActivity {
 
     @Override
     public boolean slideBackDisable() {
@@ -90,7 +90,7 @@ public class MainActivity extends SlideActivity implements SlideManager.Conducto
 }
 ```
 
-To temporarily disable the slide action, enable again whenever you want, see the method below.
+To temporarily disable the slide action, or enable again whenever you want, see the method below.
 
 __slideManager__ comes from __SlideActivity__ the super class you extended. What __slideManager.getSlideLayout()__ returns is null if slide action has been totally disabled, see method mentioned above named __slideBackDisable()__ for more details.
 
