@@ -108,7 +108,7 @@ public class MainActivity extends SlideActivity {
 Compatibility
 -------------
 
- * **Minimum Android SDK**: SlideBack requires a minimum API level of 16.
+ * **Minimum Android SDK**: SlideBack requires a minimum API level of 14.
  * **Compile Android SDK**: SlideBack requires you to compile against API 28 or later.
  * Both **AndroidX** and **Android Support** are supported by using different dependencies.
 

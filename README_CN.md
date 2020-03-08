@@ -108,8 +108,8 @@ public class MainActivity extends SlideActivity {
 兼容
 -------------
 
- * **最低 Android SDK**: SlideBack 最低支持到 API16；
- * **编译 Android SDK**: SlideBack 要求使用 API 28 或更新版本进行编译；
+ * **最低 Android SDK**: SlideBack 最低支持 API14；
+ * **编译 Android SDK**: SlideBack 要求使用 API28 或更新版本进行编译；
  * **通过不同依赖分别兼容 AndroidX** 和 **Android Support**；
 
 许可证

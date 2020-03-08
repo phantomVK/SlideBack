@@ -23,7 +23,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.phantomvk.slideback.demo"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 29
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
