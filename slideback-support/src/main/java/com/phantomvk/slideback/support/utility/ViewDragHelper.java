@@ -82,11 +82,6 @@ public class ViewDragHelper {
     public static final int EDGE_BOTTOM = 1 << 3;
 
     /**
-     * Edge flag set indicating all edges should be affected.
-     */
-    public static final int EDGE_ALL = EDGE_LEFT | EDGE_TOP | EDGE_RIGHT | EDGE_BOTTOM;
-
-    /**
      * Indicates that a check should occur along the horizontal axis
      */
     public static final int DIRECTION_HORIZONTAL = 1;
@@ -1416,8 +1411,7 @@ public class ViewDragHelper {
      * If there is no currently active gesture this method will return false.
      *
      * @param edges Edges to check for an initial edge touch. See {@link #EDGE_LEFT},
-     *              {@link #EDGE_TOP}, {@link #EDGE_RIGHT}, {@link #EDGE_BOTTOM} and
-     *              {@link #EDGE_ALL}
+     *              {@link #EDGE_TOP}, {@link #EDGE_RIGHT}, {@link #EDGE_BOTTOM}
      * @return true if any of the edges specified were initially touched in the current gesture
      */
     public boolean isEdgeTouched(int edges) {
@@ -1436,8 +1430,7 @@ public class ViewDragHelper {
      * the given ID currently down this method will return false.
      *
      * @param edges Edges to check for an initial edge touch. See {@link #EDGE_LEFT},
-     *              {@link #EDGE_TOP}, {@link #EDGE_RIGHT}, {@link #EDGE_BOTTOM} and
-     *              {@link #EDGE_ALL}
+     *              {@link #EDGE_TOP}, {@link #EDGE_RIGHT}, {@link #EDGE_BOTTOM}
      * @return true if any of the edges specified were initially touched in the current gesture
      */
     public boolean isEdgeTouched(int edges, int pointerId) {

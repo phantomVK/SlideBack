@@ -108,6 +108,11 @@ public class SlideLayout extends FrameLayout {
     private int mOverRangePixel;
 
     /**
+     * The default size of the shadow drawable;
+     */
+    private int mShadowSize;
+
+    /**
      * The opacity of scrim.
      */
     private float mScrimOpacity;
@@ -186,21 +191,12 @@ public class SlideLayout extends FrameLayout {
     public SlideLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
+        final int density = (int) getContext().getResources().getDisplayMetrics().density;
         mHelper = ViewDragHelper.create(this, new ViewDragCallback());
-        mOverRangePixel = (int) (getResources().getDisplayMetrics().density * 3);
+        mOverRangePixel = density * 3;
+        mShadowSize = density * 15;
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SlideLayout, defStyleAttr, 0);
-
-        setEdgeSize(a.getDimensionPixelSize(R.styleable.SlideLayout_slide_back_edge_size, 0));
-        setTrackingEdge(a.getInt(R.styleable.SlideLayout_slide_back_edge_flag, EDGE_LEFT));
-
-        int size = (int) (getContext().getResources().getDisplayMetrics().density * 15);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_left, EDGE_LEFT, size);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_right, EDGE_RIGHT, size);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_top, EDGE_TOP, size);
-        setShadowDrawable(a, R.styleable.SlideLayout_slide_back_shadow_bottom, EDGE_BOTTOM, size);
-
-        a.recycle();
+        setTrackingEdge(EDGE_LEFT);
     }
 
     public void attach(@NonNull Activity activity) {
@@ -263,45 +259,7 @@ public class SlideLayout extends FrameLayout {
     public void setTrackingEdge(int edgeFlags) {
         mEdge = edgeFlags;
         mHelper.setEdgeTrackingEnabled(mEdge);
-    }
-
-    private void setShadowDrawable(TypedArray a, int index, int edgeFlag, int size) {
-        int resId = a.getResourceId(index, 0);
-        if (resId != 0) {
-            setShadow(resId, edgeFlag);
-            return;
-        }
-
-        GradientDrawable.Orientation orientation;
-        int width;
-        int height;
-
-        switch (edgeFlag) {
-            case EDGE_LEFT:
-                orientation = LEFT_RIGHT;
-                width = size;
-                height = MATCH_PARENT;
-                break;
-            case EDGE_RIGHT:
-                orientation = RIGHT_LEFT;
-                width = size;
-                height = MATCH_PARENT;
-                break;
-            case EDGE_TOP:
-                orientation = TOP_BOTTOM;
-                width = MATCH_PARENT;
-                height = size;
-                break;
-            default:
-                orientation = BOTTOM_TOP;
-                width = MATCH_PARENT;
-                height = size;
-                break;
-        }
-
-        GradientDrawable d = new GradientDrawable(orientation, GRADIENT_COLORS);
-        d.setSize(width, height);
-        setShadow(d, edgeFlag);
+        setShadow();
     }
 
     /**
@@ -449,10 +407,69 @@ public class SlideLayout extends FrameLayout {
         }
     }
 
+    /**
+     * Set a default shadow drawable to the current tracking edge if it has not been used before.
+     * <p>
+     * It is possible to use method {@link SlideLayout#setShadow(int, int)}
+     * and method {@link SlideLayout#setShadow(Drawable, int)} to assign a custom shadow drawable
+     * to replace the previous one.
+     */
+    private void setShadow() {
+        GradientDrawable.Orientation orientation;
+        Drawable drawable;
+        int width;
+        int height;
+
+        switch (mEdge) {
+            case EDGE_LEFT:
+                drawable = mShadowLeft;
+                orientation = LEFT_RIGHT;
+                width = mShadowSize;
+                height = MATCH_PARENT;
+                break;
+            case EDGE_RIGHT:
+                drawable = mShadowRight;
+                orientation = RIGHT_LEFT;
+                width = mShadowSize;
+                height = MATCH_PARENT;
+                break;
+            case EDGE_TOP:
+                drawable = mShadowTop;
+                orientation = TOP_BOTTOM;
+                width = MATCH_PARENT;
+                height = mShadowSize;
+                break;
+            default:
+                drawable = mShadowBottom;
+                orientation = BOTTOM_TOP;
+                width = MATCH_PARENT;
+                height = mShadowSize;
+                break;
+        }
+
+        if (drawable == null) {
+            GradientDrawable d = new GradientDrawable(orientation, GRADIENT_COLORS);
+            d.setSize(width, height);
+            setShadow(d, mEdge);
+        }
+    }
+
+    /**
+     * Set a shadow drawable to the edge.
+     *
+     * @param resId    drawable resource id
+     * @param edgeFlag the edge to set shadow
+     */
     public void setShadow(int resId, int edgeFlag) {
         setShadow(getResources().getDrawable(resId), edgeFlag);
     }
 
+    /**
+     * Set a shadow drawable to the edge.
+     *
+     * @param shadow   drawable
+     * @param edgeFlag the edge to set shadow
+     */
     public void setShadow(Drawable shadow, int edgeFlag) {
         if ((edgeFlag & EDGE_LEFT) != 0) {
             mShadowLeft = shadow;
