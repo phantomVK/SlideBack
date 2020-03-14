@@ -418,8 +418,7 @@ public class SlideLayout extends FrameLayout {
     private void setShadow() {
         GradientDrawable.Orientation orientation;
         Drawable drawable;
-        int width;
-        int height;
+        int width, height;
 
         switch (mEdge) {
             case EDGE_LEFT:

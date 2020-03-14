@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
  * please create a new class to extend what you are willing to use, then do implement the same as
  * what this class do.
  * <p>
- * Also, Do not forget to implement interface named SlideManager.Conductor
- * if method {@link SlideActivity#slideBackDisable()} is needed.
+ * Also, Do not forget to implement interface named {@link SlideManager.Conductor} if method
+ * {@link SlideActivity#slideBackDisable()} is needed.
  */
 public class SlideActivity extends AppCompatActivity implements SlideManager.Conductor {
 

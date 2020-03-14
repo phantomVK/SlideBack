@@ -59,21 +59,21 @@ public class SlideManager {
     }
 
     /**
-     * Called on Activity.onContentChanged() with background from theme.
+     * Called on {@link Activity#onContentChanged()} with background from theme.
      */
     public void onContentChanged() {
         if (!isSlideDisable()) slideLayout.attach(activity);
     }
 
     /**
-     * Called on Activity.onContentChanged() with background color int.
+     * Called on {@link Activity#onContentChanged()} with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
         if (!isSlideDisable()) slideLayout.attachColor(activity, color);
     }
 
     /**
-     * Called on Activity.onContentChanged() with background color resource.
+     * Called on {@link Activity#onContentChanged()} with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
         if (!isSlideDisable()) slideLayout.attachColorRes(activity, colorRes);
