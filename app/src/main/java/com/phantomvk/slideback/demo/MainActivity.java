@@ -65,8 +65,8 @@ public class MainActivity extends SlideActivity {
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(COLORS[sIndex++ & (8 - 1)]);
-
         setSupportActionBar(toolbar);
+
         ActionBar bar = getSupportActionBar();
         if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
 
@@ -76,9 +76,12 @@ public class MainActivity extends SlideActivity {
         AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
 
+        final float density = getResources().getDisplayMetrics().density;
+        final SlideLayout layout = slideManager.getSlideLayout();
+        if (layout != null) layout.setEdgeSize((int) (density * 120));
+
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            SlideLayout layout = slideManager.getSlideLayout();
             if (layout == null) return;
             switch (checkedId) {
                 case R.id.radioLeft:
