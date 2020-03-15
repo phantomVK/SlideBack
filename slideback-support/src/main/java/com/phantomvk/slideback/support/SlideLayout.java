@@ -578,7 +578,7 @@ public class SlideLayout extends FrameLayout {
      * to know when it is safe to begin drawing they can override this method which will be
      * called when the entering animation has completed.
      * <p>
-     * For more details, see onEnterAnimationComplete() in {@link Activity}.
+     * For more details, see {@link Activity#onEnterAnimationComplete()}.
      */
     public void onEnterAnimationComplete() {
         mEnterAnimationComplete = true;

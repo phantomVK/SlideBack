@@ -93,7 +93,6 @@ public class MainActivity extends SlideActivity {
                     break;
 
                 case R.id.radioTop:
-                    // Required themes of no ActionBar.
                     layout.setTrackingEdge(EDGE_TOP);
                     break;
 

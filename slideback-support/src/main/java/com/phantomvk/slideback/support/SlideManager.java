@@ -80,14 +80,14 @@ public class SlideManager {
     }
 
     /**
-     * Called on Activity.onResume()
+     * Called on Activity.onResume().
      */
     public void onResume() {
         if (!isSlideDisable() && !slideLayout.isDrawComplete()) slideLayout.convertToTranslucent();
     }
 
     /**
-     * Called on Activity.onPause()
+     * Called on Activity.onPause().
      */
     public void onPause() {
         if (!isSlideDisable() && !activity.isFinishing()) slideLayout.convertFromTranslucent();
@@ -98,7 +98,7 @@ public class SlideManager {
      * to know when it is safe to begin drawing they can override this method which will be
      * called when the entering animation has completed.
      * <p>
-     * For more details, see onEnterAnimationComplete() in {@link Activity}.
+     * For more details, see {@link Activity#onEnterAnimationComplete()}.
      */
     public void onEnterAnimationComplete() {
         if (!isSlideDisable() && !activity.isFinishing()) slideLayout.onEnterAnimationComplete();
