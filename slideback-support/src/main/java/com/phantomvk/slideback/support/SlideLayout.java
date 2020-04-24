@@ -672,8 +672,8 @@ public class SlideLayout extends FrameLayout {
             }
 
             if (mSlidePercent >= 1F && !mOverRangeTrigger) {
-                for (SlideStateListener listener : mListeners) {
-                    listener.onSlideOverRange();
+                for (SlideStateListener l : mListeners) {
+                    l.onSlideOverRange();
                     mOverRangeTrigger = true;
                 }
             }
