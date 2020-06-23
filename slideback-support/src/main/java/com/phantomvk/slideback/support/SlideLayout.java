@@ -160,7 +160,7 @@ public class SlideLayout extends FrameLayout {
     /**
      * The list of {@link SlideStateListener} to send events.
      */
-    private final ArrayList<SlideStateListener> mListeners = new ArrayList<>();
+    private final ArrayList<SlideStateListener> mListeners = new ArrayList<>(1);
 
     /**
      * Shadow drawables of different directions.
