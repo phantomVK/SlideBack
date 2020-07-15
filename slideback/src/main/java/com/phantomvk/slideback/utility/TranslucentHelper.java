@@ -15,7 +15,7 @@ public class TranslucentHelper {
     private static Method sOptionsMethod;
     private static Method sInvokeMethod;
     private static Method sRevokeMethod;
-    private static Class[] sClzArray;
+    private static Class<?>[] sClzArray;
 
     static {
         if (SDK_INT >= 19) {
@@ -27,7 +27,7 @@ public class TranslucentHelper {
     }
 
     private static void init() throws NoSuchMethodException {
-        for (Class c : Activity.class.getDeclaredClasses()) {
+        for (Class<?> c : Activity.class.getDeclaredClasses()) {
             if (c.getSimpleName().equals("TranslucentConversionListener")) {
                 sClzArray = new Class[]{c};
                 break;
@@ -40,12 +40,11 @@ public class TranslucentHelper {
             sOptionsMethod.setAccessible(true);
 
             sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClzArray[0], ActivityOptions.class);
-            sInvokeMethod.setAccessible(true);
         } else {
             sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClzArray[0]);
-            sInvokeMethod.setAccessible(true);
         }
 
+        sInvokeMethod.setAccessible(true);
         sRevokeMethod = Activity.class.getDeclaredMethod("convertFromTranslucent");
         sRevokeMethod.setAccessible(true);
     }
