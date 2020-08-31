@@ -18,6 +18,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
 
 import com.phantomvk.slideback.listener.SlideStateListener;
@@ -461,7 +462,8 @@ public class SlideLayout extends FrameLayout {
      * @param edgeFlag the edge to set shadow
      */
     public void setShadow(int resId, int edgeFlag) {
-        setShadow(getResources().getDrawable(resId), edgeFlag);
+        Drawable d = ResourcesCompat.getDrawable(getContext().getResources(), resId, null);
+        setShadow(d, edgeFlag);
     }
 
     /**
