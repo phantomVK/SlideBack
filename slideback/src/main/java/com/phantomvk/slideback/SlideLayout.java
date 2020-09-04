@@ -63,7 +63,7 @@ public class SlideLayout extends FrameLayout {
     /**
      * ViewDragHelper
      */
-    private ViewDragHelper mHelper;
+    private final ViewDragHelper mHelper;
 
     /**
      * The target edge to track when view is sliding.
@@ -174,13 +174,6 @@ public class SlideLayout extends FrameLayout {
 
     private Interpolation mScrimInterpolation;
     private Interpolation mShadowInterpolation;
-
-    private final TranslucentConversionListener mListener = new TranslucentConversionListener() {
-        @Override
-        public void onTranslucentConversionComplete(boolean drawComplete) {
-            setDrawComplete(drawComplete);
-        }
-    };
 
     public SlideLayout(@NonNull Context context) {
         this(context, null);
@@ -568,7 +561,7 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void convertToTranslucent() {
-        TranslucentHelper.setTranslucent(mActivity, mListener);
+        TranslucentHelper.setTranslucent(mActivity, this::setDrawComplete);
     }
 
     public void convertFromTranslucent() {
