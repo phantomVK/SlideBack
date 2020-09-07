@@ -25,7 +25,7 @@ android {
         targetSdkVersion 29
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        resConfigs "en"
+        resConfigs "en", "xhdpi"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
