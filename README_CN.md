@@ -9,9 +9,13 @@ SlideBack
 
 <img src="https://j.gifs.com/xn8gqB.gif" alt="gif" width="288" height="512" style="display: inline;"/>
 
+
+
 预览
 ----------
 请从 [更新历史](https://github.com/phantomVK/SlideBack/releases) 获得最新体验用安装包。
+
+
 
 下载
 -----------
@@ -42,6 +46,8 @@ dependencies {
 ```
 
 上述依赖库不同的 __artifactId__ 使用一样的版本号，你仅需使用其中最合适的一个。
+
+
 
 用法
 -------
@@ -105,12 +111,16 @@ public class MainActivity extends SlideActivity {
 }
 ```
 
-兼容
+
+
+兼容性
 -------------
 
- * **最低 Android SDK**: SlideBack 最低支持 API14；
- * **编译 Android SDK**: SlideBack 要求使用 API28 或更新版本进行编译；
- * **通过不同依赖分别兼容 AndroidX** 和 **Android Support**；
+* **最低 Android SDK**: SlideBack 最低支持 API14；
+* **编译 Android SDK**: SlideBack 要求使用 API28 或更新版本进行编译；
+* **通过不同依赖分别兼容 AndroidX** 和 **Android Support**；
+
+
 
 许可证
 --------
