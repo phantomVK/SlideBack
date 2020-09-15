@@ -1,5 +1,6 @@
 package com.phantomvk.slideback;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -38,9 +39,9 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        slideManager.onPause();
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        slideManager.startActivityForResult(intent, requestCode, options);
+        super.startActivityForResult(intent, requestCode, options);
     }
 
     @Override
