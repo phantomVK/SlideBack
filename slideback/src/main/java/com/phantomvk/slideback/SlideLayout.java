@@ -22,7 +22,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
 
 import com.phantomvk.slideback.listener.SlideStateListener;
-import com.phantomvk.slideback.utility.TranslucentConversionListener;
 import com.phantomvk.slideback.utility.TranslucentHelper;
 import com.phantomvk.slideback.utility.ViewDragHelper;
 

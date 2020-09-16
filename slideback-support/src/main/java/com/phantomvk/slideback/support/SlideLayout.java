@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.phantomvk.slideback.support.listener.SlideStateListener;
-import com.phantomvk.slideback.support.utility.TranslucentConversionListener;
 import com.phantomvk.slideback.support.utility.TranslucentHelper;
 import com.phantomvk.slideback.support.utility.ViewDragHelper;
 

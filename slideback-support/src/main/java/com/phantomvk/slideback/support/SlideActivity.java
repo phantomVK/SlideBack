@@ -22,7 +22,7 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        slideManager = new SlideManager(this);
+        slideManager = slideManagerFactory();
     }
 
     @Override
@@ -52,5 +52,14 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     @Override
     public boolean slideBackDisable() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
+    }
+
+    /**
+     * Provide a NonNull {@link SlideManager} instance by subclass.
+     *
+     * @return a SlideManager instance.
+     */
+    protected SlideManager slideManagerFactory() {
+        return new SlideManager(this);
     }
 }
