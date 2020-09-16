@@ -81,6 +81,12 @@ public class MainActivity extends SlideActivity {
             super.finishAfterTransition();
         }
     }
+
+    // 可选步骤，提供自定义SlideManager实例
+    @Override
+    protected SlideManager slideManagerFactory() {
+        return new SlideManager(this);
+    }
 }
 ```
 

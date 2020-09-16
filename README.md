@@ -75,6 +75,12 @@ public class MainActivity extends SlideActivity {
             super.finishAfterTransition();
         }
     }
+
+    // Optional, provide a custom SlideManager instance to SlideActivity.
+    @Override
+    protected SlideManager slideManagerFactory() {
+        return new SlideManager(this);
+    }
 }
 ```
 
