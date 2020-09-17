@@ -24,15 +24,6 @@ public class SlideStateAdapter extends SlideStateListener {
 
     @Override
     public void onSlideOverRange() {
-        finishActivity(activity);
-    }
-
-    /**
-     * Finish an activity with full slide back animation.
-     *
-     * @param activity the target activity to finish
-     */
-    protected void finishActivity(@NonNull Activity activity) {
         if (activity.isFinishing() || (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed())) return;
 
         activity.finish();

@@ -291,29 +291,6 @@ public class SlideLayout extends FrameLayout {
         mHelper.setSensitivity(context, sensitivity);
     }
 
-    /**
-     * Slide ContentView out of parent view.
-     */
-    public void slideExit() {
-        final int width = mChildView.getWidth();
-        final int height = mChildView.getHeight();
-
-        int left = 0;
-        int top = 0;
-        if ((mEdge & EDGE_LEFT) != 0) {
-            left = width + mOverRangePixel + mShadowLeft.getIntrinsicWidth();
-        } else if ((mEdge & EDGE_RIGHT) != 0) {
-            left = -width - mOverRangePixel - mShadowRight.getIntrinsicWidth();
-        } else if ((mEdge & EDGE_TOP) != 0) {
-            top = height + mOverRangePixel + mShadowTop.getIntrinsicHeight();
-        } else if ((mEdge & EDGE_BOTTOM) != 0) {
-            top = -height - mOverRangePixel - mShadowBottom.getIntrinsicHeight();
-        }
-
-        mHelper.smoothSlideViewTo(mChildView, left, top);
-        invalidate();
-    }
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (!getFlag(FLAG_SLIDE_ENABLE)) return false;
