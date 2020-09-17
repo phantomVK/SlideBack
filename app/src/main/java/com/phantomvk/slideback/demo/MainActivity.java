@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.RadioGroup;
@@ -37,14 +38,48 @@ public class MainActivity extends SlideActivity {
             0xFF33B5E5, 0xFF00574B, 0xFFAA66CC, 0xFF99CC00,
             0xFFFFBB33, 0xFFFF4444, 0xFF008577, 0xFFD81B60};
 
+    private final String name = PATTERN.split(toString())[4];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(name, "onCreate");
+
         if (!slideBackDisable()) overridePendingTransition(R.anim.slide_in_right, 0);
 
         setWindow(getWindow());
         setContentView(R.layout.activity_main);
         initViews();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(name, "onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(name, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(name, "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e(name, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(name, "onDestroy");
     }
 
     @Override
@@ -71,7 +106,7 @@ public class MainActivity extends SlideActivity {
         if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
 
         AppCompatTextView textView = findViewById(R.id.text);
-        textView.setText(PATTERN.split(toString())[4]);
+        textView.setText(name);
 
         AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));

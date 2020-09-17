@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
-public class SlideStateAdapter extends SlideStateListener {
+public class SlideStateAdapter implements SlideStateListener {
     /**
      * The target activity to control.
      */
@@ -28,5 +28,17 @@ public class SlideStateAdapter extends SlideStateListener {
 
         activity.finish();
         activity.overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void onEdgeTouched(int edgeFlags) {
+    }
+
+    @Override
+    public void onDragStateChanged(int state, float scrollPercent) {
+    }
+
+    @Override
+    public void onSlideOverThreshold() {
     }
 }
