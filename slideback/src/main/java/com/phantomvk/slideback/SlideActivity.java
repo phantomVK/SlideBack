@@ -23,7 +23,7 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        slideManager = slideManagerFactory();
+        slideManager = slideManagerProvider();
     }
 
     @Override
@@ -56,11 +56,11 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     }
 
     /**
-     * Provide a NonNull {@link SlideManager} instance by subclass.
+     * Provide a NonNull custom {@link SlideManager} instance by subclass.
      *
      * @return a SlideManager instance.
      */
-    protected SlideManager slideManagerFactory() {
+    protected SlideManager slideManagerProvider() {
         return new SlideManager(this);
     }
 }
