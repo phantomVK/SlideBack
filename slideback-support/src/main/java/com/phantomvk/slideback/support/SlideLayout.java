@@ -73,20 +73,6 @@ public class SlideLayout extends FrameLayout {
     private int mEdge;
 
     /**
-     * If slide action is enabled.
-     */
-    private boolean mSlideEnable = true;
-
-    /**
-     * True if the background Activity has drawn itself.
-     * False if a timeout occurred waiting for the Activity to complete drawing.
-     * <p>
-     * For more details, see interface called TranslucentConversionListener
-     * in {@link android.app.Activity}.
-     */
-    private boolean mDrawComplete = false;
-
-    /**
      * Sliding percent.
      */
     private float mSlidePercent;
@@ -95,11 +81,6 @@ public class SlideLayout extends FrameLayout {
      * Slide threshold.
      */
     private float mThreshold = 0.33F;
-
-    /**
-     * If view has been slided over the range.
-     */
-    private boolean mOverRangeTrigger;
 
     /**
      * The value of slide over range in pixel.
@@ -148,13 +129,46 @@ public class SlideLayout extends FrameLayout {
     private Activity mActivity;
 
     /**
+     * Flag, Slide back function is enabled.
+     */
+    private static final int FLAG_SLIDE_ENABLE = 1;
+
+    /**
+     * Flag, the Activity has drawn it background to translucent.
+     * <p>
+     * For more details, see interface called TranslucentConversionListener
+     * in {@link android.app.Activity}.
+     */
+    private static final int FLAG_DRAW_COMPLETE = 1 << 1;
+
+    /**
      * Activities cannot draw during the period that their windows are animating in. In order
      * to know when it is safe to begin drawing they can override this method which will be
      * called when the entering animation has completed.
      * <p>
      * For more details, see onEnterAnimationComplete() in {@link Activity}.
      */
-    private boolean mEnterAnimationComplete;
+    private static final int FLAG_ANIMATION_COMPLETE = 1 << 2;
+
+    /**
+     * Flag, the combination of {@value FLAG_DRAW_COMPLETE} and {@value FLAG_ANIMATION_COMPLETE}.
+     */
+    private static final int FLAG_BOTH_DRAW_ANIMATION_COMPLETE = FLAG_DRAW_COMPLETE | FLAG_ANIMATION_COMPLETE;
+
+    /**
+     * Flag, the view has been slided over the range.
+     */
+    private static final int FLAG_OVER_RANGE_TRIGGERED = 1 << 3;
+
+    /**
+     * Flag for boolean values.
+     * <p>
+     * {@value SlideLayout#FLAG_SLIDE_ENABLE}
+     * {@value SlideLayout#FLAG_DRAW_COMPLETE}
+     * {@value SlideLayout#FLAG_ANIMATION_COMPLETE}
+     * {@value SlideLayout#FLAG_OVER_RANGE_TRIGGERED}
+     */
+    private int flags = 0;
 
     /**
      * The list of {@link SlideStateListener} to send events.
@@ -302,7 +316,7 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (!mSlideEnable) return false;
+        if (!getFlag(FLAG_SLIDE_ENABLE)) return false;
         try {
             return mHelper.shouldInterceptTouchEvent(event);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -312,7 +326,7 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!mSlideEnable) return false;
+        if (!getFlag(FLAG_SLIDE_ENABLE)) return false;
         try {
             mHelper.processTouchEvent(event);
             return true;
@@ -512,15 +526,15 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void setEnable(boolean enable) {
-        mSlideEnable = enable;
+        setFlag(FLAG_SLIDE_ENABLE, enable);
     }
 
     public boolean isDrawComplete() {
-        return mDrawComplete;
+        return getFlag(FLAG_DRAW_COMPLETE);
     }
 
     public void setDrawComplete(boolean drawComplete) {
-        mDrawComplete = drawComplete;
+        setFlag(FLAG_DRAW_COMPLETE, drawComplete);
     }
 
     public void setScrimColor(@ColorInt int color) {
@@ -573,7 +587,7 @@ public class SlideLayout extends FrameLayout {
      * For more details, see {@link Activity#onEnterAnimationComplete()}.
      */
     public void onEnterAnimationComplete() {
-        mEnterAnimationComplete = true;
+        setFlag(FLAG_ANIMATION_COMPLETE, true);
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {
@@ -663,10 +677,10 @@ public class SlideLayout extends FrameLayout {
                 }
             }
 
-            if (mSlidePercent >= 1F && !mOverRangeTrigger) {
+            if (mSlidePercent >= 1F && !getFlag(FLAG_OVER_RANGE_TRIGGERED)) {
                 for (SlideStateListener l : mListeners) {
                     l.onSlideOverRange();
-                    mOverRangeTrigger = true;
+                    setFlag(FLAG_OVER_RANGE_TRIGGERED, true);
                 }
             }
         }
@@ -697,7 +711,9 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public void onEdgeTouched(int edgeFlags, int pointerId) {
-            if (!isDrawComplete() && mEnterAnimationComplete) convertToTranslucent();
+            if (!isDrawComplete() && getFlag(FLAG_ANIMATION_COMPLETE)) {
+                convertToTranslucent();
+            }
         }
 
         @Override
@@ -724,7 +740,19 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public boolean isValidMoveAction() {
-            return mDrawComplete && mEnterAnimationComplete;
+            return getFlag(FLAG_BOTH_DRAW_ANIMATION_COMPLETE);
+        }
+    }
+
+    private boolean getFlag(int flag) {
+        return (flags & flag) == flag;
+    }
+
+    private void setFlag(int flag, boolean enable) {
+        if (enable) {
+            flags |= flag;
+        } else {
+            flags &= ~flag;
         }
     }
 
