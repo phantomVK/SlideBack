@@ -168,7 +168,7 @@ public class SlideLayout extends FrameLayout {
      * {@value SlideLayout#FLAG_ANIMATION_COMPLETE}
      * {@value SlideLayout#FLAG_OVER_RANGE_TRIGGERED}
      */
-    private int flags = 0;
+    private int flags = FLAG_SLIDE_ENABLE;
 
     /**
      * The list of {@link SlideStateListener} to send events.
@@ -533,10 +533,6 @@ public class SlideLayout extends FrameLayout {
         return getFlag(FLAG_DRAW_COMPLETE);
     }
 
-    public void setDrawComplete(boolean drawComplete) {
-        setFlag(FLAG_DRAW_COMPLETE, drawComplete);
-    }
-
     public void setScrimColor(@ColorInt int color) {
         mScrimColor = color;
     }
@@ -571,12 +567,12 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void convertToTranslucent() {
-        TranslucentHelper.setTranslucent(mActivity, this::setDrawComplete);
+        TranslucentHelper.setTranslucent(mActivity, (v) -> setFlag(FLAG_DRAW_COMPLETE, v));
     }
 
     public void convertFromTranslucent() {
         TranslucentHelper.removeTranslucent(mActivity);
-        setDrawComplete(false);
+        setFlag(FLAG_DRAW_COMPLETE, false);
     }
 
     /**
@@ -711,9 +707,6 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public void onEdgeTouched(int edgeFlags, int pointerId) {
-            if (!isDrawComplete() && getFlag(FLAG_ANIMATION_COMPLETE)) {
-                convertToTranslucent();
-            }
         }
 
         @Override

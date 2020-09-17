@@ -66,6 +66,7 @@ public class TranslucentHelper {
                 }
             } else {
                 sInvokeMethod.invoke(activity, new Object[]{null});
+                if (listener != null) listener.onTranslucentConversionComplete(true);
             }
         } catch (Throwable ignored) {
         }
