@@ -687,6 +687,7 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public void onEdgeTouched(int edgeFlags, int pointerId) {
+            if (!isDrawComplete() && getFlag(FLAG_ANIMATION_COMPLETE)) convertToTranslucent();
         }
 
         @Override

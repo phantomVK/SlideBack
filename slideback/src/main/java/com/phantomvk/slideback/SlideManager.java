@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
@@ -17,6 +18,7 @@ import com.phantomvk.slideback.listener.SlideStateListener;
 public class SlideManager {
 
     private static final ColorDrawable DRAWABLE_TRANSPARENT = new ColorDrawable(Color.TRANSPARENT);
+    private static final Conductor CONDUCTOR = () -> Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
 
     /**
      * The target activity to control.
@@ -34,29 +36,54 @@ public class SlideManager {
     protected Conductor conductor;
 
     /**
-     * Constructor which using a default {@link SlideStateListener} implementation
-     * named {@link SlideStateAdapter} to finish the current activity.
+     * Constructor to use default configuration.
      *
-     * @param activity must not be null and implements {@link SlideManager.Conductor}
+     * @param activity must not be null
      */
     public SlideManager(@NonNull Activity activity) {
-        this(activity, null);
+        this(activity,
+                activity instanceof Conductor ? (Conductor) activity : CONDUCTOR,
+                new SlideStateAdapter(activity));
     }
 
     /**
-     * Constructor for using a custom {@link SlideStateListener}.
+     * Constructor to use a custom {@link Conductor}.
      *
-     * @param activity must not be null and implements {@link SlideManager.Conductor}
-     * @param listener default implementation will be used if this is null
+     * @param activity  must not be null
+     * @param conductor must not be null. For more detail, see {@link Conductor}
      */
-    public SlideManager(@NonNull Activity activity, @Nullable SlideStateListener listener) {
-        conductor = (activity instanceof Conductor) ? (Conductor) activity : null;
+    public SlideManager(@NonNull Activity activity, @NonNull Conductor conductor) {
+        this(activity, conductor, new SlideStateAdapter(activity));
+    }
+
+    /**
+     * Constructor to use a custom {@link SlideStateListener}.
+     *
+     * @param activity must not be null
+     * @param listener must not be null. For more detail, see {@link SlideStateListener}
+     */
+    public SlideManager(@NonNull Activity activity, @NonNull SlideStateListener listener) {
+        this(activity, activity instanceof Conductor ? (Conductor) activity : CONDUCTOR, listener);
+    }
+
+    /**
+     * Constructor to use a {@link Conductor} and a custom {@link SlideStateListener}.
+     *
+     * @param activity  must not be null
+     * @param conductor must not be null. For more detail, see {@link Conductor}
+     * @param listener  must not be null. For more detail, see {@link SlideStateListener}
+     */
+    public SlideManager(@NonNull Activity activity,
+                        @NonNull Conductor conductor,
+                        @NonNull SlideStateListener listener) {
+
+        this.conductor = conductor;
         if (isSlideDisable()) return;
 
         this.activity = activity;
 
         slideLayout = new SlideLayout(activity);
-        slideLayout.addListener((listener == null) ? new SlideStateAdapter(activity) : listener);
+        slideLayout.addListener(listener);
 
         activity.getWindow().setBackgroundDrawable(DRAWABLE_TRANSPARENT);
     }
@@ -127,7 +154,7 @@ public class SlideManager {
         return !isSlideDisable() && slideLayout.isDrawComplete();
     }
 
-    protected boolean isSlideDisable() {
+    public boolean isSlideDisable() {
         return conductor != null && conductor.slideBackDisable();
     }
 

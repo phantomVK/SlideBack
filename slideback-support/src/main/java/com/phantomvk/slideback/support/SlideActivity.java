@@ -1,7 +1,6 @@
 package com.phantomvk.slideback.support;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,9 +12,9 @@ import android.support.v7.app.AppCompatActivity;
  * what this class do.
  * <p>
  * Also, Do not forget to implement interface named {@link SlideManager.Conductor} if method
- * {@link SlideActivity#slideBackDisable()} is needed.
+ * {@link SlideManager.Conductor#slideBackDisable()} is needed.
  */
-public class SlideActivity extends AppCompatActivity implements SlideManager.Conductor {
+public class SlideActivity extends AppCompatActivity {
 
     protected SlideManager slideManager;
 
@@ -47,11 +46,6 @@ public class SlideActivity extends AppCompatActivity implements SlideManager.Con
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
         slideManager.onEnterAnimationComplete();
-    }
-
-    @Override
-    public boolean slideBackDisable() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 
     /**

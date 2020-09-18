@@ -45,7 +45,9 @@ public class MainActivity extends SlideActivity {
         super.onCreate(savedInstanceState);
         Log.e(name, "onCreate");
 
-        if (!slideBackDisable()) overridePendingTransition(R.anim.slide_in_right, 0);
+        if (!slideManager.isSlideDisable()) {
+            overridePendingTransition(R.anim.slide_in_right, 0);
+        }
 
         setWindow(getWindow());
         setContentView(R.layout.activity_main);
@@ -94,7 +96,9 @@ public class MainActivity extends SlideActivity {
     @Override
     public void finish() {
         super.finish();
-        if (!slideBackDisable()) overridePendingTransition(0, R.anim.slide_out_right);
+        if (!slideManager.isSlideDisable()) {
+            overridePendingTransition(0, R.anim.slide_out_right);
+        }
     }
 
     private void initViews() {
