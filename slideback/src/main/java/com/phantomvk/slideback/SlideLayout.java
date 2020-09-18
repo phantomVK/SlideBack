@@ -26,6 +26,7 @@ import com.phantomvk.slideback.utility.TranslucentHelper;
 import com.phantomvk.slideback.utility.ViewDragHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.BOTTOM_TOP;
 import static android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT;
@@ -163,7 +164,7 @@ public class SlideLayout extends FrameLayout {
     private static final int FLAG_OVER_RANGE_TRIGGERED = 1 << 3;
 
     /**
-     * Flag for boolean values.
+     * Flag to save memory.
      * <p>
      * {@value SlideLayout#FLAG_SLIDE_ENABLE}
      * {@value SlideLayout#FLAG_DRAW_COMPLETE}
@@ -173,9 +174,9 @@ public class SlideLayout extends FrameLayout {
     private int flags = FLAG_SLIDE_ENABLE;
 
     /**
-     * The list of {@link SlideStateListener} to send events.
+     * The list of {@link SlideStateListener} to receive events.
      */
-    private final ArrayList<SlideStateListener> mListeners = new ArrayList<>(1);
+    private final List<SlideStateListener> mListeners = new ArrayList<>(1);
 
     /**
      * Shadow drawables of different directions.
@@ -522,12 +523,25 @@ public class SlideLayout extends FrameLayout {
     }
 
     /**
-     * Add a new {@link SlideStateListener} to subscribe events.
+     * Add a new {@link SlideStateListener} to subscribe slide state events.
      *
-     * @param l SlideStateListener
+     * @param listener a SlideStateListener
      */
-    public void addListener(@Nullable SlideStateListener l) {
-        if (l != null) mListeners.add(l);
+    public void addListener(@Nullable SlideStateListener listener) {
+        if (listener != null) mListeners.add(listener);
+    }
+
+    /**
+     * Add some new {@link SlideStateListener} to subscribe slide state events.
+     *
+     * @param listeners ths list should not contain null object
+     */
+    public void addListeners(@Nullable List<SlideStateListener> listeners) {
+        if (listeners != null && !listeners.isEmpty()) {
+            for (SlideStateListener l : listeners) {
+                addListener(l);
+            }
+        }
     }
 
     /**

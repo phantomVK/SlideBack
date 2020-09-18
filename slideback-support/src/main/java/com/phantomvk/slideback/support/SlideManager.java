@@ -88,35 +88,35 @@ public class SlideManager {
     }
 
     /**
-     * Called on {@link Activity#onContentChanged()} with background from theme.
+     * Called in {@link Activity#onContentChanged()} with background from theme.
      */
     public void onContentChanged() {
         if (!isSlideDisable()) slideLayout.attach(activity);
     }
 
     /**
-     * Called on {@link Activity#onContentChanged()} with background color int.
+     * Called in {@link Activity#onContentChanged()} with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
         if (!isSlideDisable()) slideLayout.attachColor(activity, color);
     }
 
     /**
-     * Called on {@link Activity#onContentChanged()} with background color resource.
+     * Called in {@link Activity#onContentChanged()} with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
         if (!isSlideDisable()) slideLayout.attachColorRes(activity, colorRes);
     }
 
     /**
-     * Called by Activity.onResume().
+     * Called in Activity.onResume().
      */
     public void onResume() {
         if (!isSlideDisable() && !slideLayout.isDrawComplete()) slideLayout.convertToTranslucent();
     }
 
     /**
-     * Called by Activity.startActivityForResult().
+     * Called in Activity.startActivityForResult().
      */
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         if (!isSlideDisable() && !activity.isFinishing()) slideLayout.convertFromTranslucent();
