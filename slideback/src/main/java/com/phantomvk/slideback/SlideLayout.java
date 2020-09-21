@@ -190,7 +190,7 @@ public class SlideLayout extends FrameLayout {
     private Interpolation mShadowInterpolation;
 
     public SlideLayout(@NonNull Context context) {
-        this(context, null);
+        this(context, null, 0);
     }
 
     public SlideLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -228,7 +228,7 @@ public class SlideLayout extends FrameLayout {
     public void attachColor(@NonNull Activity activity, @ColorInt int color) {
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
-        if (decorChild == this) return;
+        if (decorChild instanceof SlideLayout) return;
 
         decorChild.setBackgroundColor(color);
         decorView.removeView(decorChild);
@@ -240,7 +240,7 @@ public class SlideLayout extends FrameLayout {
     public void attachColorRes(@NonNull Activity activity, @DrawableRes int colorRes) {
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
-        if (decorChild == this) return;
+        if (decorChild instanceof SlideLayout) return;
 
         decorChild.setBackgroundResource(colorRes);
         decorView.removeView(decorChild);
@@ -537,11 +537,8 @@ public class SlideLayout extends FrameLayout {
      * @param listeners ths list should not contain null object
      */
     public void addListeners(@Nullable List<SlideStateListener> listeners) {
-        if (listeners != null && !listeners.isEmpty()) {
-            for (SlideStateListener l : listeners) {
-                addListener(l);
-            }
-        }
+        if (listeners == null || listeners.isEmpty()) return;
+        mListeners.addAll(listeners);
     }
 
     /**
