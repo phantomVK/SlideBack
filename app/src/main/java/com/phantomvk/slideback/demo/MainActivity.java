@@ -33,7 +33,7 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_LEFT;
 import static androidx.customview.widget.ViewDragHelper.EDGE_RIGHT;
 import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 
-public class MainActivity extends SlideActivity {
+public class MainActivity extends SlideActivity implements SlideAdapter.UnionMonitor {
 
     private static final Pattern PATTERN = Pattern.compile("\\.");
     private static final int COLOR = Color.parseColor("#FAFAFA");
@@ -43,6 +43,7 @@ public class MainActivity extends SlideActivity {
 
     private static int sIndex = 0;
     private final String name = PATTERN.split(toString())[4];
+    private int trackingEdge = EDGE_LEFT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,23 +129,18 @@ public class MainActivity extends SlideActivity {
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (layout == null) return;
-            switch (checkedId) {
-                case R.id.radioLeft:
-                    layout.setTrackingEdge(EDGE_LEFT);
-                    break;
 
-                case R.id.radioRight:
-                    layout.setTrackingEdge(EDGE_RIGHT);
-                    break;
-
-                case R.id.radioTop:
-                    layout.setTrackingEdge(EDGE_TOP);
-                    break;
-
-                case R.id.radioBottom:
-                    layout.setTrackingEdge(EDGE_BOTTOM);
-                    break;
+            if (checkedId == R.id.radioLeft) {
+                trackingEdge = EDGE_LEFT;
+            } else if (checkedId == R.id.radioRight) {
+                trackingEdge = EDGE_RIGHT;
+            } else if (checkedId == R.id.radioTop) {
+                trackingEdge = EDGE_TOP;
+            } else if (checkedId == R.id.radioBottom) {
+                trackingEdge = EDGE_BOTTOM;
             }
+
+            layout.setTrackingEdge(trackingEdge);
         });
     }
 
@@ -166,5 +162,10 @@ public class MainActivity extends SlideActivity {
     @Override
     protected SlideManager slideManagerProvider() {
         return new SlideManager(this, new SlideAdapter(this));
+    }
+
+    @Override
+    public boolean isUnionEnable() {
+        return trackingEdge == EDGE_LEFT;
     }
 }

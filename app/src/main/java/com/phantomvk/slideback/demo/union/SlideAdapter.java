@@ -5,7 +5,6 @@ import android.graphics.Point;
 import android.view.View;
 
 import com.phantomvk.slideback.listener.SlideStateListener;
-import com.phantomvk.slideback.utility.ViewDragHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -13,7 +12,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 
 /**
- * The demonstrate to portrait screen.
+ * The demonstrate to portrait screen and slide from left side.
  */
 public class SlideAdapter implements SlideStateListener {
     private static final Point POINT = new Point();
@@ -33,7 +32,7 @@ public class SlideAdapter implements SlideStateListener {
         translationX = SCALE * POINT.x;
 
         WeakReference<View> ref = ActivityStack.peek();
-        if (ref != null) {
+        if (ref != null && ((UnionMonitor) activity).isUnionEnable()) {
             decorView = ref.get();
         }
     }
@@ -41,7 +40,9 @@ public class SlideAdapter implements SlideStateListener {
     @Override
     public void onDragStateChanged(int state, float scrollPercent) {
         if (decorView == null) return;
-        if (state == ViewDragHelper.STATE_IDLE) {
+
+        if (scrollPercent == 0.0) {
+            decorView.setTranslationX(0);
             decorView = null;
         } else {
             decorView.setTranslationX((scrollPercent - 1) * translationX);
@@ -58,5 +59,10 @@ public class SlideAdapter implements SlideStateListener {
 
     @Override
     public void onSlideOverThreshold() {
+    }
+
+    @FunctionalInterface
+    public interface UnionMonitor {
+        boolean isUnionEnable();
     }
 }
