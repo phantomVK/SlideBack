@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -16,6 +17,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.phantomvk.slideback.SlideActivity;
 import com.phantomvk.slideback.SlideLayout;
+import com.phantomvk.slideback.SlideManager;
+import com.phantomvk.slideback.demo.union.ActivityStack;
+import com.phantomvk.slideback.demo.union.SlideAdapter;
 
 import java.util.regex.Pattern;
 
@@ -44,6 +48,7 @@ public class MainActivity extends SlideActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(name, "onCreate");
+        ActivityStack.add(this);
 
         if (!slideManager.isSlideDisable()) {
             overridePendingTransition(R.anim.slide_in_right, 0);
@@ -82,6 +87,7 @@ public class MainActivity extends SlideActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.e(name, "onDestroy");
+        ActivityStack.remove(this);
     }
 
     @Override
@@ -154,5 +160,11 @@ public class MainActivity extends SlideActivity {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(FLAG_TRANSLUCENT_STATUS);
         }
+    }
+
+    @NonNull
+    @Override
+    protected SlideManager slideManagerProvider() {
+        return new SlideManager(this, new SlideAdapter(this));
     }
 }
