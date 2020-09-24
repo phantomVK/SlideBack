@@ -32,7 +32,7 @@ public interface SlideStateListener {
     void onSlideOverThreshold();
 
     /**
-     * Called when the current view has been dragged and slided out of the parent view by the user.
+     * Called when the current view has been dragged and slided out of the display by the user.
      */
     void onSlideOverRange();
 }

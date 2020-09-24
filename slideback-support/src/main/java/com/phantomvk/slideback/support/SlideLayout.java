@@ -480,8 +480,8 @@ public class SlideLayout extends FrameLayout {
      * @return float opacity value from 0.0F to 1.0F
      */
     private float calScrimOpacity(@FloatRange(from = 0.0F, to = 1.0F) float slidePercent) {
-        return mScrimInterpolation != null
-                ? mScrimInterpolation.getInterpolation(getContext(), slidePercent) : 0;
+        return mScrimInterpolation == null ? 0
+                : mScrimInterpolation.getInterpolation(getContext(), slidePercent);
     }
 
     /**
@@ -498,9 +498,8 @@ public class SlideLayout extends FrameLayout {
      * @return float opacity value from 0.0F to 1.0F
      */
     private float calShadowOpacity(@FloatRange(from = 0.0F, to = 1.0F) float slidePercent) {
-        return mShadowInterpolation != null
-                ? mShadowInterpolation.getInterpolation(getContext(), slidePercent)
-                : 1 - slidePercent;
+        return mShadowInterpolation == null ? 1 - slidePercent
+                : mShadowInterpolation.getInterpolation(getContext(), slidePercent);
     }
 
     public void setEnable(boolean enable) {
@@ -541,10 +540,10 @@ public class SlideLayout extends FrameLayout {
     /**
      * Remove the listener which has been added to subscribe events.
      *
-     * @param l SlideStateListener
+     * @param listener SlideStateListener
      */
-    public void removeListener(@Nullable SlideStateListener l) {
-        if (l != null) mListeners.remove(l);
+    public void removeListener(@Nullable SlideStateListener listener) {
+        if (listener != null) mListeners.remove(listener);
     }
 
     /**
