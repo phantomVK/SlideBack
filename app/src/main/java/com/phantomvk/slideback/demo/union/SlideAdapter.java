@@ -19,7 +19,7 @@ public class SlideAdapter implements SlideStateListener {
     private static final float SCALE = 0.283F;
 
     private Activity activity;
-    private View decorView;
+    private View decor;
     private float translationX;
 
     public SlideAdapter(Activity activity) {
@@ -33,19 +33,19 @@ public class SlideAdapter implements SlideStateListener {
 
         WeakReference<View> ref = ActivityStack.peek();
         if (ref != null && ((UnionMonitor) activity).isUnionEnable()) {
-            decorView = ref.get();
+            decor = ref.get();
         }
     }
 
     @Override
     public void onDragStateChanged(int state, float scrollPercent) {
-        if (decorView == null) return;
+        if (decor == null) return;
 
         if (scrollPercent == 0.0) {
-            decorView.setTranslationX(0);
-            decorView = null;
+            decor.setTranslationX(0);
+            decor = null;
         } else {
-            decorView.setTranslationX((scrollPercent - 1) * translationX);
+            decor.setTranslationX((float) (Math.sqrt(scrollPercent) - 1) * translationX);
         }
     }
 
