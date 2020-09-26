@@ -130,7 +130,7 @@ public class SlideManager {
      * For more details, see {@link Activity#onEnterAnimationComplete()}.
      */
     public void onEnterAnimationComplete() {
-        if (!isSlideDisable() && !activity.isFinishing()) slideLayout.onEnterAnimationComplete();
+        if (!isSlideDisable()) slideLayout.onEnterAnimationComplete();
     }
 
     /**

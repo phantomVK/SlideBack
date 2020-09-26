@@ -14,7 +14,7 @@ import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 /**
  * The demonstrate to portrait screen and slide from left side.
  */
-public class SlideAdapter implements SlideStateListener {
+public class CustomAdapter implements SlideStateListener {
     private static final Point POINT = new Point();
     private static final float SCALE = 0.283F;
 
@@ -22,7 +22,7 @@ public class SlideAdapter implements SlideStateListener {
     private View decor;
     private float translationX;
 
-    public SlideAdapter(Activity activity) {
+    public CustomAdapter(Activity activity) {
         this.activity = activity;
     }
 
