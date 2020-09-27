@@ -52,6 +52,19 @@ dependencies {
 用法
 -------
 
+在 __Activity__ 的主题 __styles.xml__ 添加 `<item name="android:windowIsTranslucent">true</item>` 配置，例如
+
+```java
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        ....
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+</resources>
+```
+
 用 __Activity__ 继承名为 __SlideActivity__ 的父类，在调用 __setContentView(View)__ 完成后设置目标滑动边缘，建议在 __onContentChanged()__ 内完成
 
 ```java
@@ -61,6 +74,10 @@ public class MainActivity extends SlideActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (!slideManager.isSlideDisable()) {
+            overridePendingTransition(R.anim.slide_in_right, 0);
+        }
     }
 
     // 可选步骤，在setContentView()之后指定触摸边缘
@@ -70,22 +87,20 @@ public class MainActivity extends SlideActivity {
         super.onContentChanged();
         slideManager.getSlideLayout().setTrackingEdge(ViewDragHelper.EDGE_RIGHT);
     }
-
-    // 由super.onBackPressed();调用，在结束界面前进行退场动画
+    
     @Override
-    public void finishAfterTransition() {
-        SlideLayout l = slideManager.getSlideLayout();
-        if (l != null) {
-            l.slideExit();
-        } else {
-            super.finishAfterTransition();
+    public void finish() {
+        super.finish();
+        if (!slideManager.isSlideDisable()) {
+            overridePendingTransition(0, R.anim.slide_out_right);
         }
     }
 
     // 可选步骤，提供自定义SlideManager实例
+    @NonNull
     @Override
-    protected SlideManager slideManagerFactory() {
-        return new SlideManager(this);
+    protected SlideManager slideManagerProvider() {
+        return new SlideManager(this, new CustomAdapter(this));
     }
 }
 ```

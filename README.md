@@ -46,6 +46,19 @@ They sharing the same version but different __artifactId__, you just need one of
 Usage
 -------
 
+Add `<item name="android:windowIsTranslucent">true</item>`  to your __ActivityTheme__ in __styles.xml__, such as
+
+```xml
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        ....
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+</resources>
+```
+
 Extends the class named __SlideActivity__ using your __Activity__, set the edge which is going to track after __setContentView(View)__.
 
 ```java
@@ -55,6 +68,10 @@ public class MainActivity extends SlideActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (!slideManager.isSlideDisable()) {
+            overridePendingTransition(R.anim.slide_in_right, 0);
+        }
     }
 
     // Optional, set tracking edge after content changed.
@@ -64,22 +81,20 @@ public class MainActivity extends SlideActivity {
         super.onContentChanged();
         slideManager.getSlideLayout().setTrackingEdge(ViewDragHelper.EDGE_RIGHT);
     }
-
-    // called by super.onBackPressed(); to finish activity with transition.
+    
     @Override
-    public void finishAfterTransition() {
-        SlideLayout l = slideManager.getSlideLayout();
-        if (l != null) {
-            l.slideExit();
-        } else {
-            super.finishAfterTransition();
+    public void finish() {
+        super.finish();
+        if (!slideManager.isSlideDisable()) {
+            overridePendingTransition(0, R.anim.slide_out_right);
         }
     }
 
     // Optional, provide a custom SlideManager instance to SlideActivity.
+    @NonNull
     @Override
-    protected SlideManager slideManagerFactory() {
-        return new SlideManager(this);
+    protected SlideManager slideManagerProvider() {
+        return new SlideManager(this, new CustomAdapter(this));
     }
 }
 ```
