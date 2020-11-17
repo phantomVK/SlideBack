@@ -18,7 +18,7 @@ public class CustomAdapter implements SlideStateListener {
     private static final Point POINT = new Point();
     private static final float SCALE = 0.283F;
 
-    private Activity activity;
+    private final Activity activity;
     private View decor;
     private float translationX;
 
