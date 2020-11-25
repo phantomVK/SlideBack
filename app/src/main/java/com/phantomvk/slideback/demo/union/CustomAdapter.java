@@ -31,9 +31,8 @@ public class CustomAdapter implements SlideStateListener {
         activity.getWindowManager().getDefaultDisplay().getSize(POINT);
         translationX = SCALE * POINT.x;
 
-        WeakReference<View> ref = ActivityStack.peek();
-        if (ref != null && ((UnionMonitor) activity).isUnionEnable()) {
-            decor = ref.get();
+        if (((UnionMonitor) activity).isUnionEnable()) {
+            decor = ActivityStack.peek();
         }
     }
 

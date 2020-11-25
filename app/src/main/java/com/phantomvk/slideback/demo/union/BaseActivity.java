@@ -30,7 +30,7 @@ public class BaseActivity extends SlideActivity implements CustomAdapter.UnionMo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityStack.pop(this);
+        ActivityStack.pop();
     }
 
     @Override
