@@ -18,11 +18,11 @@ android {
             }
         }
     }
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.phantomvk.slideback.demo"
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         resConfigs "en", "xhdpi"
