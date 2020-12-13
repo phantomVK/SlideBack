@@ -88,28 +88,28 @@ public class SlideLayout extends FrameLayout {
     /**
      * The value of slide over range in pixel.
      */
-    private int mOverRangePixel;
+    private final int mOverRangePixel;
 
     /**
      * The default size of the shadow drawable;
      */
-    private int mShadowSize;
+    private final int mShadowSize;
 
     /**
-     * The opacity of scrim.
+     * The alpha of shadow.
      */
-    private float mScrimOpacity;
+    private int mShadowAlpha;
 
     /**
-     * The opacity of shadow.
-     */
-    private float mShadowOpacity;
-
-    /**
-     * The color of scrim.
+     * The base color of scrim.
      */
     @ColorInt
-    private int mScrimColor = 0x99000000;
+    private int mScrimBaseColor = 0x99000000;
+
+    /**
+     * The actual color of scrim
+     */
+    private int mScrimColor;
 
     /**
      * The child view.
@@ -338,38 +338,30 @@ public class SlideLayout extends FrameLayout {
     private void drawShadow(Canvas canvas, View child) {
         child.getHitRect(RECT);
 
-        final int alpha = (int) (mShadowOpacity * (2 << 8 - 1));
-
         if ((mEdge & EDGE_LEFT) != 0) {
             mShadowLeft.setBounds(RECT.left - mShadowLeft.getIntrinsicWidth(), RECT.top,
                     RECT.left, RECT.bottom);
-            mShadowLeft.setAlpha(alpha);
+            mShadowLeft.setAlpha(mShadowAlpha);
             mShadowLeft.draw(canvas);
         } else if ((mEdge & EDGE_RIGHT) != 0) {
             mShadowRight.setBounds(RECT.right, RECT.top,
                     RECT.right + mShadowRight.getIntrinsicWidth(), RECT.bottom);
-            mShadowRight.setAlpha(alpha);
+            mShadowRight.setAlpha(mShadowAlpha);
             mShadowRight.draw(canvas);
         } else if ((mEdge & EDGE_TOP) != 0) {
             mShadowTop.setBounds(RECT.left, RECT.top - mShadowTop.getIntrinsicHeight(),
                     RECT.right, RECT.top);
-            mShadowTop.setAlpha(alpha);
+            mShadowTop.setAlpha(mShadowAlpha);
             mShadowTop.draw(canvas);
         } else if ((mEdge & EDGE_BOTTOM) != 0) {
             mShadowBottom.setBounds(RECT.left, RECT.bottom, RECT.right,
                     RECT.bottom + mShadowBottom.getIntrinsicHeight());
-            mShadowBottom.setAlpha(alpha);
+            mShadowBottom.setAlpha(mShadowAlpha);
             mShadowBottom.draw(canvas);
         }
     }
 
     private void drawScrim(Canvas canvas, View child) {
-        if (mScrimOpacity == 0) return;
-
-        final int baseAlpha = (mScrimColor & 0xFF000000) >>> 24;
-        final int slideAlpha = (int) (baseAlpha * mScrimOpacity);
-        final int color = (slideAlpha << 24) | (mScrimColor & 0xFFFFFF);
-
         if ((mEdge & EDGE_LEFT) != 0) {
             canvas.clipRect(getLeft(), getTop(), child.getLeft(), getHeight());
         } else if ((mEdge & EDGE_RIGHT) != 0) {
@@ -380,13 +372,18 @@ public class SlideLayout extends FrameLayout {
             canvas.clipRect(child.getLeft(), child.getBottom(), getRight(), getHeight());
         }
 
-        canvas.drawColor(color);
+        canvas.drawColor(mScrimColor);
     }
 
     @Override
     public void computeScroll() {
-        mScrimOpacity = calScrimOpacity(mSlidePercent);
-        mShadowOpacity = calShadowOpacity(mSlidePercent);
+        final float scrimOpacity = calScrimOpacity(mSlidePercent);
+        final int baseAlpha = (mScrimBaseColor & 0xFF000000) >>> 24;
+        final int slideAlpha = (int) (baseAlpha * scrimOpacity);
+        mScrimColor = (slideAlpha << 24) | (mScrimBaseColor & 0xFFFFFF);
+
+        final float shadowOpacity = calShadowOpacity(mSlidePercent);
+        mShadowAlpha = (int) (shadowOpacity * (2 << 8 - 1));
 
         if (mHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
@@ -514,7 +511,7 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void setScrimColor(@ColorInt int color) {
-        mScrimColor = color;
+        mScrimBaseColor = color;
     }
 
     public void setContentView(@NonNull ViewGroup view) {
