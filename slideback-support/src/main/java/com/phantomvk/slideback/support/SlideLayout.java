@@ -105,7 +105,7 @@ public class SlideLayout extends FrameLayout {
     private int mScrimBaseColor = 0x99000000;
 
     /**
-     * The actual color of scrim
+     * The actual color of scrim.
      */
     private int mScrimColor;
 
