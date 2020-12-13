@@ -107,6 +107,7 @@ public class SlideLayout extends FrameLayout {
     /**
      * The actual color of scrim.
      */
+    @ColorInt
     private int mScrimColor;
 
     /**
