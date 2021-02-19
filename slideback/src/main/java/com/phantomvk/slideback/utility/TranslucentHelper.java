@@ -77,9 +77,17 @@ public class TranslucentHelper {
      * Available since Android 4.4(API19).
      */
     public static void removeTranslucent(@Nullable Activity activity) {
-        if (SDK_INT < 19 || activity == null || sRevokeMethod == null) return;
+        if (SDK_INT < 19 || activity == null) {
+            return;
+        }
+
+        if (SDK_INT >= 30) {
+            activity.setTranslucent(false);
+            return;
+        }
+
         try {
-            sRevokeMethod.invoke(activity);
+            if (sRevokeMethod == null) sRevokeMethod.invoke(activity);
         } catch (Throwable ignored) {
         }
     }
