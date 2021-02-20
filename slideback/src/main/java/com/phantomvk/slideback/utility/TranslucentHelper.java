@@ -87,7 +87,7 @@ public class TranslucentHelper {
         }
 
         try {
-            if (sRevokeMethod == null) sRevokeMethod.invoke(activity);
+            if (sRevokeMethod != null) sRevokeMethod.invoke(activity);
         } catch (Throwable ignored) {
         }
     }
