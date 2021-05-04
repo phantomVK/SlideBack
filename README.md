@@ -1,7 +1,7 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg)](https://bintray.com/phantomtvk/SlideBack/slideback/_latestVersion) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![](https://jitpack.io/v/phantomVK/SlideBack.svg)](https://jitpack.io/#phantomVK/SlideBack) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 [中文版README](./README_CN.md)
 
@@ -15,29 +15,33 @@ Please download the latest release apk via [Release history](https://github.com/
 
 Download
 -----------
-You can download the dependency from __JCenter__ using __Gradle__ for __AndroidX__.
+You can download the dependency from __JitPack__ using __Gradle__ for __AndroidX__.
 
 ```groovy
-repositories {
-    google()
-    jcenter()
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback:latest.release'
+    implementation 'com.github.phantomVK.SlideBack:slideback:0.4.8'
 }
 ```
 
-If your're no using __AndroidX__, why not try this for __Android.Support__?
+If your're no using __AndroidX__, why not try this one for __Android.Support__?
 
 ```groovy
-repositories {
-    google()
-    jcenter()
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback-support:latest.release'
+    implementation 'com.github.phantomVK.SlideBack:slideback-support:0.4.8'
 }
 ```
 

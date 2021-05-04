@@ -1,7 +1,7 @@
 SlideBack
 =========
 
-[![Download](https://api.bintray.com/packages/phantomtvk/SlideBack/slideback/images/download.svg)](https://bintray.com/phantomtvk/SlideBack/slideback/_latestVersion) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
+[![](https://jitpack.io/v/phantomVK/SlideBack.svg)](https://jitpack.io/#phantomVK/SlideBack) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
 [README in English](./README.md)
 
@@ -19,29 +19,33 @@ SlideBack
 
 下载
 -----------
-可通过 __Gradle__ 从 __JCenter__ 下载依赖：
+可通过 __Gradle__ 从 __JitPack__ 下载依赖：
 
 ```groovy
-repositories {
-    google()
-    jcenter()
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback:latest.release'
+    implementation 'com.github.phantomVK.SlideBack:slideback:0.4.8'
 }
 ```
 
 如果你的工程不能迁移到 __AndroidX__，可以使用已适配 __Android.Support__ 的版本：
 
 ```groovy
-repositories {
-    google()
-    jcenter()
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 dependencies {
-    implementation 'com.phantomvk.slideback:slideback-support:latest.release'
+    implementation 'com.github.phantomVK.SlideBack:slideback-support:0.4.8'
 }
 ```
 
