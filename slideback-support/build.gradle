@@ -45,5 +45,3 @@ ext {
     siteUrl = 'https://github.com/phantomVK/SlideBack'
     gitUrl = 'https://github.com/phantomVK/SlideBack.git'
 }
-
-apply from: rootProject.file('bintray.gradle')
