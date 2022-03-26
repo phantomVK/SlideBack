@@ -26,7 +26,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.phantomVK.SlideBack:slideback:0.4.8'
+    implementation "com.github.phantomVK.SlideBack:slideback:latest.release"
 }
 ```
 
@@ -41,7 +41,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.phantomVK.SlideBack:slideback-support:0.4.8'
+    implementation "com.github.phantomVK.SlideBack:slideback-support:latest.release"
 }
 ```
 
