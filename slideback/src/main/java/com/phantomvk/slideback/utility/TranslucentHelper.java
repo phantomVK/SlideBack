@@ -1,14 +1,14 @@
 package com.phantomvk.slideback.utility;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 import android.app.Activity;
 import android.app.ActivityOptions;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
-import static android.os.Build.VERSION.SDK_INT;
 
 public class TranslucentHelper {
 
@@ -34,7 +34,10 @@ public class TranslucentHelper {
             }
         }
 
-        if (sClzArray == null) return;
+        if (sClzArray == null) {
+            return;
+        }
+
         if (SDK_INT >= 21) {
             sOptionsMethod = Activity.class.getDeclaredMethod("getActivityOptions");
             sOptionsMethod.setAccessible(true);
@@ -45,6 +48,7 @@ public class TranslucentHelper {
         }
 
         sInvokeMethod.setAccessible(true);
+
         sRevokeMethod = Activity.class.getDeclaredMethod("convertFromTranslucent");
         sRevokeMethod.setAccessible(true);
     }
@@ -52,22 +56,24 @@ public class TranslucentHelper {
     /**
      * Available since Android 4.4(API19).
      */
-    public static void setTranslucent(@Nullable Activity activity,
-                                      @Nullable TranslucentConversionListener listener) {
-        if (SDK_INT < 19 || activity == null || sInvokeMethod == null) return;
+    public static void setTranslucent(@NonNull Activity activity,
+                                      @NonNull TranslucentConversionListener listener) {
+
+        if (SDK_INT < 19 || sInvokeMethod == null) {
+            return;
+        }
+
         try {
             if (SDK_INT >= 21) {
+                TranslucentConversionHandler h = new TranslucentConversionHandler(listener);
+                Object p = Proxy.newProxyInstance(Activity.class.getClassLoader(), sClzArray, h);
                 Object o = (sOptionsMethod == null) ? null : sOptionsMethod.invoke(activity);
-                if (listener == null) {
-                    sInvokeMethod.invoke(activity, null, o);
-                } else {
-                    TranslucentConversionHandler h = new TranslucentConversionHandler(listener);
-                    Object p = Proxy.newProxyInstance(Activity.class.getClassLoader(), sClzArray, h);
-                    sInvokeMethod.invoke(activity, p, o);
-                }
+
+                sInvokeMethod.invoke(activity, p, o);
             } else {
+                // For API19 and API20.
                 sInvokeMethod.invoke(activity, new Object[]{null});
-                if (listener != null) listener.onTranslucentConversionComplete(true);
+                listener.onTranslucentConversionComplete(true);
             }
         } catch (Throwable ignored) {
         }
@@ -76,8 +82,8 @@ public class TranslucentHelper {
     /**
      * Available since Android 4.4(API19).
      */
-    public static void removeTranslucent(@Nullable Activity activity) {
-        if (SDK_INT < 19 || activity == null) {
+    public static void removeTranslucent(@NonNull Activity activity) {
+        if (SDK_INT < 19) {
             return;
         }
 
@@ -86,9 +92,12 @@ public class TranslucentHelper {
             return;
         }
 
-        try {
-            if (sRevokeMethod != null) sRevokeMethod.invoke(activity);
-        } catch (Throwable ignored) {
+        // For API19 to API29.
+        if (sRevokeMethod != null) {
+            try {
+                sRevokeMethod.invoke(activity);
+            } catch (Throwable ignored) {
+            }
         }
     }
 }
