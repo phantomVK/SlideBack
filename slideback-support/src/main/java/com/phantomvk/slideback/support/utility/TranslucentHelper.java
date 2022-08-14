@@ -25,17 +25,8 @@ public class TranslucentHelper {
         }
     }
 
-    private static void init() throws NoSuchMethodException {
-        for (Class<?> c : Activity.class.getDeclaredClasses()) {
-            if (c.getSimpleName().equals("TranslucentConversionListener")) {
-                sClzArray = new Class[]{c};
-                break;
-            }
-        }
-
-        if (sClzArray == null) {
-            return;
-        }
+    private static void init() throws NoSuchMethodException, ClassNotFoundException {
+        sClzArray = new Class[]{Class.forName("android.app.Activity$TranslucentConversionListener")};
 
         if (SDK_INT >= 21) {
             sOptionsMethod = Activity.class.getDeclaredMethod("getActivityOptions");
