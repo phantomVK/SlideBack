@@ -20,7 +20,6 @@ You can download the dependency from __JitPack__ using __Gradle__ for __AndroidX
 ```groovy
 allprojects {
     repositories {
-        ...
         maven { url 'https://jitpack.io' }
     }
 }
@@ -35,7 +34,6 @@ If your're no using __AndroidX__, why not try this one for __Android.Support__?
 ```groovy
 allprojects {
     repositories {
-        ...
         maven { url 'https://jitpack.io' }
     }
 }
