@@ -9,8 +9,9 @@ import java.lang.reflect.Proxy;
 
 import static android.os.Build.VERSION.SDK_INT;
 
-public class TranslucentHelper {
+public final class TranslucentHelper {
 
+    private static boolean success = false;
     private static Method sOptionsMethod;
     private static Method sInvokeMethod;
     private static Method sRevokeMethod;
@@ -20,7 +21,13 @@ public class TranslucentHelper {
         if (SDK_INT >= 19) {
             try {
                 init();
-            } catch (Throwable ignored) {
+                success = true;
+            } catch (Throwable t) {
+                success = false;
+                sOptionsMethod = null;
+                sInvokeMethod = null;
+                sRevokeMethod = null;
+                sClzArray = null;
             }
         }
     }
@@ -49,7 +56,7 @@ public class TranslucentHelper {
     public static void setTranslucent(@NonNull Activity activity,
                                       @NonNull TranslucentConversionListener listener) {
 
-        if (SDK_INT < 19 || sInvokeMethod == null) {
+        if (SDK_INT < 19 || !success || sInvokeMethod == null) {
             return;
         }
 
@@ -73,7 +80,7 @@ public class TranslucentHelper {
      * Available since Android 4.4(API19).
      */
     public static void removeTranslucent(@NonNull Activity activity) {
-        if (SDK_INT < 19) {
+        if (SDK_INT < 19 || !success) {
             return;
         }
 
@@ -83,5 +90,9 @@ public class TranslucentHelper {
             } catch (Throwable ignored) {
             }
         }
+    }
+
+    public static boolean isSuccess() {
+        return success;
     }
 }

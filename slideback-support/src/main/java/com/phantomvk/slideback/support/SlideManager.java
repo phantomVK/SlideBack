@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
@@ -17,7 +16,7 @@ import com.phantomvk.slideback.support.listener.SlideStateListener;
 public class SlideManager {
 
     private static final ColorDrawable DRAWABLE_TRANSPARENT = new ColorDrawable(Color.TRANSPARENT);
-    private static final Conductor CONDUCTOR = () -> Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
+    private static final Conductor CONDUCTOR = new ConductorImpl();
 
     /**
      * The target activity to control.
