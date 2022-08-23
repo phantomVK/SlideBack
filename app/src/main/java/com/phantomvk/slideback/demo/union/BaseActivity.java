@@ -3,7 +3,7 @@ package com.phantomvk.slideback.demo.union;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.phantomvk.slideback.SlideActivity;
 import com.phantomvk.slideback.SlideManager;
@@ -22,7 +22,7 @@ public class BaseActivity extends SlideActivity implements CustomAdapter.UnionMo
         super.onCreate(savedInstanceState);
         ActivityStack.push(this);
 
-        if (!slideManager.isSlideDisable()) {
+        if (slideManager != null && !slideManager.isSlideDisable()) {
             overridePendingTransition(R.anim.slide_in_right, 0);
         }
     }
@@ -36,7 +36,7 @@ public class BaseActivity extends SlideActivity implements CustomAdapter.UnionMo
     @Override
     public void finish() {
         super.finish();
-        if (!slideManager.isSlideDisable()) {
+        if (slideManager != null && !slideManager.isSlideDisable()) {
             overridePendingTransition(0, R.anim.slide_out_right);
         }
     }
@@ -55,7 +55,7 @@ public class BaseActivity extends SlideActivity implements CustomAdapter.UnionMo
         super.startActivityForResult(intent, requestCode, options);
     }
 
-    @NonNull
+    @Nullable
     @Override
     protected SlideManager slideManagerProvider() {
         return new SlideManager(this, new CustomAdapter(this));

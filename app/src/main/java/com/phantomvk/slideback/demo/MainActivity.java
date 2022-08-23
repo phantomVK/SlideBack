@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatButton;
@@ -108,25 +109,31 @@ public class MainActivity extends BaseActivity {
         AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
 
-        final float density = getResources().getDisplayMetrics().density;
-        final SlideLayout layout = slideManager.getSlideLayout();
-        if (layout != null) layout.setEdgeSize((int) (density * 120));
+        final RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        final SlideLayout layout = (slideManager == null) ? null : slideManager.getSlideLayout();
 
-        RadioGroup radioGroup = findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (layout == null) return;
+        if (layout == null) {
+            radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                String text = "No SlideManager or SlideLayout found.";
+                Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+            });
+        } else {
+            float density = getResources().getDisplayMetrics().density;
+            layout.setEdgeSize((int) (density * 120));
 
-            if (checkedId == R.id.radioLeft) {
-                trackingEdge = EDGE_LEFT;
-            } else if (checkedId == R.id.radioRight) {
-                trackingEdge = EDGE_RIGHT;
-            } else if (checkedId == R.id.radioTop) {
-                trackingEdge = EDGE_TOP;
-            } else if (checkedId == R.id.radioBottom) {
-                trackingEdge = EDGE_BOTTOM;
-            }
+            radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                if (checkedId == R.id.radioLeft) {
+                    trackingEdge = EDGE_LEFT;
+                } else if (checkedId == R.id.radioRight) {
+                    trackingEdge = EDGE_RIGHT;
+                } else if (checkedId == R.id.radioTop) {
+                    trackingEdge = EDGE_TOP;
+                } else if (checkedId == R.id.radioBottom) {
+                    trackingEdge = EDGE_BOTTOM;
+                }
 
-            layout.setTrackingEdge(trackingEdge);
-        });
+                layout.setTrackingEdge(trackingEdge);
+            });
+        }
     }
 }

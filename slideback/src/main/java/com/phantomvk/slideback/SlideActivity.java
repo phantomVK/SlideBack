@@ -3,7 +3,7 @@ package com.phantomvk.slideback;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class SlideActivity extends AppCompatActivity {
 
+    @Nullable
     protected SlideManager slideManager;
 
     @Override
@@ -29,33 +30,41 @@ public class SlideActivity extends AppCompatActivity {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        slideManager.onContentChanged();
+        if (slideManager != null) {
+            slideManager.onContentChanged();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        slideManager.onResume();
+        if (slideManager != null) {
+            slideManager.onResume();
+        }
     }
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
-        slideManager.startActivityForResult(intent, requestCode, options);
+        if (slideManager != null) {
+            slideManager.startActivityForResult(intent, requestCode, options);
+        }
         super.startActivityForResult(intent, requestCode, options);
     }
 
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
-        slideManager.onEnterAnimationComplete();
+        if (slideManager != null) {
+            slideManager.onEnterAnimationComplete();
+        }
     }
 
     /**
-     * Provide a NonNull custom {@link SlideManager}.
+     * Provide a Nullable custom {@link SlideManager}.
      *
      * @return a SlideManager instance.
      */
-    @NonNull
+    @Nullable
     protected SlideManager slideManagerProvider() {
         return new SlideManager(this);
     }
