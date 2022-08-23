@@ -3,6 +3,8 @@ package com.phantomvk.slideback.demo.union;
 import android.app.Activity;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public final class ActivityStack {
      *
      * @param activity the activity instance which is needed to track its DecorView.
      */
-    public static void push(Activity activity) {
+    public static void push(@NonNull Activity activity) {
         DECORS.add(activity.getWindow().getDecorView());
     }
 
