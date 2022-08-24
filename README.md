@@ -29,22 +29,6 @@ dependencies {
 }
 ```
 
-If your're no using __AndroidX__, why not try this one for __Android.Support__?
-
-```groovy
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-
-dependencies {
-    implementation "com.github.phantomVK.SlideBack:slideback-support:latest.release"
-}
-```
-
-They sharing the same version but different __artifactId__, you just need one of them.
-
 Usage
 -------
 

@@ -33,23 +33,6 @@ dependencies {
 }
 ```
 
-如果你的工程不能迁移到 __AndroidX__，可以使用已适配 __Android.Support__ 的版本：
-
-```groovy
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-
-dependencies {
-    implementation "com.github.phantomVK.SlideBack:slideback-support:latest.release"
-}
-```
-
-上述依赖库不同的 __artifactId__ 使用一样的版本号，你仅需使用其中最合适的一个。
-
-
 
 用法
 -------

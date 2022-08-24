@@ -1,1 +1,1 @@
-include ':app', ':slideback', ':slideback-support'
+include ':app', ':slideback'
