@@ -23,7 +23,7 @@ public class SlideStateAdapter implements SlideStateListener {
     }
 
     @Override
-    public void onSlideOverRange() {
+    public void onOutOfRange() {
         if (activity.isFinishing() || (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed())) return;
 
         activity.finish();

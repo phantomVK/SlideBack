@@ -1,37 +1,35 @@
 package com.phantomvk.slideback.demo.union;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
+
 import android.app.Activity;
 import android.graphics.Point;
 import android.view.View;
 
 import com.phantomvk.slideback.listener.SlideStateListener;
 
-import java.lang.ref.WeakReference;
-
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
-
 /**
  * The demonstrate to portrait screen and slide from left side.
  */
 public class CustomAdapter implements SlideStateListener {
-    private static final Point POINT = new Point();
     private static final float SCALE = 0.283F;
 
+    private final float translationX;
     private final Activity activity;
     private View decor;
-    private float translationX;
 
     public CustomAdapter(Activity activity) {
         this.activity = activity;
+
+        Point point = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(point);
+        translationX = SCALE * point.x;
     }
 
     @Override
     public void onEdgeTouched(int edgeFlags) {
-        activity.getWindowManager().getDefaultDisplay().getSize(POINT);
-        translationX = SCALE * POINT.x;
-
-        if (((UnionMonitor) activity).isUnionEnable()) {
+        if (((UnionSlideMonitor) activity).isUnionSlideEnable()) {
             decor = ActivityStack.peek();
         }
     }
@@ -49,7 +47,7 @@ public class CustomAdapter implements SlideStateListener {
     }
 
     @Override
-    public void onSlideOverRange() {
+    public void onOutOfRange() {
         if (activity.isFinishing() || (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed())) return;
 
         activity.finish();
@@ -61,7 +59,7 @@ public class CustomAdapter implements SlideStateListener {
     }
 
     @FunctionalInterface
-    public interface UnionMonitor {
-        boolean isUnionEnable();
+    public interface UnionSlideMonitor {
+        boolean isUnionSlideEnable();
     }
 }

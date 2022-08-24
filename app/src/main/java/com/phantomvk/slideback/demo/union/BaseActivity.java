@@ -11,7 +11,7 @@ import com.phantomvk.slideback.demo.R;
 
 import static androidx.customview.widget.ViewDragHelper.EDGE_LEFT;
 
-public class BaseActivity extends SlideActivity implements CustomAdapter.UnionMonitor {
+public class BaseActivity extends SlideActivity implements CustomAdapter.UnionSlideMonitor {
 
     // For demo only.
     protected int trackingEdge = EDGE_LEFT;
@@ -62,7 +62,7 @@ public class BaseActivity extends SlideActivity implements CustomAdapter.UnionMo
     }
 
     @Override
-    public boolean isUnionEnable() {
+    public boolean isUnionSlideEnable() {
         return trackingEdge == EDGE_LEFT;
     }
 }

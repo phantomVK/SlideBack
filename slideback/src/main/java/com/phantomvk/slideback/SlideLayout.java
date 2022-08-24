@@ -160,9 +160,9 @@ public class SlideLayout extends FrameLayout {
     private static final int FLAG_BOTH_DRAW_ANIMATION_COMPLETE = FLAG_DRAW_COMPLETE | FLAG_ANIMATION_COMPLETE;
 
     /**
-     * Flag, the view has been slided over the range.
+     * Flag, slide beyond the range and exit.
      */
-    private static final int FLAG_OVER_RANGE_TRIGGERED = 1 << 3;
+    private static final int FLAG_OUT_OF_RANGE = 1 << 3;
 
     /**
      * Flag to save memory.
@@ -170,7 +170,7 @@ public class SlideLayout extends FrameLayout {
      * {@value SlideLayout#FLAG_SLIDE_ENABLE}
      * {@value SlideLayout#FLAG_DRAW_COMPLETE}
      * {@value SlideLayout#FLAG_ANIMATION_COMPLETE}
-     * {@value SlideLayout#FLAG_OVER_RANGE_TRIGGERED}
+     * {@value SlideLayout#FLAG_OUT_OF_RANGE}
      */
     private int flags = FLAG_SLIDE_ENABLE;
 
@@ -661,10 +661,10 @@ public class SlideLayout extends FrameLayout {
                 }
             }
 
-            if (mSlidePercent >= 1F && !getFlag(FLAG_OVER_RANGE_TRIGGERED)) {
+            if (mSlidePercent >= 1F && !getFlag(FLAG_OUT_OF_RANGE)) {
                 for (SlideStateListener l : mListeners) {
-                    l.onSlideOverRange();
-                    setFlag(FLAG_OVER_RANGE_TRIGGERED, true);
+                    l.onOutOfRange();
+                    setFlag(FLAG_OUT_OF_RANGE, true);
                 }
             }
         }
