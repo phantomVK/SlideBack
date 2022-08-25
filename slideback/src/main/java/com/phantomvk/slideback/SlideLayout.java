@@ -559,8 +559,10 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void convertFromTranslucent() {
-        TranslucentHelper.removeTranslucent(mActivity);
-        setFlag(FLAG_DRAW_COMPLETE, false);
+        if (isDrawComplete()) {
+            TranslucentHelper.removeTranslucent(mActivity);
+            setFlag(FLAG_DRAW_COMPLETE, false);
+        }
     }
 
     /**

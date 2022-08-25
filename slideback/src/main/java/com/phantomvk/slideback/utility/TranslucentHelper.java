@@ -12,37 +12,38 @@ import java.lang.reflect.Proxy;
 
 public final class TranslucentHelper {
 
-    private static boolean success = false;
+    private static boolean sSuccess = false;
+    private static Class<?>[] sClzArray;
     private static Method sOptionsMethod;
     private static Method sInvokeMethod;
     private static Method sRevokeMethod;
-    private static Class<?>[] sClzArray;
 
     static {
         if (SDK_INT >= 19) {
             try {
                 init();
-                success = true;
+                sSuccess = true;
             } catch (Throwable t) {
-                success = false;
+                sSuccess = false;
+                sClzArray = null;
                 sOptionsMethod = null;
                 sInvokeMethod = null;
                 sRevokeMethod = null;
-                sClzArray = null;
             }
         }
     }
 
     private static void init() throws NoSuchMethodException, ClassNotFoundException {
-        sClzArray = new Class[]{Class.forName("android.app.Activity$TranslucentConversionListener")};
+        Class<?> clazz = Class.forName("android.app.Activity$TranslucentConversionListener");
+        sClzArray = new Class[]{clazz};
 
         if (SDK_INT >= 21) {
             sOptionsMethod = Activity.class.getDeclaredMethod("getActivityOptions");
             sOptionsMethod.setAccessible(true);
 
-            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClzArray[0], ActivityOptions.class);
+            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", clazz, ActivityOptions.class);
         } else {
-            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", sClzArray[0]);
+            sInvokeMethod = Activity.class.getDeclaredMethod("convertToTranslucent", clazz);
         }
 
         sInvokeMethod.setAccessible(true);
@@ -57,7 +58,7 @@ public final class TranslucentHelper {
     public static void setTranslucent(@NonNull Activity activity,
                                       @NonNull TranslucentConversionListener listener) {
 
-        if (SDK_INT < 19 || !success || sInvokeMethod == null) {
+        if (SDK_INT < 19 || !sSuccess || sInvokeMethod == null) {
             return;
         }
 
@@ -81,7 +82,7 @@ public final class TranslucentHelper {
      * Available since Android 4.4(API19).
      */
     public static void removeTranslucent(@NonNull Activity activity) {
-        if (SDK_INT < 19 || !success) {
+        if (SDK_INT < 19 || !sSuccess) {
             return;
         }
 
@@ -100,6 +101,6 @@ public final class TranslucentHelper {
     }
 
     public static boolean isSuccess() {
-        return success;
+        return sSuccess;
     }
 }

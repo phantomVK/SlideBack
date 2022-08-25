@@ -51,7 +51,6 @@ public class CustomAdapter implements SlideStateListener {
         if (activity.isFinishing() || (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed())) return;
 
         activity.finish();
-        activity.overridePendingTransition(0, 0);
     }
 
     @Override

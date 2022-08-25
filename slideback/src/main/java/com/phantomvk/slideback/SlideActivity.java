@@ -36,14 +36,6 @@ public class SlideActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (slideManager != null) {
-            slideManager.onResume();
-        }
-    }
-
-    @Override
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         if (slideManager != null) {
             slideManager.startActivityForResult(intent, requestCode, options);

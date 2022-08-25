@@ -1,5 +1,7 @@
 package com.phantomvk.slideback.demo.union;
 
+import static androidx.customview.widget.ViewDragHelper.EDGE_LEFT;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,9 +9,6 @@ import androidx.annotation.Nullable;
 
 import com.phantomvk.slideback.SlideActivity;
 import com.phantomvk.slideback.SlideManager;
-import com.phantomvk.slideback.demo.R;
-
-import static androidx.customview.widget.ViewDragHelper.EDGE_LEFT;
 
 public class BaseActivity extends SlideActivity implements CustomAdapter.UnionSlideMonitor {
 
@@ -21,24 +20,12 @@ public class BaseActivity extends SlideActivity implements CustomAdapter.UnionSl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityStack.push(this);
-
-        if (slideManager != null && !slideManager.isSlideDisable()) {
-            overridePendingTransition(R.anim.slide_in_right, 0);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ActivityStack.pop();
     }
 
     @Override
     public void finish() {
+        ActivityStack.pop();
         super.finish();
-        if (slideManager != null && !slideManager.isSlideDisable()) {
-            overridePendingTransition(0, R.anim.slide_out_right);
-        }
     }
 
     @Override
