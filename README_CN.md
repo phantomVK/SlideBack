@@ -13,7 +13,7 @@ SlideBack
 
 预览
 ----------
-请从 [更新历史](https://github.com/phantomVK/SlideBack/releases) 获得最新体验用安装包。
+请从 [下载安装包](./static/SlideBack_release.apk) 获得最新体验用安装包。
 
 
 
@@ -29,7 +29,7 @@ allprojects {
 }
 
 dependencies {
-    implementation "com.github.phantomVK.SlideBack:slideback:latest.release"
+    implementation "com.github.phantomVK:SlideBack:latest.release"
 }
 ```
 

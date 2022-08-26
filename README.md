@@ -11,7 +11,7 @@ An android library that helps you to finish activity with slide gesture, never s
 
 Preview
 ----------
-Please download the latest release apk via [Release history](https://github.com/phantomVK/SlideBack/releases).
+Please download the latest release apk via [Download APK](./static/SlideBack_release.apk).
 
 Download
 -----------
@@ -25,7 +25,7 @@ allprojects {
 }
 
 dependencies {
-    implementation "com.github.phantomVK.SlideBack:slideback:latest.release"
+    implementation "com.github.phantomVK:SlideBack:latest.release"
 }
 ```
 
