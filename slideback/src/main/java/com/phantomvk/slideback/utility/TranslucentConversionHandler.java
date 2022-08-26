@@ -15,7 +15,10 @@ public class TranslucentConversionHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
-        if ((boolean) args[0]) l.onTranslucentConversionComplete(true);
+        if (args.length == 1 && args[0] instanceof Boolean && (boolean) args[0]) {
+            l.onTranslucentConversionComplete(true);
+        }
+
         return null;
     }
 }

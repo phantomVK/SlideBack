@@ -12,7 +12,6 @@ import com.phantomvk.slideback.SlideManager;
 
 public class BaseActivity extends SlideActivity implements CustomAdapter.UnionSlideMonitor {
 
-    // For demo only.
     protected int trackingEdge = EDGE_LEFT;
     private boolean mEnterAnimationComplete = false;
 
@@ -36,10 +35,9 @@ public class BaseActivity extends SlideActivity implements CustomAdapter.UnionSl
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
-        // No new activity is allowed to start before this activity's enter animation is completed.
-        // This flag is largely improve the user experience.
-        if (!mEnterAnimationComplete) return;
-        super.startActivityForResult(intent, requestCode, options);
+        if (mEnterAnimationComplete) {
+            super.startActivityForResult(intent, requestCode, options);
+        }
     }
 
     @Nullable

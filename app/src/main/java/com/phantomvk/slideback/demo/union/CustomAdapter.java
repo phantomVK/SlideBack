@@ -15,40 +15,51 @@ import com.phantomvk.slideback.listener.SlideStateListener;
 public class CustomAdapter implements SlideStateListener {
     private static final float SCALE = 0.283F;
 
-    private final float translationX;
+    private final float scaleX;
     private final Activity activity;
-    private View decor;
+    private View prevDecorView;
 
     public CustomAdapter(Activity activity) {
         this.activity = activity;
 
         Point point = new Point();
         activity.getWindowManager().getDefaultDisplay().getSize(point);
-        translationX = SCALE * point.x;
+        scaleX = SCALE * point.x;
     }
 
     @Override
     public void onEdgeTouched(int edgeFlags) {
         if (((UnionSlideMonitor) activity).isUnionSlideEnable()) {
-            decor = ActivityStack.peek();
+            Activity prevActivity = ActivityStack.peek();
+            prevDecorView = (prevActivity == null) ? null : prevActivity.getWindow().getDecorView();
         }
     }
 
     @Override
     public void onDragStateChanged(int state, float scrollPercent) {
-        if (decor == null) return;
+        if (prevDecorView == null) {
+            return;
+        }
 
         if (scrollPercent == 0.0) {
-            decor.setTranslationX(0);
-            decor = null;
-        } else {
-            decor.setTranslationX((float) (Math.sqrt(scrollPercent) - 1) * translationX);
+            prevDecorView.setTranslationX(0);
+            prevDecorView = null;
+            return;
         }
+
+        float translationX = ((float) (Math.sqrt(scrollPercent) - 1)) * scaleX;
+        prevDecorView.setTranslationX(translationX);
     }
 
     @Override
     public void onOutOfRange() {
-        if (activity.isFinishing() || (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed())) return;
+        if (activity.isFinishing()) {
+            return;
+        }
+
+        if (SDK_INT >= JELLY_BEAN_MR1 && activity.isDestroyed()) {
+            return;
+        }
 
         activity.finish();
     }

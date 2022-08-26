@@ -155,14 +155,15 @@ public class SlideLayout extends FrameLayout {
     private static final int FLAG_ANIMATION_COMPLETE = 1 << 2;
 
     /**
-     * Flag, the combination of {@value FLAG_DRAW_COMPLETE} and {@value FLAG_ANIMATION_COMPLETE}.
-     */
-    private static final int FLAG_BOTH_DRAW_ANIMATION_COMPLETE = FLAG_DRAW_COMPLETE | FLAG_ANIMATION_COMPLETE;
-
-    /**
      * Flag, slide beyond the range and exit.
      */
     private static final int FLAG_OUT_OF_RANGE = 1 << 3;
+
+    /**
+     * Flag, the combination of all flags except {@value SlideLayout#FLAG_OUT_OF_RANGE}.
+     */
+    private static final int FLAG_ALL_FLAGS =
+            FLAG_SLIDE_ENABLE | FLAG_DRAW_COMPLETE | FLAG_ANIMATION_COMPLETE;
 
     /**
      * Flag to save memory.
@@ -210,40 +211,32 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void attach(@NonNull Activity activity) {
-        mActivity = activity;
-        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
-        ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
-        if (decorChild instanceof SlideLayout) return;
-
         TypedArray a = activity.getTheme().obtainStyledAttributes(ATTR_BACKGROUND);
         int background = a.getResourceId(0, 0);
         a.recycle();
 
-        decorChild.setBackgroundResource(background);
-        decorView.removeView(decorChild);
-        decorView.addView(this);
-        addView(decorChild);
-        setContentView(decorChild);
+        doAttach(activity, viewGroup -> viewGroup.setBackgroundResource(background));
     }
 
     public void attachColor(@NonNull Activity activity, @ColorInt int color) {
-        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
-        ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
-        if (decorChild instanceof SlideLayout) return;
-
-        decorChild.setBackgroundColor(color);
-        decorView.removeView(decorChild);
-        decorView.addView(this);
-        addView(decorChild);
-        setContentView(decorChild);
+        doAttach(activity, viewGroup -> viewGroup.setBackgroundColor(color));
     }
 
     public void attachColorRes(@NonNull Activity activity, @DrawableRes int colorRes) {
+        doAttach(activity, viewGroup -> viewGroup.setBackgroundResource(colorRes));
+    }
+
+    private void doAttach(Activity activity, Consumer<ViewGroup> consumer) {
+        mActivity = activity;
+
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
-        if (decorChild instanceof SlideLayout) return;
+        if (decorChild instanceof SlideLayout) {
+            return;
+        }
 
-        decorChild.setBackgroundResource(colorRes);
+        consumer.accept(decorChild);
+
         decorView.removeView(decorChild);
         decorView.addView(this);
         addView(decorChild);
@@ -251,7 +244,9 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void setEdgeSize(int size) {
-        if (size > 0) mHelper.setEdgeSize(size);
+        if (size > 0) {
+            mHelper.setEdgeSize(size);
+        }
     }
 
     /**
@@ -281,6 +276,7 @@ public class SlideLayout extends FrameLayout {
         if (threshold >= 1.0F || threshold <= 0F) {
             throw new IllegalArgumentException("The value of threshold must between 0F to 1.0F");
         }
+
         mThreshold = threshold;
     }
 
@@ -297,7 +293,10 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (!getFlag(FLAG_SLIDE_ENABLE)) return false;
+        if (!getFlag(FLAG_SLIDE_ENABLE)) {
+            return false;
+        }
+
         try {
             return mHelper.shouldInterceptTouchEvent(event);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -307,7 +306,10 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!getFlag(FLAG_SLIDE_ENABLE)) return false;
+        if (!getFlag(FLAG_SLIDE_ENABLE)) {
+            return false;
+        }
+
         try {
             mHelper.processTouchEvent(event);
             return true;
@@ -318,7 +320,10 @@ public class SlideLayout extends FrameLayout {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        if (mChildView == null) return;
+        if (mChildView == null) {
+            return;
+        }
+
         mChildView.layout(mViewLeft, mViewTop,
                 mViewLeft + mChildView.getMeasuredWidth(),
                 mViewTop + mChildView.getMeasuredHeight());
@@ -511,6 +516,10 @@ public class SlideLayout extends FrameLayout {
         return getFlag(FLAG_DRAW_COMPLETE);
     }
 
+    private boolean isFlagsEnabled() {
+        return getFlag(FLAG_ALL_FLAGS);
+    }
+
     public void setScrimColor(@ColorInt int color) {
         mScrimBaseColor = color;
     }
@@ -525,7 +534,9 @@ public class SlideLayout extends FrameLayout {
      * @param listener a SlideStateListener
      */
     public void addListener(@Nullable SlideStateListener listener) {
-        if (listener != null) mListeners.add(listener);
+        if (listener != null) {
+            mListeners.add(listener);
+        }
     }
 
     /**
@@ -534,8 +545,13 @@ public class SlideLayout extends FrameLayout {
      * @param listeners ths list should not contain null object
      */
     public void addListeners(@Nullable List<SlideStateListener> listeners) {
-        if (listeners == null || listeners.isEmpty()) return;
-        mListeners.addAll(listeners);
+        if (listeners == null || listeners.isEmpty()) {
+            return;
+        }
+
+        for (SlideStateListener l : listeners) {
+            addListener(l);
+        }
     }
 
     /**
@@ -544,7 +560,9 @@ public class SlideLayout extends FrameLayout {
      * @param listener SlideStateListener
      */
     public void removeListener(@Nullable SlideStateListener listener) {
-        if (listener != null) mListeners.remove(listener);
+        if (listener != null) {
+            mListeners.remove(listener);
+        }
     }
 
     /**
@@ -555,7 +573,8 @@ public class SlideLayout extends FrameLayout {
     }
 
     public void convertToTranslucent() {
-        TranslucentHelper.setTranslucent(mActivity, (v) -> setFlag(FLAG_DRAW_COMPLETE, v));
+        TranslucentHelper.setTranslucent(mActivity,
+                (v) -> post(() -> setFlag(FLAG_DRAW_COMPLETE, v)));
     }
 
     public void convertFromTranslucent() {
@@ -573,7 +592,7 @@ public class SlideLayout extends FrameLayout {
      * For more details, see {@link Activity#onEnterAnimationComplete()}.
      */
     public void onEnterAnimationComplete() {
-        setFlag(FLAG_ANIMATION_COMPLETE, true);
+        post(() -> setFlag(FLAG_ANIMATION_COMPLETE, true));
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {
@@ -582,9 +601,10 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
-            boolean touched = mHelper.isEdgeTouched(mEdge, pointerId);
+            boolean touched = isFlagsEnabled() && mHelper.isEdgeTouched(mEdge, pointerId);
             if (touched) {
                 triggered = true;
+
                 for (SlideStateListener l : mListeners) {
                     l.onEdgeTouched(mEdge);
                 }
@@ -697,7 +717,9 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public void onEdgeTouched(int edgeFlags, int pointerId) {
-            if (!isDrawComplete() && getFlag(FLAG_ANIMATION_COMPLETE)) convertToTranslucent();
+            if (!isDrawComplete() && getFlag(FLAG_ANIMATION_COMPLETE)) {
+                convertToTranslucent();
+            }
         }
 
         @Override
@@ -724,7 +746,7 @@ public class SlideLayout extends FrameLayout {
 
         @Override
         public boolean isValidMoveAction() {
-            return getFlag(FLAG_BOTH_DRAW_ANIMATION_COMPLETE);
+            return isFlagsEnabled();
         }
     }
 
@@ -747,5 +769,16 @@ public class SlideLayout extends FrameLayout {
     public interface Interpolation {
         float getInterpolation(@NonNull Context context,
                                @FloatRange(from = 0.0F, to = 1.0F) float slidePercent);
+    }
+
+    @FunctionalInterface
+    private interface Consumer<T> {
+
+        /**
+         * Performs this operation on the given argument.
+         *
+         * @param t the input argument
+         */
+        void accept(T t);
     }
 }

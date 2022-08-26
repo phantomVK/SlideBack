@@ -91,35 +91,55 @@ public class SlideManager {
      * Called in {@link Activity#onContentChanged()} with background from theme.
      */
     public void onContentChanged() {
-        if (!isSlideDisable()) slideLayout.attach(activity);
+        if (isSlideDisable()) {
+            return;
+        }
+
+        slideLayout.attach(activity);
     }
 
     /**
      * Called in {@link Activity#onContentChanged()} with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
-        if (!isSlideDisable()) slideLayout.attachColor(activity, color);
+        if (isSlideDisable()) {
+            return;
+        }
+
+        slideLayout.attachColor(activity, color);
     }
 
     /**
      * Called in {@link Activity#onContentChanged()} with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
-        if (!isSlideDisable()) slideLayout.attachColorRes(activity, colorRes);
+        if (isSlideDisable()) {
+            return;
+        }
+
+        slideLayout.attachColorRes(activity, colorRes);
     }
 
     /**
      * Called in Activity.onResume().
      */
     public void onResume() {
-        if (!isSlideDisable() && !slideLayout.isDrawComplete()) slideLayout.convertToTranslucent();
+        if (isSlideDisable() || slideLayout.isDrawComplete()) {
+            return;
+        }
+
+        slideLayout.convertToTranslucent();
     }
 
     /**
      * Called in Activity.startActivityForResult().
      */
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
-        if (!isSlideDisable() && !activity.isFinishing()) slideLayout.convertFromTranslucent();
+        if (isSlideDisable() || activity.isFinishing()) {
+            return;
+        }
+
+        slideLayout.convertFromTranslucent();
     }
 
     /**
@@ -130,7 +150,11 @@ public class SlideManager {
      * For more details, see {@link Activity#onEnterAnimationComplete()}.
      */
     public void onEnterAnimationComplete() {
-        if (!isSlideDisable()) slideLayout.onEnterAnimationComplete();
+        if (isSlideDisable()) {
+            return;
+        }
+
+        slideLayout.onEnterAnimationComplete();
     }
 
     /**

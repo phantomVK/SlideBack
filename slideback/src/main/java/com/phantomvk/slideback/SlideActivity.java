@@ -40,12 +40,14 @@ public class SlideActivity extends AppCompatActivity {
         if (slideManager != null) {
             slideManager.startActivityForResult(intent, requestCode, options);
         }
+
         super.startActivityForResult(intent, requestCode, options);
     }
 
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
+
         if (slideManager != null) {
             slideManager.onEnterAnimationComplete();
         }

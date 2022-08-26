@@ -8,6 +8,6 @@ public class ConductorImpl implements SlideManager.Conductor {
 
     @Override
     public boolean slideBackDisable() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || !TranslucentHelper.isSuccess();
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || !TranslucentHelper.isEnabled();
     }
 }

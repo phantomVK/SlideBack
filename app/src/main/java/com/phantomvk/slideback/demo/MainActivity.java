@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(tag, "onCreate");
+        Log.i(tag, "onCreate()");
 
         setWindow();
         setContentView(R.layout.activity_main);
@@ -55,6 +55,12 @@ public class MainActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         Log.i(tag, "onStart()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(tag, "onRestart()");
     }
 
     @Override
