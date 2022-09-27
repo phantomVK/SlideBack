@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -108,7 +109,9 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         ActionBar bar = getSupportActionBar();
-        if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
+        if (bar != null) {
+            bar.setDisplayHomeAsUpEnabled(true);
+        }
 
         AppCompatTextView textView = findViewById(R.id.text);
         textView.setText(tag);
@@ -116,8 +119,8 @@ public class MainActivity extends BaseActivity {
         AppCompatButton button = findViewById(R.id.start);
         button.setOnClickListener(v -> startActivity(new Intent(this, MainActivity.class)));
 
-        final RadioGroup radioGroup = findViewById(R.id.radioGroup);
-        final SlideLayout layout = (slideManager == null) ? null : slideManager.getSlideLayout();
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+        SlideLayout layout = (slideManager == null) ? null : slideManager.getSlideLayout();
 
         if (layout == null) {
             radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -142,5 +145,15 @@ public class MainActivity extends BaseActivity {
                 layout.setTrackingEdge(trackingEdge);
             });
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
