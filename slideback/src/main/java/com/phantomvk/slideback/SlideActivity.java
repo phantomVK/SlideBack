@@ -3,6 +3,7 @@ package com.phantomvk.slideback;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,7 +37,7 @@ public class SlideActivity extends AppCompatActivity {
     }
 
     @Override
-    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+    public void startActivityForResult(@NonNull Intent intent, int requestCode, Bundle options) {
         if (slideManager != null) {
             slideManager.startActivityForResult(intent, requestCode, options);
         }
