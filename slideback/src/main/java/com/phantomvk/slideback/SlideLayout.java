@@ -20,10 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.ViewCompat;
+import androidx.customview.widget.ViewDragHelper;
 
 import com.phantomvk.slideback.listener.SlideStateListener;
 import com.phantomvk.slideback.utility.TranslucentHelper;
-import com.phantomvk.slideback.utility.ViewDragHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -278,17 +278,6 @@ public class SlideLayout extends FrameLayout {
         }
 
         mThreshold = threshold;
-    }
-
-    /**
-     * Set the sensitivity.
-     *
-     * @param context     Context to get ViewConfiguration
-     * @param sensitivity value between 0 to 1, the final value for touchSlop =
-     *                    ViewConfiguration.getScaledTouchSlop * (1 / s);
-     */
-    public void setSensitivity(Context context, float sensitivity) {
-        mHelper.setSensitivity(context, sensitivity);
     }
 
     @Override
@@ -584,6 +573,10 @@ public class SlideLayout extends FrameLayout {
         }
     }
 
+    public ViewDragHelper getViewDragHelper() {
+        return mHelper;
+    }
+
     /**
      * Activities cannot draw during the period that their windows are animating in. In order
      * to know when it is safe to begin drawing they can override this method which will be
@@ -742,11 +735,6 @@ public class SlideLayout extends FrameLayout {
                 position = Math.min(0, Math.max(left, -child.getWidth()));
             }
             return position;
-        }
-
-        @Override
-        public boolean isValidMoveAction() {
-            return isFlagsEnabled();
         }
     }
 
