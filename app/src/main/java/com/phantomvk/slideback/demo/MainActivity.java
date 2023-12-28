@@ -10,12 +10,14 @@ import static androidx.customview.widget.ViewDragHelper.EDGE_LEFT;
 import static androidx.customview.widget.ViewDragHelper.EDGE_RIGHT;
 import static androidx.customview.widget.ViewDragHelper.EDGE_TOP;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -24,10 +26,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.customview.widget.ViewDragHelper;
 
 import com.phantomvk.slideback.SlideLayout;
 import com.phantomvk.slideback.demo.union.BaseActivity;
 
+import java.lang.reflect.Field;
 import java.util.regex.Pattern;
 
 public class MainActivity extends BaseActivity {
@@ -86,6 +90,26 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.i(tag, "onDestroy()");
+    }
+
+    public void setTouchSlop(Context context, float sensitivity) throws NoSuchFieldException, IllegalAccessException {
+        SlideLayout layout = (slideManager == null) ? null : slideManager.getSlideLayout();
+        if (layout == null) {
+            return;
+        }
+
+        ViewDragHelper helper = layout.getViewDragHelper();
+        if (helper == null) {
+            return;
+        }
+
+        float s = Math.max(0f, Math.min(1.0f, sensitivity));
+        ViewConfiguration conf = ViewConfiguration.get(context);
+        int touchSlop = (int) (conf.getScaledTouchSlop() * (1 / s));
+
+        Field field = ViewDragHelper.class.getDeclaredField("mTouchSlop");
+        field.setAccessible(true);
+        field.setInt(helper, touchSlop);
     }
 
     private void setWindow() {
