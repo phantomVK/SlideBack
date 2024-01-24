@@ -58,7 +58,7 @@ public final class TranslucentHelper {
     public static void setTranslucent(@NonNull Activity activity,
                                       @NonNull TranslucentConversionListener listener) {
 
-        if (SDK_INT < 19 || !sEnabled || sInvokeMethod == null) {
+        if (SDK_INT < 19 || !sEnabled) {
             return;
         }
 
@@ -92,11 +92,9 @@ public final class TranslucentHelper {
         }
 
         // For API19 to API29.
-        if (sRevokeMethod != null) {
-            try {
-                sRevokeMethod.invoke(activity);
-            } catch (Throwable ignored) {
-            }
+        try {
+            sRevokeMethod.invoke(activity);
+        } catch (Throwable ignored) {
         }
     }
 
