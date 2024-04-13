@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
@@ -13,11 +14,11 @@ import androidx.annotation.Nullable;
 
 import com.phantomvk.slideback.listener.SlideStateAdapter;
 import com.phantomvk.slideback.listener.SlideStateListener;
+import com.phantomvk.slideback.utility.TranslucentHelper;
 
 public class SlideManager {
 
     private static final ColorDrawable DRAWABLE_TRANSPARENT = new ColorDrawable(Color.TRANSPARENT);
-    private static final Conductor CONDUCTOR = new ConductorImpl();
 
     /**
      * The target activity to control.
@@ -41,7 +42,7 @@ public class SlideManager {
      */
     public SlideManager(@NonNull Activity activity) {
         this(activity,
-                activity instanceof Conductor ? (Conductor) activity : CONDUCTOR,
+                activity instanceof Conductor ? (Conductor) activity : null,
                 new SlideStateAdapter(activity));
     }
 
@@ -62,7 +63,7 @@ public class SlideManager {
      * @param listener must not be null. For more detail, see {@link SlideStateListener}
      */
     public SlideManager(@NonNull Activity activity, @NonNull SlideStateListener listener) {
-        this(activity, activity instanceof Conductor ? (Conductor) activity : CONDUCTOR, listener);
+        this(activity, activity instanceof Conductor ? (Conductor) activity : null, listener);
     }
 
     /**
@@ -73,7 +74,7 @@ public class SlideManager {
      * @param listener  must not be null. For more detail, see {@link SlideStateListener}
      */
     public SlideManager(@NonNull Activity activity,
-                        @NonNull Conductor conductor,
+                        @Nullable Conductor conductor,
                         @NonNull SlideStateListener listener) {
 
         this.conductor = conductor;
@@ -178,7 +179,11 @@ public class SlideManager {
     }
 
     public boolean isSlideDisable() {
-        return conductor != null && conductor.slideBackDisable();
+        if (conductor == null) {
+            return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || !TranslucentHelper.isEnabled();
+        }
+
+        return conductor.slideBackDisable();
     }
 
     /**
