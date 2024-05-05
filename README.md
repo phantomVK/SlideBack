@@ -91,7 +91,7 @@ Totally disable the slide function, nothing inside __SlideManager__ will be init
 public class MainActivity extends SlideActivity implements SlideManager.Conductor{
 
     @Override
-    public boolean slideBackDisable() {
+    public boolean isSlideBackDisabled() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }
@@ -99,7 +99,7 @@ public class MainActivity extends SlideActivity implements SlideManager.Conducto
 
 To temporarily disable the slide action, or enable again whenever you want, see the method below.
 
-__slideManager__ comes from __SlideActivity__ the super class you extended. What __slideManager.getSlideLayout()__ returns is null if slide action has been totally disabled, see method mentioned above named __slideBackDisable()__ for more details.
+__slideManager__ comes from __SlideActivity__ the super class you extended. What __slideManager.getSlideLayout()__ returns is null if slide action has been totally disabled, see method mentioned above named __isSlideBackDisabled()__ for more details.
 
 ```java
 public class MainActivity extends SlideActivity {

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
@@ -78,7 +77,7 @@ public class SlideManager {
                         @NonNull SlideStateListener listener) {
 
         this.conductor = conductor;
-        if (isSlideDisable()) return;
+        if (isDisabled()) return;
 
         this.activity = activity;
 
@@ -92,7 +91,7 @@ public class SlideManager {
      * Called in {@link Activity#onContentChanged()} with background from theme.
      */
     public void onContentChanged() {
-        if (isSlideDisable()) {
+        if (isDisabled()) {
             return;
         }
 
@@ -103,7 +102,7 @@ public class SlideManager {
      * Called in {@link Activity#onContentChanged()} with background color int.
      */
     public void onContentChanged(@ColorInt int color) {
-        if (isSlideDisable()) {
+        if (isDisabled()) {
             return;
         }
 
@@ -114,7 +113,7 @@ public class SlideManager {
      * Called in {@link Activity#onContentChanged()} with background color resource.
      */
     public void onContentChangedRes(@DrawableRes int colorRes) {
-        if (isSlideDisable()) {
+        if (isDisabled()) {
             return;
         }
 
@@ -125,7 +124,7 @@ public class SlideManager {
      * Called in Activity.onResume().
      */
     public void onResume() {
-        if (isSlideDisable() || slideLayout.isDrawComplete()) {
+        if (isDisabled() || slideLayout.isDrawComplete()) {
             return;
         }
 
@@ -136,7 +135,7 @@ public class SlideManager {
      * Called in Activity.startActivityForResult().
      */
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
-        if (isSlideDisable() || activity.isFinishing()) {
+        if (isDisabled() || activity.isFinishing()) {
             return;
         }
 
@@ -151,7 +150,7 @@ public class SlideManager {
      * For more details, see {@link Activity#onEnterAnimationComplete()}.
      */
     public void onEnterAnimationComplete() {
-        if (isSlideDisable()) {
+        if (isDisabled()) {
             return;
         }
 
@@ -160,7 +159,7 @@ public class SlideManager {
 
     /**
      * Return the instance of {@link SlideLayout}, maybe null or caused NullPointerException
-     * when the value returned from {@link Conductor#slideBackDisable()} is true.
+     * when the value returned from {@link Conductor#isSlideBackDisabled()} is true.
      *
      * @return the instance of SlideLayout, returned null pointer or caused NullPointerException
      */
@@ -175,37 +174,39 @@ public class SlideManager {
      * @return is translucent
      */
     public boolean isTranslucent() {
-        return !isSlideDisable() && slideLayout.isDrawComplete();
+        return !isDisabled() && slideLayout.isDrawComplete();
     }
 
-    public boolean isSlideDisable() {
+    public boolean isDisabled() {
         if (conductor == null) {
-            return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || !TranslucentHelper.isEnabled();
+            return !TranslucentHelper.isEnabled();
         }
 
-        return conductor.slideBackDisable();
+        return conductor.isSlideBackDisabled();
     }
 
     /**
      * Used to totally disable SlideLayout.
      * <p>
      * Usage: implemented {@link Conductor} by the subclass of Activity which is using, then
-     * override method {@link Conductor#slideBackDisable()} to return true.
+     * override method {@link Conductor#isSlideBackDisabled()} to return true.
      * <p>
      * As a result, this class will not be initialized, any result returned from its methods
      * is null or just caused NullPointerException.
      * <p>
-     * Re-initializing is illegal even changing the value returned from {@link #slideBackDisable()}
+     * Re-initializing is illegal even changing the value returned from {@link #isSlideBackDisabled()}
      * from true to false.
      * <p>
      * If just temporarily disable sliding, use {@link SlideLayout#setEnable(boolean)} of the
      * instance which returned from {@link SlideManager#getSlideLayout()}, and do not need to
-     * implement {@link Conductor#slideBackDisable()}, or implement but return false permanently.
+     * implement {@link Conductor#isSlideBackDisabled()}, or implement but return false permanently.
      */
     public interface Conductor {
         /**
          * Indicate whether SlideBack is totally disabled.
          */
-        boolean slideBackDisable();
+        default boolean isSlideBackDisabled() {
+            return !TranslucentHelper.isEnabled();
+        }
     }
 }

@@ -96,7 +96,7 @@ public class MainActivity extends SlideActivity {
 public class MainActivity extends SlideActivity implements SlideManager.Conductor{
 
     @Override
-    public boolean slideBackDisable() {
+    public boolean isSlideBackDisabled() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 }
@@ -104,7 +104,7 @@ public class MainActivity extends SlideActivity implements SlideManager.Conducto
 
 以下方法暂时关闭功能，可在需要时再次启用。
 
-变量 __slideManager__ 来自父类 __SlideActivity__。当滑动操作被彻底关闭后，__slideManager.getSlideLayout()__ 返回值为空，详情请看上文名为 __slideBackDisable()__ 方法的指南
+变量 __slideManager__ 来自父类 __SlideActivity__。当滑动操作被彻底关闭后，__slideManager.getSlideLayout()__ 返回值为空，详情请看上文名为 __isSlideBackDisabled()__ 方法的指南
 
 ```java
 public class MainActivity extends SlideActivity {
