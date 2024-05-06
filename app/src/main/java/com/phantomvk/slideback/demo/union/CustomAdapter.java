@@ -13,7 +13,7 @@ import com.phantomvk.slideback.listener.SlideStateListener;
  * The demonstrate to portrait screen and slide from left side.
  */
 public class CustomAdapter implements SlideStateListener {
-    private static final float SCALE = 0.283F;
+    private static final float SCALE = 0.407F;
 
     private final float scaleX;
     private final Activity activity;
