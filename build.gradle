@@ -11,8 +11,8 @@ buildscript {
         // in the individual module build.gradle files
     }
     rootProject.ext {
-        versionCode = 904
-        versionName = "0.9.4"
+        versionCode = 905
+        versionName = "0.9.5"
     }
 }
 

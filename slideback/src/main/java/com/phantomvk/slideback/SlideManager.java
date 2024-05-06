@@ -179,7 +179,7 @@ public class SlideManager {
 
     public boolean isDisabled() {
         if (conductor == null) {
-            return !TranslucentHelper.isEnabled();
+            return TranslucentHelper.isDisabled();
         }
 
         return conductor.isSlideBackDisabled();
@@ -206,7 +206,7 @@ public class SlideManager {
          * Indicate whether SlideBack is totally disabled.
          */
         default boolean isSlideBackDisabled() {
-            return !TranslucentHelper.isEnabled();
+            return TranslucentHelper.isDisabled();
         }
     }
 }
